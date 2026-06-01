@@ -1,12 +1,12 @@
 """
-Investor Finder
+India EdTech Investor Finder
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 — Scrape StartupTalky (2024/2025/2026) → get funding data
+Step 1 — Scrape StartupTalky (2024/2025/2026) → filter EdTech rows
 Step 2 — Scrape SEBI AIF registry → get contact emails for matched investors
-Output → data/investors.csv
-         data/funding_2024.csv  (full year data, all sectors)
-         data/funding_2025.csv
-         data/funding_2026.csv
+Output → data/edtech_investors.csv
+         data/india_funding_2024.csv  (full year data, all sectors)
+         data/india_funding_2025.csv
+         data/india_funding_2026.csv
 """
 
 import os
@@ -38,14 +38,21 @@ STARTUPTALKY_URLS = {
 }
 
 # Every keyword pattern that means EdTech on StartupTalky
-EDTECH_KEYWORDS = [] # Removed EdTech specific filtering
+EDTECH_KEYWORDS = [
+    "edtech", "ed tech", "ed-tech",
+    "education", "e-learning", "elearning",
+    "online learning", "upskill", "skilling",
+    "k-12", "k12", "lms", "learning management",
+    "test prep", "tutoring", "coaching",
+    "vocational", "higher education",
+]
 
 FINAL_COLS_FULL = [
     "startup_name", "domain", "round", "amount_usd",
     "investor", "headquarters", "date", "scraped_at",
 ]
 
-FINAL_COLS_GENERAL = [
+FINAL_COLS_EDTECH = [
     "investor",
     "investor_email",
     "sebi_reg_no",
@@ -139,7 +146,7 @@ def _parse_row(tds: list, col_map: dict):
 
 def _is_edtech(domain: str) -> bool:
     dl = domain.lower()
-    return True
+    return any(kw in dl for kw in EDTECH_KEYWORDS)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -444,7 +451,7 @@ def _split_investors(raw: str) -> list:
 
 def main():
     log.info("=" * 60)
-    log.info("Investor Finder")
+    log.info("India EdTech Investor Finder")
     log.info("=" * 60)
     os.makedirs(DATA_DIR, exist_ok=True)
 

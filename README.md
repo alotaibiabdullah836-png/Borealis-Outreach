@@ -1,10 +1,10 @@
-# 🇮🇳 India EdTech Investor Finder
+# Investor Outreach Scraper
 
-A free, automated weekly scraper that collects Indian startup funding data from public sources, filters for EdTech deals, and cross-references investors against the SEBI AIF registry to surface contact details — all saved to public CSVs. No paid subscriptions needed.
+A free, automated scraper that collects startup funding data from public sources, cross-references investors against the SEBI AIF registry to surface contact details, and allows for automated email outreach. No paid subscriptions needed.
 
 ## What's tracked
 
-### Full funding data (`data/india_funding_<year>.csv`)
+### Full funding data (`data/funding_<year>.csv`)
 
 | Column | Description |
 |---|---|
@@ -17,7 +17,7 @@ A free, automated weekly scraper that collects Indian startup funding data from 
 | `date` | Date of funding announcement |
 | `scraped_at` | Date this row was collected |
 
-### EdTech investor contacts (`data/edtech_investors.csv`)
+### Investor contacts (`data/investors.csv`)
 
 | Column | Description |
 |---|---|
@@ -26,8 +26,8 @@ A free, automated weekly scraper that collects Indian startup funding data from 
 | `sebi_reg_no` | SEBI AIF registration number (if matched) |
 | `aif_category` | AIF category (Category I / II / III) |
 | `investor_city` | City from SEBI registry |
-| `startup_name` | Name of the EdTech startup funded |
-| `domain` | EdTech sub-sector |
+| `startup_name` | Name of the startup funded |
+| `domain` | Sector / industry |
 | `round` | Funding stage |
 | `amount_usd` | Ticket size in USD |
 | `headquarters` | Startup headquarters |
@@ -44,21 +44,21 @@ A free, automated weekly scraper that collects Indian startup funding data from 
 
 ## How it works
 
-1. **Every Monday at 6:00 AM IST** a GitHub Actions workflow runs `scraper/run.py`
-2. StartupTalky tables (2024, 2025, 2026) are scraped and parsed into structured rows
-3. Rows matching EdTech keywords are filtered into a separate dataset
-4. The SEBI AIF registry is scraped to collect fund names, registration numbers, categories, contact emails, and cities
-5. EdTech investors are fuzzy-matched against SEBI fund names (≥ 50% token overlap) to enrich with contact details
-6. All CSVs are deduplicated and committed back to the repo
+1.  **Every Monday at 6:00 AM IST** a GitHub Actions workflow runs `main.py`
+2.  StartupTalky tables (2024, 2025, 2026) are scraped and parsed into structured rows.
+3.  The SEBI AIF registry is scraped to collect fund names, registration numbers, categories, contact emails, and cities.
+4.  Investors are fuzzy-matched against SEBI fund names (≥ 50% token overlap) to enrich with contact details.
+5.  All CSVs are deduplicated and saved to the `data/` directory.
+6.  (Optional) Automated emails are sent to investors with valid contact information based on a customizable template.
 
 ## Output files
 
 | File | Description |
 |---|---|
-| `data/india_funding_2024.csv` | All startup funding deals scraped for 2024 |
-| `data/india_funding_2025.csv` | All startup funding deals scraped for 2025 |
-| `data/india_funding_2026.csv` | All startup funding deals scraped for 2026 |
-| `data/edtech_investors.csv` | EdTech-only investors enriched with SEBI AIF contact data |
+| `data/funding_2024.csv` | All startup funding deals scraped for 2024 |
+| `data/funding_2025.csv` | All startup funding deals scraped for 2025 |
+| `data/funding_2026.csv` | All startup funding deals scraped for 2026 |
+| `data/investors.csv` | Investors enriched with SEBI AIF contact data |
 
 ## Setup (for your own fork)
 
@@ -67,36 +67,29 @@ A free, automated weekly scraper that collects Indian startup funding data from 
 ### 2. Enable GitHub Actions
 Go to the `Actions` tab and click **Enable workflows**
 
-### 3. Run manually to test
-Go to `Actions → Weekly India Funding Scraper → Run workflow`
-
-No API keys or secrets required — all data sources are publicly accessible.
-
-## Run locally
-
-```bash
-git clone https://github.com/YOUR_USERNAME/InvestorFinder
-cd InvestorFinder
-pip install -r requirements.txt
-python scraper/run.py
-```
-
-## Cost
-
-| Component | Cost |
-|---|---|
-| GitHub Actions | Free (2000 min/month) |
-| Everything else | ₹0 |
-
-## CSV download
-
-The latest data is always available in the `data/` folder. Direct raw links:
+### 3. Configure Email Sending (Optional)
+If you wish to use the automated email sending feature, you need to set up environment variables. Create a file named `.env` in the root directory of the project (e.g., `/home/ubuntu/investor-outreach-scraper/.env`) with the following content:
 
 ```
-https://raw.githubusercontent.com/YOUR_USERNAME/InvestorFinder/main/data/india_funding_2026.csv
-https://raw.githubusercontent.com/YOUR_USERNAME/InvestorFinder/main/data/edtech_investors.csv
+SENDER_EMAIL="your_email@example.com"
+SENDER_PASSWORD="your_email_password"
+EMAIL_SUBJECT="Investment Opportunity: [Your Company Name]"
+EMAIL_BODY="""Hello {investor_name},
+
+I hope this email finds you well. My name is [Your Name] and I am the [Your Title] at [Your Company Name].
+
+We are currently raising capital for our innovative {domain} startup, [Your Company Name], which is [briefly describe what your company does and its impact].
+
+We believe our solution addresses a significant market need and has strong growth potential. We have attached our pitch deck for your review and would be grateful for the opportunity to discuss this further.
+
+Would you be open to a brief call next week to learn more?
+
+Best regards,
+[Your Name]
+[Your Title]
+[Your Company Website (Optional)]
+"""
 ```
 
-## License
-
-MIT — free to use, fork, and build on.
+**Important:**
+*   Replace `your_email@example.com` and `your_email_password` with your actual email credentials. If you are using Gmail, you might need to generate an App Password for this to work, as regular passwords are often blocked for security reasons. Search for 
