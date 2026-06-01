@@ -1,0 +1,46 @@
+name: Weekly India Funding Scraper
+
+on:
+  schedule:
+    - cron: '30 0 * * 1'   # Every Monday at 6:00 AM IST (00:30 UTC)
+  workflow_dispatch:         # Allow manual trigger from GitHub UI
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # Opt into Node 24, silences deprecation warning
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # Needed to commit the CSV back to repo
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.6.0
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scraper
+        run: python scraper/run.py
+
+      - name: Commit and push updated CSVs
+        run: |
+          git config user.name  "funding-bot"
+          git config user.email "funding-bot@users.noreply.github.com"
+          git add data/india_funding_2024.csv \
+                  data/india_funding_2025.csv \
+                  data/india_funding_2026.csv \
+                  data/edtech_investors.csv
+          if git diff --staged --quiet; then
+            echo "No new data this week — nothing to commit"
+          else
+            git commit -m "chore: weekly funding update $(date +%Y-%m-%d)"
+            git push
+          fi
