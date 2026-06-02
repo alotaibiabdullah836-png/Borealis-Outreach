@@ -1,4 +1,4 @@
-# Borealis Outreach System — Hardened Safe-by-Default Version
+# Borealis Outreach System — Audited Safe-by-Default Version
 
 This repository contains a **safe-by-default outreach workflow** for Borealis. The production audit removed fabricated scraping, removed AI-key dependency, added deterministic validation, and changed the system so it only processes **verified prospects supplied in `data/prospects.csv`**.
 
@@ -13,7 +13,13 @@ The system is intentionally conservative. It does **not** guess email addresses,
 | `email_sender.py` | Sends via SMTP or dry-runs safely | Returns structured delivery results; dry-run never connects to SMTP; live failures are not counted as success. |
 | `database_manager.py` | Tracks outreach state | Uses SQLite with a unique email constraint and exports Excel for reporting. |
 | `main_borealis.py` | Orchestrates the workflow | Fails closed, caps daily limit at 100, defaults to dry-run, and writes `data/latest_run_report.json`. |
-| `.github/workflows/borealis_outreach.yml` | GitHub Actions automation | Runs tests before outreach, uses concurrency protection, and defaults scheduled runs to dry-run. |
+| `.github/workflows/borealis_outreach.yml` | Current GitHub Actions automation | This existing workflow runs the audited application and passed after the source hardening. Because the connector lacks GitHub `workflows` permission, the fully hardened workflow with test gate/concurrency is provided as `borealis_outreach_hardened.yml.template` for manual copy-paste if desired. |
+
+## Important Current Status
+
+The audited source code has been pushed to GitHub and the latest GitHub Actions run passed. The application now defaults to `dry_run`, so scheduled runs are safe unless explicitly configured for live mode.
+
+The fully hardened workflow file could **not** be pushed into `.github/workflows/` automatically because GitHub blocks workflow updates from this connector without the `workflows` permission. To upgrade the workflow later, copy the contents of `borealis_outreach_hardened.yml.template` into `.github/workflows/borealis_outreach.yml` from the GitHub web interface while logged in as the repository owner.
 
 ## Prospect CSV Format
 
@@ -43,8 +49,6 @@ Add these under **Repository Settings → Secrets and variables → Actions**.
 
 ## Running Safely
 
-The workflow supports two modes:
-
 | Mode | What Happens | Recommended Use |
 |---|---|---|
 | `dry_run` | Validates prospects, generates emails, updates reporting state, but sends no SMTP messages. | Default and recommended for testing. |
@@ -58,13 +62,12 @@ The application caps sending to **100 emails per run**, even if a higher value i
 2. Go to the **Actions** tab.
 3. Select **Borealis Daily Outreach**.
 4. Click **Run workflow**.
-5. Leave `send_mode` as `dry_run` first.
-6. Set `daily_limit` to a small number such as `5`.
-7. After the run finishes, check `data/latest_run_report.json` and `data/crm_database.xlsx`.
+5. The current workflow runs the application in its safe default mode, which is `dry_run`.
+6. After the run finishes, check the Actions logs and the generated reporting files.
 
 ## Live Run Checklist
 
-Only use `send_mode=live` after all items below are true:
+Only use live sending after all items below are true:
 
 | Check | Required |
 |---|---|

@@ -1,0 +1,70 @@
+name: Borealis Daily Outreach
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # 6:00 AM Kuwait time (UTC+3)
+  workflow_dispatch:
+    inputs:
+      send_mode:
+        description: "Use dry_run first. Use live only after compliance review."
+        required: true
+        default: "dry_run"
+        type: choice
+        options:
+          - dry_run
+          - live
+      daily_limit:
+        description: "Maximum prospects to process in this run; application hard-caps at 100."
+        required: true
+        default: "5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: borealis-outreach-main
+  cancel-in-progress: false
+
+jobs:
+  validate-and-outreach:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run regression tests
+        run: |
+          python -m pytest -q
+
+      - name: Run independent validation harness
+        run: |
+          python tests/run_validation_passes.py
+
+      - name: Run Borealis Outreach
+        env:
+          SEND_MODE: ${{ github.event.inputs.send_mode || 'dry_run' }}
+          DAILY_LIMIT: ${{ github.event.inputs.daily_limit || '5' }}
+          CONFIRM_COMPLIANCE: ${{ secrets.CONFIRM_COMPLIANCE }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+        run: |
+          python main_borealis.py
+
+      - name: Commit reports and CRM export
+        run: |
+          git config --global user.name "Borealis Bot"
+          git config --global user.email "bot@borealis.local"
+          git add data/crm_database.xlsx data/latest_run_report.json data/validation_results.json || true
+          git commit -m "Update Borealis outreach reports [skip ci]" || echo "No report changes to commit"
+          git push
