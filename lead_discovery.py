@@ -3,14 +3,10 @@ import logging
 import requests
 from typing import List, Dict
 from bs4 import BeautifulSoup
-from openai import OpenAI
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
-
-# Initialize OpenAI client
-client = OpenAI()
 
 TARGET_KEYWORDS = [
     "CEO", "Founder", "President", "Managing Director", "Senior Executive",
@@ -22,14 +18,10 @@ TARGET_KEYWORDS = [
 def search_prospects(query: str) -> List[Dict]:
     """
     Search for high-value prospects based on the target keywords and ICP.
-    In a real-world scenario, this would use a B2B database API or specialized scraper.
-    For this implementation, we'll use a search-based approach with LLM-based filtering.
     """
     log.info(f"Searching for prospects with query: {query}")
     
     # Placeholder for actual search/scraping logic
-    # In a real implementation, you might use Google Search API, LinkedIn API, or a specialized B2B data provider
-    # For now, we'll simulate finding a few leads
     simulated_leads = [
         {"name": "John Doe", "company": "Hyperscale AI", "title": "CEO", "industry": "AI Infrastructure", "location": "Singapore"},
         {"name": "Jane Smith", "company": "CoolData Centers", "title": "Managing Director", "industry": "Colocation", "location": "USA"},
@@ -40,7 +32,7 @@ def search_prospects(query: str) -> List[Dict]:
 
 def enrich_prospect(prospect: Dict) -> Dict:
     """
-    Enrich prospect data with additional context from their company website or news.
+    Enrich prospect data with additional context.
     """
     company = prospect['company']
     log.info(f"Enriching prospect from {company}")
