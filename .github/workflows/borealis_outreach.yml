@@ -12,6 +12,12 @@ on:
   
 
 
+permissions:
+
+  contents: write
+  
+
+
 jobs:
 
   outreach:
@@ -61,6 +67,10 @@ jobs:
           git commit -m "Update CRM Database [skip ci]" || echo "No changes"
           
           git push
+          
+
+
+
 
 
 

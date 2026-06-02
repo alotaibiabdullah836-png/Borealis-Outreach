@@ -1,41 +1,114 @@
-import smtplib
-import os
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+"""Safe SMTP email delivery for Borealis outreach."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from email.message import EmailMessage
 import logging
+import os
+import smtplib
+import socket
+import ssl
+import time
+from typing import Optional
+
+from lead_discovery import validate_email
 
 log = logging.getLogger(__name__)
 
-def send_email(recipient_email: str, subject: str, body: str):
-    sender_email = os.getenv("SENDER_EMAIL")
-    sender_password = os.getenv("SENDER_PASSWORD")
-    smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
-    smtp_port = int(os.getenv("SMTP_PORT", 587))
+
+@dataclass(frozen=True)
+class DeliveryResult:
+    success: bool
+    status: str
+    detail: str = ""
+    message_id: str = ""
+
+
+def _redact(value: str | None) -> str:
+    if not value:
+        return "<missing>"
+    value = str(value)
+    if len(value) <= 4:
+        return "****"
+    return value[:2] + "****" + value[-2:]
+
+
+def send_email(
+    recipient: str,
+    subject: str,
+    body: str,
+    *,
+    sender_email: Optional[str] = None,
+    sender_password: Optional[str] = None,
+    smtp_host: str = "smtp.gmail.com",
+    smtp_port: int = 587,
+    dry_run: bool = True,
+    timeout_seconds: int = 20,
+    max_retries: int = 1,
+    retry_sleep_seconds: float = 1.0,
+) -> DeliveryResult:
+    """Send one email, or simulate delivery in dry-run mode.
+
+    The function never raises delivery errors to callers. Instead it returns a structured
+    result so the orchestration layer can mark CRM state accurately. Credentials are never
+    logged.
+    """
+
+    recipient = (recipient or "").strip().lower()
+    sender_email = sender_email if sender_email is not None else os.getenv("SENDER_EMAIL", "")
+    sender_password = sender_password if sender_password is not None else os.getenv("SENDER_PASSWORD", "")
+
+    if not validate_email(recipient):
+        return DeliveryResult(False, "invalid_recipient", f"Invalid recipient address: {recipient}")
+    if not subject or not body:
+        return DeliveryResult(False, "invalid_message", "Subject and body are required")
+
+    if dry_run:
+        log.info("DRY RUN: would send email to %s with subject %r", recipient, subject)
+        return DeliveryResult(True, "dry_run", "SMTP not contacted in dry-run mode", f"dry-run:{recipient}")
 
     if not sender_email or not sender_password:
-        log.error("Email credentials not set in environment variables. Skipping email.")
-        return
+        log.error("SMTP configuration missing. sender_email=%s sender_password=%s", _redact(sender_email), _redact(sender_password))
+        return DeliveryResult(False, "configuration_error", "SENDER_EMAIL and SENDER_PASSWORD are required for live mode")
+    if not validate_email(sender_email):
+        return DeliveryResult(False, "configuration_error", "Sender email is invalid")
 
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message["To"] = recipient_email
-    message["Subject"] = subject
+    msg = EmailMessage()
+    msg["From"] = sender_email
+    msg["To"] = recipient
+    msg["Subject"] = subject
+    msg.set_content(body)
 
-    message.attach(MIMEText(body, "plain"))
+    attempts = max(1, int(max_retries))
+    last_error = ""
+    for attempt in range(1, attempts + 1):
+        try:
+            context = ssl.create_default_context()
+            with smtplib.SMTP(smtp_host, smtp_port, timeout=timeout_seconds) as server:
+                try:
+                    server.starttls(context=context)
+                except TypeError:
+                    # Some test doubles and legacy SMTP clients do not accept the context keyword.
+                    # Retry without it while preserving the production secure default above.
+                    server.starttls()
+                server.login(sender_email, sender_password)
+                response = server.send_message(msg)
+            if response:
+                return DeliveryResult(False, "partial_refusal", f"SMTP refused recipients: {response}")
+            return DeliveryResult(True, "sent", "Accepted by SMTP server", f"smtp:{int(time.time())}:{recipient}")
+        except smtplib.SMTPAuthenticationError as exc:
+            log.error("SMTP authentication failed for sender %s", _redact(sender_email))
+            return DeliveryResult(False, "authentication_failed", str(exc.smtp_error or exc))
+        except (smtplib.SMTPConnectError, smtplib.SMTPServerDisconnected, smtplib.SMTPException, OSError, socket.timeout) as exc:
+            last_error = str(exc)
+            log.warning("SMTP attempt %s/%s failed for %s: %s", attempt, attempts, recipient, exc)
+            if attempt < attempts:
+                time.sleep(retry_sleep_seconds)
 
-    try:
-        with smtplib.SMTP(smtp_server, smtp_port) as server:
-            server.starttls()
-            server.login(sender_email, sender_password)
-            server.send_message(message)
-        log.info(f"Email sent successfully to {recipient_email}")
-    except Exception as e:
-        log.error(f"Failed to send email to {recipient_email}: {e}")
+    return DeliveryResult(False, "delivery_failed", last_error)
 
-if __name__ == "__main__":
-    # Example usage (will not run without environment variables set)
-    # For testing, set SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL in your environment
-    test_recipient = os.getenv("RECIPIENT_EMAIL", "test@example.com")
-    test_subject = "Test Subject from Investor Outreach Scraper"
-    test_body = "This is a test email sent from the Investor Outreach Scraper project."
-    send_email(test_recipient, test_subject, test_body)
+
+# Backward-compatible wrapper from the prototype. Returns True only when delivery succeeds.
+def send_outreach_email(to_email: str, subject: str, body: str) -> bool:
+    return send_email(to_email, subject, body, dry_run=False).success

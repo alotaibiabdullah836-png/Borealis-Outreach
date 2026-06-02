@@ -1,65 +1,56 @@
+"""Deterministic, professional Borealis outreach email generation.
+
+The generator avoids manipulative wording, unsupported ROI claims, and pressure tactics. It
+uses only prospect-provided context and includes a clear opt-out line.
+"""
+
+from __future__ import annotations
+
 import logging
-import random
 from typing import Dict
 
-# Initialize logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
-def generate_personalized_email(prospect: Dict) -> str:
-    """
-    Generate a high-impact, psychologically-driven outreach email for Borealis.
-    Focuses on curiosity, relevance, and business value rather than a cold sales pitch.
-    """
-    name = prospect.get('name', 'there')
-    company = prospect.get('company', 'your company')
-    title = prospect.get('title', 'Executive')
-    
-    # Selection of psychologically framed subject lines
-    subjects = [
-        f"Quick question regarding {company}'s AI infrastructure",
-        f"Cooling architecture for {company}'s next expansion",
-        f"A brief exploration: {company} + Borealis",
-        f"Reducing {company}'s power overhead by 30%"
-    ]
-    
-    # Selection of high-impact body templates
-    templates = [
-        f"""Hello {name},
+BOREALIS_CONTEXT = (
+    "Borealis develops advanced cooling approaches for high-density computing environments, "
+    "including AI infrastructure, data centers, and other thermally constrained facilities."
+)
 
-I’ve been following {company}’s progress in the AI infrastructure space, and it’s clear you’re scaling at an impressive rate. 
 
-As you likely know, the "thermal wall" is becoming the single biggest bottleneck for high-density racks. We’ve developed a Facility-to-Chip™ architecture at Borealis (AGT-USA) called Vega that handles 500kW per unit—specifically to prevent the compute throttling that costs most hyperscalers millions.
+def _safe(value: str | None, fallback: str = "") -> str:
+    value = (value or "").strip()
+    return value if value else fallback
 
-I’m not here to sell you anything today. I’m interested in an exploration of how our technology might return that 30% power overhead back to your compute operations.
 
-Would you be open to a brief, low-pressure conversation next week to see if there's a fit?
+def generate_personalized_email(prospect: Dict[str, str]) -> Dict[str, str]:
+    """Generate a conservative subject/body pair for a verified prospect."""
+
+    name = _safe(prospect.get("name"), "there")
+    title = _safe(prospect.get("title"), "your infrastructure team")
+    company = _safe(prospect.get("company"), "your organization")
+    country = _safe(prospect.get("country"), "")
+
+    subject = f"Cooling discussion for {company}"
+    regional_phrase = f" in {country}" if country else ""
+
+    body = f"""Hi {name},
+
+I am reaching out because {company} appears to operate in an area where cooling reliability, energy efficiency, and high-density infrastructure planning are important operational topics{regional_phrase}.
+
+{BOREALIS_CONTEXT}
+
+If cooling capacity, power density, or infrastructure resilience is currently being reviewed by {title}, I would value a short conversation to understand whether Borealis could be relevant. If this is not your area, would you be open to pointing me toward the right person?
 
 Best regards,
+Borealis Team
 
-Founder, Borealis
-AGT-USA Inc.
-https://borealis-aurora-d00f11.fly.dev""",
+If this is not relevant, reply with "unsubscribe" and we will not contact you again.
+"""
 
-        f"""Hi {name},
+    log.info("Generated compliant outreach email for %s at %s", name, company)
+    return {"subject": subject, "body": body}
 
-I'm reaching out because, as {title} at {company}, you're likely dealing with the massive cooling challenges that come with modern AI deployments.
 
-Most legacy systems (CRAC) were never built for the 100kW+ racks we see today. Our Vega system handles 500kW and retrofits into your existing facility in days, not months. The goal is simple: stop burning compute power on inefficient cooling.
-
-I'd love to share some of the math on how we're saving facilities $3.9M per rack by keeping chips at peak performance.
-
-Are you open to a quick 10-minute exchange of ideas next Tuesday or Wednesday?
-
-Best,
-
-Founder, Borealis
-AGT-USA Inc.
-https://borealis-aurora-d00f11.fly.dev"""
-    ]
-    
-    subject = random.choice(subjects)
-    body = random.choice(templates)
-    
-    log.info(f"Generated Psychological Outreach email for {name} at {company}")
-    return f"Subject: {subject}\n\n{body}"
+# Backward-compatible function name from the prototype.
+def generate_email(prospect: Dict[str, str]) -> str:
+    return generate_personalized_email(prospect)["body"]

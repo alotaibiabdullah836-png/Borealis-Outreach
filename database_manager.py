@@ -1,77 +1,167 @@
-import pandas as pd
-import os
+"""Transactional CRM state management for Borealis outreach."""
+
+from __future__ import annotations
+
+from datetime import datetime, timezone
+import json
 import logging
-from datetime import datetime
+from pathlib import Path
+import sqlite3
 from typing import Dict, List
 
-# Initialize logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+import pandas as pd
+
+from lead_discovery import normalize_email
+
 log = logging.getLogger(__name__)
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "data", "crm_database.xlsx")
+SCHEMA_SQL = """
+CREATE TABLE IF NOT EXISTS leads (
+    email TEXT PRIMARY KEY,
+    name TEXT DEFAULT '',
+    title TEXT DEFAULT '',
+    company TEXT DEFAULT '',
+    country TEXT DEFAULT '',
+    source TEXT DEFAULT '',
+    lawful_basis TEXT DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'new',
+    send_attempts INTEGER NOT NULL DEFAULT 0,
+    message_id TEXT DEFAULT '',
+    last_error TEXT DEFAULT '',
+    date_added TEXT NOT NULL,
+    date_contacted TEXT DEFAULT '',
+    metadata_json TEXT DEFAULT '{}'
+);
+CREATE INDEX IF NOT EXISTS idx_leads_status ON leads(status);
+"""
+
+BLOCKING_STATUSES = {"sending", "sent", "dry_run"}
+
+
+def utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
 
 class DatabaseManager:
-    def __init__(self, path: str = DB_PATH):
-        self.path = path
-        self.columns = [
-            "Name", "Company", "Title", "Email", "Industry", "Location",
-            "Date Added", "Date Contacted", "Email Sent", "Replied",
-            "Meeting Booked", "Follow-up Required", "Notes", "Last Activity Date"
+    """SQLite-backed CRM with unique email constraints and Excel reporting export."""
+
+    def __init__(self, db_path: str | Path = "data/outreach.sqlite3", excel_path: str | Path = "data/crm_database.xlsx"):
+        self.db_path = Path(db_path)
+        self.excel_path = Path(excel_path)
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        self.excel_path.parent.mkdir(parents=True, exist_ok=True)
+        self._init_db()
+
+    def _connect(self) -> sqlite3.Connection:
+        conn = sqlite3.connect(self.db_path, timeout=30)
+        conn.row_factory = sqlite3.Row
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA busy_timeout=30000")
+        return conn
+
+    def _init_db(self) -> None:
+        with self._connect() as conn:
+            conn.executescript(SCHEMA_SQL)
+            conn.commit()
+
+    def claim_for_sending(self, prospect: Dict[str, str]) -> bool:
+        """Atomically claim a prospect before delivery.
+
+        Returns False if the email already exists in a blocking state, preventing duplicate
+        sends after reruns or partially completed runs.
+        """
+
+        email = normalize_email(prospect.get("email"))
+        if not email:
+            return False
+        now = utc_now()
+        metadata = {k: v for k, v in prospect.items() if k not in {"email", "name", "title", "company", "country", "source", "lawful_basis"}}
+
+        with self._connect() as conn:
+            existing = conn.execute("SELECT status FROM leads WHERE email = ?", (email,)).fetchone()
+            if existing and existing["status"] in BLOCKING_STATUSES:
+                return False
+            if existing and existing["status"] == "failed":
+                # Failed records are left for manual review rather than retried automatically.
+                return False
+            conn.execute(
+                """
+                INSERT INTO leads(email, name, title, company, country, source, lawful_basis, status, send_attempts, date_added, metadata_json)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'sending', 1, ?, ?)
+                ON CONFLICT(email) DO UPDATE SET
+                    name=excluded.name,
+                    title=excluded.title,
+                    company=excluded.company,
+                    country=excluded.country,
+                    source=excluded.source,
+                    lawful_basis=excluded.lawful_basis,
+                    status='sending',
+                    send_attempts=leads.send_attempts + 1,
+                    metadata_json=excluded.metadata_json
+                """,
+                (
+                    email,
+                    prospect.get("name", ""),
+                    prospect.get("title", ""),
+                    prospect.get("company", ""),
+                    prospect.get("country", ""),
+                    prospect.get("source", ""),
+                    prospect.get("lawful_basis", ""),
+                    now,
+                    json.dumps(metadata, sort_keys=True),
+                ),
+            )
+            conn.commit()
+            return True
+
+    def mark_result(self, email: str, *, success: bool, status: str, message_id: str = "", error: str = "") -> None:
+        normalized = normalize_email(email)
+        if not normalized:
+            return
+        date_contacted = utc_now() if success else ""
+        with self._connect() as conn:
+            conn.execute(
+                """
+                UPDATE leads
+                SET status = ?, message_id = ?, last_error = ?, date_contacted = ?
+                WHERE email = ?
+                """,
+                (status, message_id, error[:1000], date_contacted, normalized),
+            )
+            conn.commit()
+
+    def list_rows(self) -> List[Dict[str, str]]:
+        with self._connect() as conn:
+            rows = conn.execute("SELECT * FROM leads ORDER BY date_added ASC, email ASC").fetchall()
+        return [dict(row) for row in rows]
+
+    def export_excel(self) -> Path:
+        rows = self.list_rows()
+        columns = [
+            "email",
+            "name",
+            "title",
+            "company",
+            "country",
+            "source",
+            "lawful_basis",
+            "status",
+            "send_attempts",
+            "message_id",
+            "last_error",
+            "date_added",
+            "date_contacted",
         ]
-        self._initialize_db()
+        df = pd.DataFrame(rows, columns=columns)
+        self.excel_path.parent.mkdir(parents=True, exist_ok=True)
+        df.to_excel(self.excel_path, index=False)
+        log.info("Exported CRM report to %s", self.excel_path)
+        return self.excel_path
 
-    def _initialize_db(self):
-        if not os.path.exists(os.path.dirname(self.path)):
-            os.makedirs(os.path.dirname(self.path), exist_ok=True)
-        
-        if not os.path.exists(self.path):
-            df = pd.DataFrame(columns=self.columns)
-            df.to_excel(self.path, index=False)
-            log.info(f"Initialized new CRM database at {self.path}")
 
-    def get_all_leads(self) -> pd.DataFrame:
-        return pd.read_excel(self.path)
-
-    def is_contacted(self, email: str) -> bool:
-        df = self.get_all_leads()
-        return email in df['Email'].values
-
-    def add_lead(self, lead_data: Dict):
-        df = self.get_all_leads()
-        
-        new_row = {col: lead_data.get(col, "") for col in self.columns}
-        new_row["Date Added"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        new_row["Email Sent"] = "No"
-        new_row["Replied"] = "No"
-        new_row["Meeting Booked"] = "No"
-        
-        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-        df.to_excel(self.path, index=False)
-        log.info(f"Added new lead: {lead_data['Name']} from {lead_data['Company']}")
-
-    def update_lead_status(self, email: str, updates: Dict):
-        df = self.get_all_leads()
-        if email in df['Email'].values:
-            for key, value in updates.items():
-                if key in self.columns:
-                    df.loc[df['Email'] == email, key] = value
-            df.loc[df['Email'] == email, "Last Activity Date"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            df.to_excel(self.path, index=False)
-            log.info(f"Updated status for {email}")
-
-if __name__ == "__main__":
-    # Test database manager
+# Backward-compatible helper.
+def add_lead(prospect: Dict[str, str]) -> None:
     db = DatabaseManager()
-    sample_lead = {
-        "Name": "John Doe",
-        "Company": "Hyperscale AI",
-        "Title": "CEO",
-        "Email": "john@hyperscale.ai",
-        "Industry": "AI Infrastructure",
-        "Location": "Singapore"
-    }
-    if not db.is_contacted(sample_lead["Email"]):
-        db.add_lead(sample_lead)
-    
-    db.update_lead_status("john@hyperscale.ai", {"Email Sent": "Yes", "Date Contacted": datetime.now().strftime("%Y-%m-%d")})
-    print(db.get_all_leads())
+    if db.claim_for_sending(prospect):
+        db.mark_result(prospect.get("email", ""), success=False, status="manual_review", error="legacy add_lead call")
+        db.export_excel()
