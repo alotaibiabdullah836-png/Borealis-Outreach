@@ -56,11 +56,13 @@ def run_borealis_outreach(
     daily_limit: Optional[int] = None,
     sender_email: Optional[str] = None,
     sender_password: Optional[str] = None,
+    sender_name: Optional[str] = None,
     confirm_compliance: Optional[bool] = None,
     sleep_seconds: Optional[float] = None,
 ) -> Dict[str, object]:
     """Run one controlled outreach batch and return a machine-readable summary."""
 
+    sender_name = sender_name if sender_name is not None else os.getenv("SENDER_NAME", "")
     send_mode = (send_mode or os.getenv("SEND_MODE", "dry_run")).strip().lower()
     if daily_limit is None:
         daily_limit = _int_from_env("DAILY_LIMIT", DEFAULT_DAILY_LIMIT, 0, MAX_DAILY_LIMIT)
@@ -118,7 +120,7 @@ def run_borealis_outreach(
             summary["skipped_duplicate_or_blocked"] += 1
             continue
 
-        generated = generate_personalized_email(prospect)
+        generated = generate_personalized_email(prospect, sender_name=sender_name or None)
         result = send_email(
             prospect["email"],
             generated["subject"],

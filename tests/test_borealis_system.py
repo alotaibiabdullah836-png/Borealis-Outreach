@@ -66,6 +66,53 @@ def test_email_template_is_professional_and_contains_unsubscribe():
     assert generated["subject"]
 
 
+def test_email_body_is_short():
+    prospect = {"name": "Ada Lovelace", "company": "Analytical Cooling", "email": "ada@analyticalcooling.com"}
+    generated = generate_personalized_email(prospect)
+    word_count = len(generated["body"].split())
+    assert word_count <= 90, f"body is {word_count} words, longer than the researched ~80-word target"
+
+
+def test_email_ends_with_single_low_friction_question_cta():
+    prospect = {"name": "Ada Lovelace", "company": "Analytical Cooling", "email": "ada@analyticalcooling.com"}
+    generated = generate_personalized_email(prospect)
+    body = generated["body"]
+    assert "worth a quick call" in body.lower()
+    # Only one question mark before the opt-out line: a single sales CTA, not several asks stacked up.
+    pre_optout = body.split("Wrong person", 1)[0]
+    assert pre_optout.count("?") == 1
+
+
+def test_email_subject_is_short_and_a_question():
+    prospect = {"name": "Ada Lovelace", "company": "Analytical Cooling", "email": "ada@analyticalcooling.com"}
+    generated = generate_personalized_email(prospect)
+    assert generated["subject"].endswith("?")
+    assert len(generated["subject"].split()) <= 4
+
+
+def test_email_uses_web_researched_signal_when_present():
+    prospect = {
+        "name": "Priya Rao",
+        "company": "Helios Compute",
+        "email": "priya@heliocompute.io",
+        "source": "web_research: https://heliocompute.io/news — Announced 40MW AI training cluster build",
+    }
+    generated = generate_personalized_email(prospect)
+    assert "Announced 40MW AI training cluster build" in generated["body"]
+
+
+def test_email_sender_name_defaults_and_can_be_overridden(monkeypatch):
+    prospect = {"name": "Ada Lovelace", "company": "Analytical Cooling", "email": "ada@analyticalcooling.com"}
+
+    monkeypatch.delenv("SENDER_NAME", raising=False)
+    default_generated = generate_personalized_email(prospect)
+    assert "The Borealis Team" in default_generated["body"]
+
+    custom_generated = generate_personalized_email(prospect, sender_name="Jordan Blake")
+    assert "Jordan Blake" in custom_generated["body"]
+    assert "The Borealis Team" not in custom_generated["body"]
+
+
 def test_database_prevents_duplicates_and_tracks_status(tmp_path):
     db = DatabaseManager(db_path=tmp_path / "crm.sqlite3", excel_path=tmp_path / "crm.xlsx")
     prospect = {"email": "ada@analyticalcooling.com", "name": "Ada", "company": "Analytical Cooling"}
