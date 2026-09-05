@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 BOREALIS_CONTEXT = (
     "Borealis designs cooling systems for high-density compute and builds data centers "
-    "around them — for AI infrastructure, colocation, and other thermally constrained facilities."
+    "around them, for AI infrastructure, colocation, and other thermally constrained facilities."
 )
 
 DEFAULT_SENDER_NAME = "The Borealis Team"
@@ -76,7 +76,7 @@ Worth a quick call to see if it's relevant?
 
 {signer}
 
-Reply "unsubscribe" to opt out.
+Reply unsubscribe to opt out.
 """
 
     log.info("Generated outreach email for %s at %s (signal_used=%s)", name, company, bool(technology_need))

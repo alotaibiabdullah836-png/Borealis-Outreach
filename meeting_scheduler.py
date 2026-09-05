@@ -55,7 +55,7 @@ def generate_meeting_proposal_email(
     company = _safe(prospect.get("company"), "your team")
     signer = sender_name if sender_name else _safe(os.getenv("SENDER_NAME"), DEFAULT_SENDER_NAME)
 
-    subject = f"Scheduling a {meeting_length_minutes}-minute call — {company}"
+    subject = f"Scheduling a {meeting_length_minutes}-minute call, {company}"
     slot_lines = "\n".join(f"- {slot}" for slot in slots)
 
     body = f"""Hi {name},
@@ -71,7 +71,7 @@ If none of these fit, let me know a couple of times that do and I will work arou
 Best regards,
 {signer}
 
-If you would rather not continue this conversation, reply "unsubscribe" and we will not contact you again.
+If you would rather not continue this conversation, reply unsubscribe and we will not contact you again.
 """
 
     log.info("Generated meeting proposal email for %s at %s (%s slots)", name, company, len(slots))
