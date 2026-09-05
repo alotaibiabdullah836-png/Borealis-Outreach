@@ -125,6 +125,7 @@ def run_borealis_outreach(
             prospect["email"],
             generated["subject"],
             generated["body"],
+            cc=prospect.get("cc_emails") or None,
             sender_email=sender_email,
             sender_password=sender_password,
             dry_run=dry_run,

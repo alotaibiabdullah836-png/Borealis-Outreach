@@ -69,6 +69,13 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
    use `email_generator.py`'s tone and always include the unsubscribe line.
    Prefer `create_draft` over `send_message` unless the user has clearly
    asked you to send immediately, not just prepare something.
+7. **CC list, when present, still counts as one send.** A prospect's
+   `cc_emails` (from `data/prospects.csv`'s "CC Emails" column) are other
+   real, individually-verified contacts at the same company — pass them as
+   `cc` to `send_email`/`run_borealis_outreach`, or as `cc` to
+   `mcp__Gmail__send_message` for a one-off. One email to a To + several Cc
+   recipients is still a single send against the daily volume — don't count
+   it as multiple.
 
 ## Typical requests and how to handle them
 
@@ -82,8 +89,9 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
   or hand it to the pipeline — ask which if it's ambiguous.
 - **"Add these prospects and dry-run it"** → append rows to
   `data/prospects.csv` in the documented format (`Name,Title,Company,Email,
-  Source,Lawful Basis,Country`), reject anything without a real lawful basis,
-  then run a dry-run and show the report.
+  CC Emails,Source,Lawful Basis,Country` — CC Emails is optional,
+  semicolon-separated), reject anything without a real lawful basis, then run
+  a dry-run and show the report.
 - **"Change the email copy"** → edit `email_generator.py`, keep the
   unsubscribe line and the conservative tone, and run
   `pytest tests/test_borealis_system.py` to confirm nothing broke before

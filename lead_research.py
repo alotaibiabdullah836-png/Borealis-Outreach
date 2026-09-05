@@ -25,13 +25,13 @@ from __future__ import annotations
 import csv
 import logging
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Sequence
 
-from lead_discovery import normalize_email, validate_email
+from lead_discovery import CC_SEPARATOR, normalize_email, validate_email
 
 log = logging.getLogger(__name__)
 
-PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "Source", "Lawful Basis", "Country"]
+PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Source", "Lawful Basis", "Country"]
 QUEUE_FIELDS = [
     "Name",
     "Title",
@@ -54,8 +54,30 @@ def _read_existing_emails(csv_path: Path, email_column: str) -> set[str]:
         return {normalize_email(row.get(email_column)) for row in reader if row.get(email_column)}
 
 
+def _migrate_header_if_needed(csv_path: Path, fieldnames: Sequence[str]) -> None:
+    """Rewrite an existing CSV to add newly-introduced columns, preserving old rows.
+
+    Mirrors database_manager.py's ALTER-TABLE-style migration: old rows get the new
+    column(s) blank rather than the file being left on a stale, inconsistent header.
+    """
+
+    if not csv_path.exists() or csv_path.stat().st_size == 0:
+        return
+    with csv_path.open("r", newline="", encoding="utf-8-sig") as handle:
+        reader = csv.DictReader(handle)
+        if not reader.fieldnames or list(reader.fieldnames) == list(fieldnames):
+            return
+        rows = list(reader)
+    with csv_path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({field: row.get(field, "") for field in fieldnames})
+
+
 def _append_row(csv_path: Path, fieldnames: list[str], row: Dict[str, str]) -> None:
     csv_path.parent.mkdir(parents=True, exist_ok=True)
+    _migrate_header_if_needed(csv_path, fieldnames)
     is_new = not csv_path.exists() or csv_path.stat().st_size == 0
     with csv_path.open("a", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
@@ -76,12 +98,19 @@ def append_web_researched_prospect(
     *why* this company was contacted (e.g. "Announced 40MW AI cluster build,
     https://..."), not sent to the prospect. Returns False (and appends
     nothing) if the email is invalid, a placeholder, or already present.
+
+    Optional `cc_emails`: a list of OTHER real, individually-verified contacts at the
+    SAME company (e.g. other named executives on the same leadership page) to CC on the
+    same outreach email — never pad this out with guessed addresses just to reach a
+    target headcount; each one goes through the same validate_email check as the primary
+    address and invalid ones are dropped rather than blocking the whole prospect.
     """
 
     email = normalize_email(prospect.get("email"))
     company = (prospect.get("company") or "").strip()
     source = (prospect.get("source") or "").strip()
     technology_need = (prospect.get("technology_need") or "").strip()
+    cc_candidates = prospect.get("cc_emails") or []
 
     if not validate_email(email):
         log.warning("Rejected web-researched prospect with invalid/placeholder email: %s", email)
@@ -98,12 +127,21 @@ def append_web_researched_prospect(
         log.info("Skipped duplicate web-researched prospect: %s", email)
         return False
 
+    valid_cc = []
+    for candidate in cc_candidates:
+        candidate_norm = normalize_email(candidate)
+        if candidate_norm and candidate_norm != email and validate_email(candidate_norm) and candidate_norm not in valid_cc:
+            valid_cc.append(candidate_norm)
+        elif candidate_norm and candidate_norm != email:
+            log.warning("Dropped invalid/placeholder CC address for %s: %s", company, candidate_norm)
+
     source_note = f"{source} — {technology_need}" if technology_need else source
     row = {
         "Name": (prospect.get("name") or "").strip(),
         "Title": (prospect.get("title") or "").strip(),
         "Company": company,
         "Email": email,
+        "CC Emails": CC_SEPARATOR.join(valid_cc),
         "Source": f"web_research: {source_note}"[:500],
         "Lawful Basis": (prospect.get("lawful_basis") or "legitimate_interest_b2b_public_contact").strip(),
         "Country": (prospect.get("country") or "").strip(),

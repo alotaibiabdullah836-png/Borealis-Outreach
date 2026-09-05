@@ -29,13 +29,20 @@ The fully hardened workflow file could **not** be pushed into `.github/workflows
 Before live sending, put verified recipients into `data/prospects.csv` using this exact header:
 
 ```csv
-Name,Title,Company,Email,Source,Lawful Basis,Country
+Name,Title,Company,Email,CC Emails,Source,Lawful Basis,Country
 ```
+
+`CC Emails` is optional — a semicolon-separated list of *other* real,
+individually-verified contacts at the same company (e.g. another named
+executive from the same leadership page). One email with several real To/CC
+recipients still counts as a single send against the daily volume. Never pad
+this list with guessed addresses to reach a headcount; most rows will have
+none, and that's fine.
 
 Example row:
 
 ```csv
-Jane Smith,VP Infrastructure,Example Data Centers,jane.smith@company.com,Manual research,Legitimate business interest,UAE
+Jane Smith,VP Infrastructure,Example Data Centers,jane.smith@company.com,john.doe@company.com,Manual research,Legitimate business interest,UAE
 ```
 
 Do **not** add guessed addresses such as `john@company.com` unless you verified that the address belongs to that person or organization.

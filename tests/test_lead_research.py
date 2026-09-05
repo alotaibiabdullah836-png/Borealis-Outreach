@@ -56,6 +56,43 @@ def test_append_web_researched_prospect_deduplicates(tmp_path):
     assert len(rows) == 1
 
 
+def test_append_web_researched_prospect_writes_valid_cc_emails(tmp_path):
+    csv_path = tmp_path / "prospects.csv"
+    prospect = dict(GOOD_PROSPECT, cc_emails=["exec1@heliocompute.example.io", "exec2@heliocompute.example.io"])
+    assert append_web_researched_prospect(prospect, prospects_csv=csv_path) is True
+
+    with csv_path.open() as handle:
+        rows = list(csv.DictReader(handle))
+    assert rows[0]["CC Emails"] == "exec1@heliocompute.example.io;exec2@heliocompute.example.io"
+
+
+def test_append_web_researched_prospect_drops_invalid_cc_but_keeps_row(tmp_path):
+    csv_path = tmp_path / "prospects.csv"
+    prospect = dict(GOOD_PROSPECT, cc_emails=["exec1@heliocompute.example.io", "not-an-email", "someone@example.com"])
+    assert append_web_researched_prospect(prospect, prospects_csv=csv_path) is True
+
+    with csv_path.open() as handle:
+        rows = list(csv.DictReader(handle))
+    assert rows[0]["CC Emails"] == "exec1@heliocompute.example.io"
+
+
+def test_append_web_researched_prospect_migrates_old_header(tmp_path):
+    csv_path = tmp_path / "prospects.csv"
+    csv_path.write_text(
+        "Name,Title,Company,Email,Source,Lawful Basis,Country\n"
+        "Existing,CTO,Existing Co,existing@existingco.example.io,manual,legitimate_interest,US\n",
+        encoding="utf-8",
+    )
+    assert append_web_researched_prospect(GOOD_PROSPECT, prospects_csv=csv_path) is True
+
+    with csv_path.open() as handle:
+        rows = list(csv.DictReader(handle))
+    assert len(rows) == 2
+    assert rows[0]["Email"] == "existing@existingco.example.io"
+    assert rows[0]["CC Emails"] == ""
+    assert rows[1]["Email"] == "priya.rao@heliocompute.example.io"
+
+
 def test_append_web_researched_prospect_dedupes_against_existing_file(tmp_path):
     csv_path = tmp_path / "prospects.csv"
     csv_path.write_text(

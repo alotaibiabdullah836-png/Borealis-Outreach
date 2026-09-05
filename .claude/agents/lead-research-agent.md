@@ -83,6 +83,16 @@ from a guessed pattern. If Apollo or another enrichment tool becomes
 available later, that's a different, more reliable path for this step — but
 absent that, only use what you can point to on the public web.
 
+**CC additional real contacts when a page genuinely lists several.** If a
+company's leadership/team page names multiple relevant people (e.g. CEO,
+VP Infrastructure, and Head of Facilities all on the same page), pass the
+extras as `cc_emails` to `append_web_researched_prospect` — up to 3-4 total
+recipients on one email is the goal, not a requirement. Each CC address goes
+through the exact same domain-match and validation bar as the primary
+contact. **Never invent, guess, or pad the CC list to hit a number** — most
+companies will only have one verifiable contact, and that's fine; one real
+recipient beats four risky ones.
+
 ## Where results go — both channels, not either/or
 
 Outreach for this campaign runs email AND a contact-form fill for the same
