@@ -9,12 +9,14 @@ The system is intentionally conservative. It does **not** guess email addresses,
 | Component | Purpose | Safety Behavior |
 |---|---|---|
 | `lead_discovery.py` | Loads verified prospects from CSV | Requires `email`, `company`, and `lawful_basis`; rejects invalid, duplicate, placeholder, and example-domain emails. |
+| `lead_research.py` | Landing zone for web-researched leads | Requires a real source URL and a valid, non-placeholder email before writing to `data/prospects.csv`; routes form-only companies to `data/contact_form_queue.csv` instead. Does not itself search the web or judge "does this company need Borealis" — that's `.claude/agents/lead-research-agent.md`. |
 | `email_generator.py` | Builds deterministic Borealis email copy | Uses conservative wording, avoids unsupported claims, and includes an unsubscribe line. |
 | `email_sender.py` | Sends via SMTP or dry-runs safely | Returns structured delivery results; dry-run never connects to SMTP; live failures are not counted as success. |
 | `database_manager.py` | Tracks outreach and meeting state | Uses SQLite with a unique email constraint, tracks `meeting_status`/`meeting_time`, and exports Excel for reporting. |
 | `main_borealis.py` | Orchestrates the workflow | Fails closed, caps daily limit at 100, defaults to dry-run, and writes `data/latest_run_report.json`. |
 | `meeting_scheduler.py` | Proposes meeting times to prospects who already replied | Never invents time slots; sends via the same dry-run-safe `email_sender.py`; records `proposed`/`confirmed`/`declined` state in the CRM. No live calendar integration is built in — see `.claude/agents/meeting-scheduler-agent.md`. |
-| `.github/workflows/borealis_outreach.yml` | Current GitHub Actions automation | This existing workflow runs the audited application and passed after the source hardening. Because the connector lacks GitHub `workflows` permission, the fully hardened workflow with test gate/concurrency is provided as `borealis_outreach_hardened.yml.template` for manual copy-paste if desired. |
+| `contact_form_filler.py` | Pre-fills "Contact Us" forms on prospect sites | Heuristic field matching (name/company/email/message); never submits unless `submit=True` is passed explicitly; always screenshots the filled state for review first. Requires Playwright + a Chromium browser — available in an interactive Claude Code session, **not** in the current GitHub Actions workflow. |
+| `.github/workflows/borealis_outreach.yml` | Current GitHub Actions automation | Runs the email-sending pipeline only (`main_borealis.py`). Lead research and contact-form filling are interactive-session steps, not part of this scheduled job. Because the connector lacks GitHub `workflows` permission, the fully hardened workflow with test gate/concurrency is provided as `borealis_outreach_hardened.yml.template` for manual copy-paste if desired. |
 
 ## Important Current Status
 
@@ -91,15 +93,21 @@ Only use live sending after all items below are true:
 
 ## Claude Code Agents
 
-Two Claude Code subagents in `.claude/agents/` operate this pipeline:
+Four Claude Code subagents in `.claude/agents/` operate this pipeline, in the
+order a prospect actually flows through it:
 
 | Agent | Job | Boundaries |
 |---|---|---|
+| `lead-research-agent` (Scout) | Finds real companies with an evidenced need for Borealis's cooling tech via live web search, finds a real named contact where one is public, and hands off via `lead_research.py`. | Every row requires a real source URL. Never invents a company's need, a contact's name, or an email address — role-based/general contact is used when no named person is public. |
 | `email-outreach-agent` (Nova) | Runs/extends cold outreach — batch sends via `main_borealis.py`, one-off sends via Gmail, editing `data/prospects.csv` and `email_generator.py`. | Never fabricates prospects, never flips to live send without an explicit ask, never bypasses the 100/day cap or CRM dedup. |
+| `contact-form-agent` (Relay) | Works `data/contact_form_queue.csv` (companies with only a contact form, no email) via `contact_form_filler.py` — pre-fills with the user's real name/company and screenshots for review. | Never submits a form unless the user explicitly says to send live in that conversation; reports honestly when field-matching fails on a given site. |
 | `meeting-scheduler-agent` (Atlas) | Proposes meeting times to prospects who already replied, tracks meeting state, optionally wires up a real calendar via Zapier when asked. | Never invents availability, never claims a meeting is confirmed or on a calendar unless it actually is. |
 
 They are invoked automatically by Claude Code when a request matches their
-description, or explicitly by name.
+description, or explicitly by name. The intended flow: **Scout** researches
+and sources → real email found goes to `data/prospects.csv` for **Nova**,
+form-only goes to `data/contact_form_queue.csv` for **Relay** → once a
+prospect replies with interest, **Atlas** takes over scheduling.
 
 ## Important Security Note
 
