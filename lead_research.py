@@ -32,12 +32,16 @@ from lead_discovery import CC_SEPARATOR, normalize_email, validate_email
 log = logging.getLogger(__name__)
 
 PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Source", "Lawful Basis", "Country"]
+QUEUE_STATUSES = {"pending", "filled_pending_review", "submitted", "blocked", "failed"}
+
 QUEUE_FIELDS = [
     "Name",
     "Title",
     "Company",
     "Website",
     "Contact Form URL",
+    "Status",
+    "Notes",
     "Technology Need Signal",
     "Source",
     "Date Found",
@@ -197,10 +201,57 @@ def queue_contact_form_lead(
         "Company": company,
         "Website": website,
         "Contact Form URL": contact_form_url,
+        "Status": "pending",
+        "Notes": "",
         "Technology Need Signal": (prospect.get("technology_need") or "").strip()[:500],
         "Source": source[:500],
         "Date Found": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
     _append_row(queue_csv, QUEUE_FIELDS, row)
     log.info("Queued contact-form lead for %s (%s)", company, contact_form_url)
+    return True
+
+
+def mark_queue_status(
+    contact_form_url: str,
+    status: str,
+    *,
+    notes: str = "",
+    queue_csv: str | Path = "data/contact_form_queue.csv",
+) -> bool:
+    """Update the Status/Notes for a queued contact-form row, matched by URL.
+
+    Valid statuses: pending, filled_pending_review, submitted, blocked, failed.
+    Returns False if the URL isn't found or the status is invalid.
+    """
+
+    if status not in QUEUE_STATUSES:
+        log.warning("Rejected invalid queue status %r", status)
+        return False
+
+    queue_csv = Path(queue_csv)
+    if not queue_csv.exists() or queue_csv.stat().st_size == 0:
+        return False
+
+    with queue_csv.open("r", newline="", encoding="utf-8-sig") as handle:
+        reader = csv.DictReader(handle)
+        fieldnames = list(reader.fieldnames or [])
+        rows = list(reader)
+
+    matched = False
+    target = contact_form_url.strip().lower()
+    for row in rows:
+        if (row.get("Contact Form URL") or "").strip().lower() == target:
+            row["Status"] = status
+            row["Notes"] = notes[:500]
+            matched = True
+
+    if not matched:
+        log.warning("No queue row found for URL: %s", contact_form_url)
+        return False
+
+    with queue_csv.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
     return True

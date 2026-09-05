@@ -1,6 +1,6 @@
 import csv
 
-from lead_research import append_web_researched_prospect, queue_contact_form_lead
+from lead_research import append_web_researched_prospect, mark_queue_status, queue_contact_form_lead
 
 
 GOOD_PROSPECT = {
@@ -146,3 +146,39 @@ def test_queue_contact_form_lead_deduplicates_by_url(tmp_path):
     with queue_path.open() as handle:
         rows = list(csv.DictReader(handle))
     assert len(rows) == 1
+
+
+def test_queue_contact_form_lead_defaults_status_pending(tmp_path):
+    queue_path = tmp_path / "contact_form_queue.csv"
+    queue_contact_form_lead(GOOD_FORM_LEAD, queue_csv=queue_path)
+
+    with queue_path.open() as handle:
+        rows = list(csv.DictReader(handle))
+    assert rows[0]["Status"] == "pending"
+    assert rows[0]["Notes"] == ""
+
+
+def test_mark_queue_status_updates_matching_row(tmp_path):
+    queue_path = tmp_path / "contact_form_queue.csv"
+    queue_contact_form_lead(GOOD_FORM_LEAD, queue_csv=queue_path)
+
+    assert mark_queue_status(
+        GOOD_FORM_LEAD["contact_form_url"], "blocked", notes="network policy denied", queue_csv=queue_path
+    ) is True
+
+    with queue_path.open() as handle:
+        rows = list(csv.DictReader(handle))
+    assert rows[0]["Status"] == "blocked"
+    assert rows[0]["Notes"] == "network policy denied"
+
+
+def test_mark_queue_status_rejects_invalid_status(tmp_path):
+    queue_path = tmp_path / "contact_form_queue.csv"
+    queue_contact_form_lead(GOOD_FORM_LEAD, queue_csv=queue_path)
+    assert mark_queue_status(GOOD_FORM_LEAD["contact_form_url"], "made_up_status", queue_csv=queue_path) is False
+
+
+def test_mark_queue_status_returns_false_for_unknown_url(tmp_path):
+    queue_path = tmp_path / "contact_form_queue.csv"
+    queue_contact_form_lead(GOOD_FORM_LEAD, queue_csv=queue_path)
+    assert mark_queue_status("https://not-in-the-queue.example.io", "submitted", queue_csv=queue_path) is False

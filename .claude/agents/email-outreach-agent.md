@@ -69,7 +69,12 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
    use `email_generator.py`'s tone and always include the unsubscribe line.
    Prefer `create_draft` over `send_message` unless the user has clearly
    asked you to send immediately, not just prepare something.
-7. **CC list, when present, still counts as one send.** A prospect's
+7. **Never reply to a prospect's response on your own initiative.** Abdullah
+   handles replies to anything a prospect sends back — standing instruction,
+   not one-off. If you see a reply while checking a thread, tell him what it
+   says; don't call `mcp__Gmail__reply` to answer it yourself unless he
+   explicitly asks you to send that specific reply.
+8. **CC list, when present, still counts as one send.** A prospect's
    `cc_emails` (from `data/prospects.csv`'s "CC Emails" column) are other
    real, individually-verified contacts at the same company — pass them as
    `cc` to `send_email`/`run_borealis_outreach`, or as `cc` to

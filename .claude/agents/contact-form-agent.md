@@ -31,6 +31,26 @@ sender_email, message, submit=False, ...)`:
   use JS frameworks that don't expose plain `<input>`/`<textarea>` markup, or
   unusual field naming. Report a `no_contact_form_fields_found` (or
   navigation) error honestly rather than claiming success.
+- **`lead_research.mark_queue_status(url, status, notes=...)` tracks progress**
+  in `data/contact_form_queue.csv` — statuses are `pending`,
+  `filled_pending_review`, `submitted`, `blocked`, `failed`. Update it after
+  every attempt so re-runs don't redo work and so a status digest can report
+  real numbers.
+
+## A real environment limitation, not a bug
+
+In some sessions, `fill_contact_form`'s browser navigation fails with
+`navigation_failed: ... ERR_TUNNEL_CONNECTION_FAILED`. Check
+`curl -sS http://127.0.0.1:35811/__agentproxy/status` (if reachable) for
+`recentRelayFailures` showing `connect_rejected` / "gateway answered 403 to
+CONNECT" for the target host — that means this session's network egress
+policy is blocking the browser's outbound connection, the same root cause as
+`WebFetch` failing for Scout. This is a policy denial, not a retriable
+error: don't loop retrying it, don't try to reconfigure around it (no
+disabling TLS verification, no unsetting proxy env vars). Mark the row
+`mark_queue_status(url, "blocked", notes="...")` with the actual reason and
+report it plainly — it may work from a different session/environment, or
+need a manual visit.
 
 ## Hard rules
 
