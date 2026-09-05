@@ -98,16 +98,26 @@ order a prospect actually flows through it:
 
 | Agent | Job | Boundaries |
 |---|---|---|
-| `lead-research-agent` (Scout) | Finds real companies with an evidenced need for Borealis's cooling tech via live web search, finds a real named contact where one is public, and hands off via `lead_research.py`. | Every row requires a real source URL. Never invents a company's need, a contact's name, or an email address — role-based/general contact is used when no named person is public. |
-| `email-outreach-agent` (Nova) | Runs/extends cold outreach — batch sends via `main_borealis.py`, one-off sends via Gmail, editing `data/prospects.csv` and `email_generator.py`. | Never fabricates prospects, never flips to live send without an explicit ask, never bypasses the 100/day cap or CRM dedup. |
-| `contact-form-agent` (Relay) | Works `data/contact_form_queue.csv` (companies with only a contact form, no email) via `contact_form_filler.py` — pre-fills with the user's real name/company and screenshots for review. | Never submits a form unless the user explicitly says to send live in that conversation; reports honestly when field-matching fails on a given site. |
+| `lead-research-agent` (Scout) | Finds real companies with an evidenced need for Borealis's cooling systems or data-center builds via live web search, finds a real named contact where one is public, and hands off via `lead_research.py`. Current campaign scope: Indonesia. | Every row requires a real source URL, and every email's domain must match the verified source domain. Never invents a company's need, a contact's name, or an email address — role-based/general contact is used when no named person is public. |
+| `email-outreach-agent` (Nova) | Runs/extends cold outreach — batch sends via `main_borealis.py`, one-off sends via Gmail, editing `data/prospects.csv` and `email_generator.py`. | Never fabricates prospects, never flips to live send without an explicit ask, never bypasses the 100/day code-level cap or CRM dedup (in practice, Gmail deliverability limits real cold-send volume to well under that — see the daily-volume note below). |
+| `contact-form-agent` (Relay) | Works `data/contact_form_queue.csv` — every company with a contact-form URL, whether or not it's also in `data/prospects.csv` — via `contact_form_filler.py`, pre-filling with the user's real name/email and screenshotting for review. Runs as a second channel alongside Nova, not a fallback for it. | Never submits a form unless the user explicitly says to send live in that conversation; never fills a placeholder identity — needs the user's real name/email; reports honestly when field-matching fails on a given site. |
 | `meeting-scheduler-agent` (Atlas) | Proposes meeting times to prospects who already replied, tracks meeting state, optionally wires up a real calendar via Zapier when asked. | Never invents availability, never claims a meeting is confirmed or on a calendar unless it actually is. |
 
 They are invoked automatically by Claude Code when a request matches their
 description, or explicitly by name. The intended flow: **Scout** researches
-and sources → real email found goes to `data/prospects.csv` for **Nova**,
-form-only goes to `data/contact_form_queue.csv` for **Relay** → once a
-prospect replies with interest, **Atlas** takes over scheduling.
+a company and records evidence → real email found goes to
+`data/prospects.csv` for **Nova**, and a contact-form URL (real email or not)
+goes to `data/contact_form_queue.csv` for **Relay** — both channels run for
+the same company when both exist → once a prospect replies with interest,
+**Atlas** takes over scheduling.
+
+**On daily volume:** the code enforces a hard ceiling of 100 emails/day, but
+that is a safety cap, not a target. Published Gmail deliverability guidance
+puts the practical cold-outreach ceiling from a single consumer Gmail
+account at roughly 25-50/day, with new-to-bulk accounts starting at 5-10/day
+and ramping up over the first couple of weeks — sending near the code's
+ceiling from an unwarmed account risks the account being spam-flagged,
+which would stop outreach entirely rather than speed it up.
 
 ## Important Security Note
 

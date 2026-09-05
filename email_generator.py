@@ -22,8 +22,8 @@ from typing import Dict, Optional
 log = logging.getLogger(__name__)
 
 BOREALIS_CONTEXT = (
-    "Borealis builds cooling systems for high-density compute — the kind of load AI "
-    "infrastructure, data centers, and other thermally constrained facilities are dealing with."
+    "Borealis designs cooling systems for high-density compute and builds data centers "
+    "around them — for AI infrastructure, colocation, and other thermally constrained facilities."
 )
 
 DEFAULT_SENDER_NAME = "The Borealis Team"

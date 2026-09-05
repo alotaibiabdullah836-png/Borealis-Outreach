@@ -15,7 +15,10 @@ from __future__ import annotations
 import logging
 from typing import Dict, List, Sequence
 
+import os
+
 from database_manager import DatabaseManager
+from email_generator import DEFAULT_SENDER_NAME
 from email_sender import DeliveryResult, send_email
 
 log = logging.getLogger(__name__)
@@ -34,6 +37,7 @@ def generate_meeting_proposal_email(
     *,
     meeting_length_minutes: int = 30,
     timezone_label: str = "UTC",
+    sender_name: str | None = None,
 ) -> Dict[str, str]:
     """Build a subject/body pair proposing specific meeting times.
 
@@ -49,6 +53,7 @@ def generate_meeting_proposal_email(
 
     name = _safe(prospect.get("name"), "there")
     company = _safe(prospect.get("company"), "your team")
+    signer = sender_name if sender_name else _safe(os.getenv("SENDER_NAME"), DEFAULT_SENDER_NAME)
 
     subject = f"Scheduling a {meeting_length_minutes}-minute call — {company}"
     slot_lines = "\n".join(f"- {slot}" for slot in slots)
@@ -64,7 +69,7 @@ Here are a few times that work on my side ({timezone_label}):
 If none of these fit, let me know a couple of times that do and I will work around your schedule. Happy to send a calendar invite once we land on a time.
 
 Best regards,
-Borealis Team
+{signer}
 
 If you would rather not continue this conversation, reply "unsubscribe" and we will not contact you again.
 """
@@ -80,6 +85,7 @@ def propose_meeting(
     *,
     meeting_length_minutes: int = 30,
     timezone_label: str = "UTC",
+    sender_name: str | None = None,
     sender_email: str | None = None,
     sender_password: str | None = None,
     dry_run: bool = True,
@@ -99,6 +105,7 @@ def propose_meeting(
         proposed_slots,
         meeting_length_minutes=meeting_length_minutes,
         timezone_label=timezone_label,
+        sender_name=sender_name,
     )
     result = send_email(
         email,
