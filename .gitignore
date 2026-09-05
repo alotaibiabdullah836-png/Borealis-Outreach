@@ -9,3 +9,5 @@ build/
 .venv/
 venv/
 data/form_fill_screenshots/
+data/outreach.sqlite3
+data/outreach.sqlite3-*
