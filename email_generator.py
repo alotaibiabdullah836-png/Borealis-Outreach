@@ -76,7 +76,7 @@ Worth a quick call to see if it's relevant?
 
 {signer}
 
-Wrong person, or not interested? Reply "unsubscribe" and I won't follow up again.
+Reply "unsubscribe" to opt out.
 """
 
     log.info("Generated outreach email for %s at %s (signal_used=%s)", name, company, bool(technology_need))

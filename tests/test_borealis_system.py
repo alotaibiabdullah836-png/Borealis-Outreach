@@ -78,9 +78,8 @@ def test_email_ends_with_single_low_friction_question_cta():
     generated = generate_personalized_email(prospect)
     body = generated["body"]
     assert "worth a quick call" in body.lower()
-    # Only one question mark before the opt-out line: a single sales CTA, not several asks stacked up.
-    pre_optout = body.split("Wrong person", 1)[0]
-    assert pre_optout.count("?") == 1
+    # Exactly one question mark in the whole email: a single sales CTA, not several asks stacked up.
+    assert body.count("?") == 1
 
 
 def test_email_subject_is_short_and_a_question():
