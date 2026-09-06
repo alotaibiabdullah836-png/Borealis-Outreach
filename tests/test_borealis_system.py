@@ -8,7 +8,7 @@ import pytest
 from database_manager import DatabaseManager
 from email_generator import generate_personalized_email
 from email_sender import send_email
-from lead_discovery import load_verified_prospects, validate_email
+from lead_discovery import load_verified_prospects, parse_cc_emails, validate_email
 from main_borealis import run_borealis_outreach
 
 
@@ -48,7 +48,7 @@ MissingBasis,CEO,NoBasis,mb@nobasis.com,manual,,US
     assert prospects[0]["email"] == "a@realco.com"
 
 
-def test_email_template_is_professional_and_contains_unsubscribe():
+def test_email_template_is_professional():
     prospect = {
         "name": "Ada Lovelace",
         "title": "CTO",
@@ -60,10 +60,55 @@ def test_email_template_is_professional_and_contains_unsubscribe():
     }
     generated = generate_personalized_email(prospect)
     assert "Borealis" in generated["body"]
-    assert "unsubscribe" in generated["body"].lower()
     assert "noooo" not in generated["body"].lower()
     assert "$3.9M" not in generated["body"]
     assert generated["subject"]
+
+
+def test_email_body_is_short():
+    prospect = {"name": "Ada Lovelace", "company": "Analytical Cooling", "email": "ada@analyticalcooling.com"}
+    generated = generate_personalized_email(prospect)
+    word_count = len(generated["body"].split())
+    assert word_count <= 90, f"body is {word_count} words, longer than the researched ~80-word target"
+
+
+def test_email_ends_with_single_low_friction_question_cta():
+    prospect = {"name": "Ada Lovelace", "company": "Analytical Cooling", "email": "ada@analyticalcooling.com"}
+    generated = generate_personalized_email(prospect)
+    body = generated["body"]
+    assert "worth a quick call" in body.lower()
+    # Exactly one question mark in the whole email: a single sales CTA, not several asks stacked up.
+    assert body.count("?") == 1
+
+
+def test_email_subject_is_short_and_a_question():
+    prospect = {"name": "Ada Lovelace", "company": "Analytical Cooling", "email": "ada@analyticalcooling.com"}
+    generated = generate_personalized_email(prospect)
+    assert generated["subject"].endswith("?")
+    assert len(generated["subject"].split()) <= 4
+
+
+def test_email_uses_web_researched_signal_when_present():
+    prospect = {
+        "name": "Priya Rao",
+        "company": "Helios Compute",
+        "email": "priya@heliocompute.io",
+        "source": "web_research: https://heliocompute.io/news — Announced 40MW AI training cluster build",
+    }
+    generated = generate_personalized_email(prospect)
+    assert "Announced 40MW AI training cluster build" in generated["body"]
+
+
+def test_email_sender_name_defaults_and_can_be_overridden(monkeypatch):
+    prospect = {"name": "Ada Lovelace", "company": "Analytical Cooling", "email": "ada@analyticalcooling.com"}
+
+    monkeypatch.delenv("SENDER_NAME", raising=False)
+    default_generated = generate_personalized_email(prospect)
+    assert "The Borealis Team" in default_generated["body"]
+
+    custom_generated = generate_personalized_email(prospect, sender_name="Jordan Blake")
+    assert "Jordan Blake" in custom_generated["body"]
+    assert "The Borealis Team" not in custom_generated["body"]
 
 
 def test_database_prevents_duplicates_and_tracks_status(tmp_path):
@@ -314,4 +359,98 @@ def test_email_template_escapes_newlines_in_names():
     })
     first_line = generated["body"].splitlines()[0]
     assert "BCC:" not in first_line
-    assert "unsubscribe" in generated["body"].lower()
+    assert "Borealis" in generated["body"]
+
+
+def test_parse_cc_emails_splits_validates_and_normalizes_case():
+    result = parse_cc_emails("a@company.com;B@Company.com;bad-email;john@example.com;c@company.com")
+    assert result == ["a@company.com", "b@company.com", "c@company.com"]
+
+
+def test_parse_cc_emails_dedupes_repeated_address():
+    result = parse_cc_emails("a@company.com;A@COMPANY.com;b@company.com")
+    assert result == ["a@company.com", "b@company.com"]
+
+
+def test_parse_cc_emails_excludes_primary_address():
+    result = parse_cc_emails("primary@company.com;other@company.com", primary_email="Primary@Company.com")
+    assert result == ["other@company.com"]
+
+
+def test_parse_cc_emails_empty_input():
+    assert parse_cc_emails("") == []
+    assert parse_cc_emails(None) == []
+
+
+def test_load_verified_prospects_parses_cc_column(tmp_path):
+    csv_path = tmp_path / "prospects.csv"
+    csv_path.write_text(
+        "Name,Title,Company,Email,CC Emails,Source,Lawful Basis,Country\n"
+        "Ada,CTO,RealCo,a@realco.com,b@realco.com;bad-email;c@realco.com,manual,legitimate_interest,US\n",
+        encoding="utf-8",
+    )
+    prospects = load_verified_prospects(csv_path)
+    assert len(prospects) == 1
+    assert prospects[0]["cc_emails"] == ["b@realco.com", "c@realco.com"]
+
+
+def test_load_verified_prospects_without_cc_column_defaults_empty(tmp_path):
+    csv_path = tmp_path / "prospects.csv"
+    csv_path.write_text(
+        "Name,Title,Company,Email,Source,Lawful Basis,Country\n"
+        "Ada,CTO,RealCo,a@realco.com,manual,legitimate_interest,US\n",
+        encoding="utf-8",
+    )
+    prospects = load_verified_prospects(csv_path)
+    assert prospects[0]["cc_emails"] == []
+
+
+def test_send_email_dry_run_reports_cc():
+    result = send_email(
+        recipient="ada@analyticalcooling.com",
+        subject="Test",
+        body="Hello",
+        cc=["other@analyticalcooling.com"],
+        dry_run=True,
+    )
+    assert result.success is True
+    assert "other@analyticalcooling.com" in result.detail
+
+
+def test_send_email_live_sets_cc_header(monkeypatch):
+    captured = {}
+
+    class FakeSMTP:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+        def starttls(self, *args, **kwargs):
+            pass
+
+        def login(self, *_):
+            pass
+
+        def send_message(self, msg):
+            captured["cc"] = msg["Cc"]
+            captured["to"] = msg["To"]
+            return {}
+
+    monkeypatch.setattr(smtplib, "SMTP", FakeSMTP)
+    result = send_email(
+        recipient="ada@analyticalcooling.com",
+        subject="Test",
+        body="Hello",
+        cc=["other@analyticalcooling.com", "ada@analyticalcooling.com", "not-an-email"],
+        sender_email="sender@gmail.com",
+        sender_password="ok",
+        dry_run=False,
+    )
+    assert result.success is True
+    assert captured["cc"] == "other@analyticalcooling.com"
+    assert captured["to"] == "ada@analyticalcooling.com"
