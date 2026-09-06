@@ -53,6 +53,13 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
    work around it.
 3. **100 emails/day, hard cap.** `main_borealis.py` enforces this regardless
    of what `DAILY_LIMIT` is set to. Don't try to raise it.
+3a. **Current campaign scope is Indonesia only** (set 2026-09-06). Check the
+   `Country` column before sending — `data/prospects.csv` still carries 8
+   pre-scope rows from the original global batch (Colovore, Nscale,
+   CoreWeave, DeepInfra, EdgeMode, EdgeConneX, Fluidstack, Lambda) that are
+   NOT Indonesia and should NOT be sent to without the user explicitly
+   re-confirming that scope. Don't send them "since they're already
+   researched and sitting there" — ask first.
 4. **Never fabricate a prospect.** If the user asks you to "find more leads,"
    tell them this repo intentionally has no scraper or guessing logic
    (`lead_discovery.py`'s docstring explains why) — real prospects with a
