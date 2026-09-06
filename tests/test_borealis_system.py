@@ -48,7 +48,7 @@ MissingBasis,CEO,NoBasis,mb@nobasis.com,manual,,US
     assert prospects[0]["email"] == "a@realco.com"
 
 
-def test_email_template_is_professional_and_contains_unsubscribe():
+def test_email_template_is_professional():
     prospect = {
         "name": "Ada Lovelace",
         "title": "CTO",
@@ -60,7 +60,6 @@ def test_email_template_is_professional_and_contains_unsubscribe():
     }
     generated = generate_personalized_email(prospect)
     assert "Borealis" in generated["body"]
-    assert "unsubscribe" in generated["body"].lower()
     assert "noooo" not in generated["body"].lower()
     assert "$3.9M" not in generated["body"]
     assert generated["subject"]
@@ -360,7 +359,7 @@ def test_email_template_escapes_newlines_in_names():
     })
     first_line = generated["body"].splitlines()[0]
     assert "BCC:" not in first_line
-    assert "unsubscribe" in generated["body"].lower()
+    assert "Borealis" in generated["body"]
 
 
 def test_parse_cc_emails_splits_validates_and_normalizes_case():

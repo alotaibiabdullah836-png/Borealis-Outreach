@@ -1,7 +1,14 @@
 """Deterministic, professional Borealis outreach email generation.
 
 The generator avoids manipulative wording, unsupported ROI claims, and pressure tactics. It
-uses only prospect-provided context and includes a clear opt-out line.
+uses only prospect-provided context.
+
+NOTE ON COMPLIANCE: at the business owner's explicit request, this template does not include
+an opt-out/unsubscribe line. Be aware this is a real gap against the US CAN-SPAM Act for
+commercial email to US recipients (most of this campaign's targets), which requires a working
+opt-out mechanism. That's a known, deliberate tradeoff the business owner made after being
+told this directly — not an oversight. Don't silently re-add or silently remove it again;
+if asked to touch this again, surface the tradeoff again rather than assuming.
 
 Copy structure follows evidence from published 2026 B2B cold-email benchmarks rather than
 guesswork: first-touch emails under ~80 words outperform longer ones, personalization tied
@@ -75,8 +82,6 @@ def generate_personalized_email(prospect: Dict[str, str], sender_name: Optional[
 Worth a quick call to see if it's relevant?
 
 {signer}
-
-Reply unsubscribe to opt out.
 """
 
     log.info("Generated outreach email for %s at %s (signal_used=%s)", name, company, bool(technology_need))
