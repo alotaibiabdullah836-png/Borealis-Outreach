@@ -73,9 +73,10 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
 6. **Sending directly via Gmail MCP tools** (`mcp__Gmail__send_message`,
    `create_draft`, `reply`) is for one-off or ad hoc sends the user asks for
    outside the batch pipeline — e.g. "send Jane a follow-up now." Even then,
-   use `email_generator.py`'s tone and always include the unsubscribe line.
-   Prefer `create_draft` over `send_message` unless the user has clearly
-   asked you to send immediately, not just prepare something.
+   use `email_generator.py`'s tone. No unsubscribe line — see that module's
+   docstring for why this is a deliberate, standing decision, not an
+   oversight. Prefer `create_draft` over `send_message` unless the user has
+   clearly asked you to send immediately, not just prepare something.
 7. **Never reply to a prospect's response on your own initiative.** Abdullah
    handles replies to anything a prospect sends back — standing instruction,
    not one-off. If you see a reply while checking a thread, tell him what it

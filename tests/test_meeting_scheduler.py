@@ -19,11 +19,10 @@ PROSPECT = {
 }
 
 
-def test_generate_meeting_proposal_email_lists_slots_and_opt_out():
+def test_generate_meeting_proposal_email_lists_slots():
     generated = generate_meeting_proposal_email(PROSPECT, ["Tue Sep 9, 3:00 PM UTC", "Wed Sep 10, 4:00 PM UTC"])
     assert "Tue Sep 9, 3:00 PM UTC" in generated["body"]
     assert "Wed Sep 10, 4:00 PM UTC" in generated["body"]
-    assert "unsubscribe" in generated["body"].lower()
     assert generated["subject"]
 
 

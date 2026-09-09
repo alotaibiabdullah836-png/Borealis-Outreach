@@ -8,6 +8,10 @@ and tracks meeting state in the same SQLite CRM used by the outreach pipeline.
 There is no live calendar integration in this repository. Proposed slots are
 plain text the recipient replies to; a human (or an external calendar tool)
 is responsible for actually placing the confirmed meeting on a calendar.
+
+NOTE ON COMPLIANCE: at the business owner's explicit request, this template carries no
+opt-out/unsubscribe line, matching the same standing decision documented in
+email_generator.py's BOREALIS_CONTEXT docstring. Don't silently re-add it.
 """
 
 from __future__ import annotations
@@ -70,8 +74,6 @@ If none of these fit, let me know a couple of times that do and I will work arou
 
 Best regards,
 {signer}
-
-If you would rather not continue this conversation, reply unsubscribe and we will not contact you again.
 """
 
     log.info("Generated meeting proposal email for %s at %s (%s slots)", name, company, len(slots))
