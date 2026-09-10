@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indonesia Outreach Desk</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #EEF3F5;
+    --surface: #FFFFFF;
+    --surface-2: #E3EDF0;
+    --border: #CBDADE;
+    --text: #15262E;
+    --text-2: #4E6871;
+    --accent: #0C7C86;
+    --accent-strong: #085E66;
+    --accent-wash: #DCF0F1;
+    --success: #2E7D4F;
+    --success-wash: #E3F3E9;
+    --warn: #B4650A;
+    --warn-wash: #FBEBDA;
+    --danger: #B23A3A;
+    --danger-wash: #F8E4E1;
+    --font-display: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0B171B; --surface: #10222A; --surface-2: #163038; --border: #234148;
+      --text: #E4F0F2; --text-2: #9BB6BD; --accent: #35C8D1; --accent-strong: #6FE0E7;
+      --accent-wash: #12363B; --success: #4FBE82; --success-wash: #113224;
+      --warn: #EFA84A; --warn-wash: #3A2A11; --danger: #E8807C; --danger-wash: #3B1C1B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B171B; --surface: #10222A; --surface-2: #163038; --border: #234148;
+    --text: #E4F0F2; --text-2: #9BB6BD; --accent: #35C8D1; --accent-strong: #6FE0E7;
+    --accent-wash: #12363B; --success: #4FBE82; --success-wash: #113224;
+    --warn: #EFA84A; --warn-wash: #3A2A11; --danger: #E8807C; --danger-wash: #3B1C1B;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-display); line-height: 1.5; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 40px 24px 80px; }
+  header.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 28px; }
+  .eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  h1 { font-size: 28px; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+  .asof { font-family: var(--font-mono); font-size: 12.5px; color: var(--text-2); text-align: right; }
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 36px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 14px; }
+  .stat .n { font-family: var(--font-mono); font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1; }
+  .stat .n.accent { color: var(--accent-strong); }
+  .stat .n.warn { color: var(--warn); }
+  .stat .n.danger { color: var(--danger); }
+  .stat .label { margin-top: 6px; font-size: 12.5px; color: var(--text-2); }
+  section { margin-bottom: 36px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  h2 { font-size: 17px; margin: 0; }
+  .section-note { font-size: 13px; color: var(--text-2); margin: 4px 0 0; max-width: 68ch; }
+  .count-badge { font-family: var(--font-mono); font-size: 12px; color: var(--text-2); white-space: nowrap; }
+  .action-list { display: flex; flex-direction: column; gap: 8px; }
+  .action-row { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: grid; grid-template-columns: 1fr auto auto; gap: 14px; align-items: center; }
+  .action-row .company { font-weight: 600; font-size: 14.5px; }
+  .action-row .signal { font-size: 13px; color: var(--text-2); margin-top: 3px; max-width: 62ch; }
+  .action-row .why { font-family: var(--font-mono); font-size: 11.5px; color: var(--warn); margin-top: 5px; }
+  .pill { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .pill.pending { background: var(--accent-wash); color: var(--accent-strong); }
+  .pill.blocked { background: var(--warn-wash); color: var(--warn); }
+  .pill.sent { background: var(--success-wash); color: var(--success); }
+  .pill.flagged { background: var(--danger-wash); color: var(--danger); }
+  .pill.notyet { background: var(--surface-2); color: var(--text-2); }
+  .btn { font-family: var(--font-display); font-size: 13px; font-weight: 600; text-decoration: none; color: white; background: var(--accent); padding: 9px 14px; border-radius: 7px; white-space: nowrap; display: inline-block; }
+  .btn:hover { background: var(--accent-strong); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow-x: auto; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  th { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-2); font-weight: 500; }
+  td.mono, .mono { font-family: var(--font-mono); font-size: 12.5px; }
+  td.company { font-weight: 600; }
+  .flag-card { background: var(--surface); border: 1px solid var(--danger); border-left-width: 4px; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+  .flag-card .company { font-weight: 600; font-size: 14px; }
+  .flag-card .reason { font-size: 13px; color: var(--text-2); margin-top: 4px; }
+  .flag-card .addr { font-family: var(--font-mono); font-size: 12px; color: var(--danger); margin-top: 4px; }
+  .empty { font-size: 13.5px; color: var(--text-2); padding: 14px 0; }
+  footer { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-2); }
+  @media (max-width: 760px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .action-row { grid-template-columns: 1fr; }
+    .action-row .btn { justify-self: start; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Borealis · Cooling &amp; data center builds</p>
+      <h1>Indonesia Outreach Desk</h1>
+    </div>
+    <div class="asof"><span id="asof"></span><br>Goal: finish Indonesia coverage this week</div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n accent" id="stat-sent"></div><div class="label">Emails sent</div></div>
+    <div class="stat"><div class="n" id="stat-queued"></div><div class="label">Queued to send</div></div>
+    <div class="stat"><div class="n warn" id="stat-blocked"></div><div class="label">Forms blocked here — visit yourself</div></div>
+    <div class="stat"><div class="n" id="stat-pending-forms"></div><div class="label">Forms not yet attempted</div></div>
+    <div class="stat"><div class="n danger" id="stat-flagged"></div><div class="label">Flagged, not usable</div></div>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <div>
+        <h2>Fill these yourself this week</h2>
+        <p class="section-note">Click through to open each company's contact page directly. Rows marked "Blocked here" already have a confirmed real form — this session's network policy just can't reach it; your own browser will.</p>
+      </div>
+      <span class="count-badge" id="action-count"></span>
+    </div>
+    <div class="action-list" id="action-list"></div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Sent</h2><span class="count-badge" id="sent-count"></span></div>
+    <div class="table-wrap"><table><thead><tr><th>Company</th><th>Sent to</th><th>Status</th></tr></thead><tbody id="sent-table"></tbody></table></div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Queued — not sent yet</h2><span class="count-badge" id="queued-count"></span></div>
+    <div class="table-wrap"><table><thead><tr><th>Company</th><th>Contact</th><th>Country</th></tr></thead><tbody id="queued-table"></tbody></table></div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Flagged during research — do not use</h2><span class="count-badge" id="flagged-count"></span></div>
+    <div id="flagged-list"></div>
+  </section>
+
+  <footer>
+    Generated by <span class="mono">build_dashboard.py</span> from <span class="mono">data/prospects.csv</span>, <span class="mono">data/contact_form_queue.csv</span>, and <span class="mono">data/needs_manual_verification.csv</span>. Re-run it after any batch to refresh this page.
+  </footer>
+</div>
+
+<script>
+const DATA = __DASHBOARD_DATA__;
+
+function pill(status) {
+  const map = { blocked: ["blocked", "Blocked here"], pending: ["pending", "Not yet tried"], sent: ["sent", "Sent"] };
+  const [cls, label] = map[status] || ["pending", status];
+  return `<span class="pill ${cls}">${label}</span>`;
+}
+
+document.getElementById("asof").textContent = `As of ${DATA.as_of}`;
+document.getElementById("stat-sent").textContent = DATA.stats.sent;
+document.getElementById("stat-queued").textContent = DATA.stats.queued_to_send;
+document.getElementById("stat-blocked").textContent = DATA.stats.blocked;
+document.getElementById("stat-pending-forms").textContent = DATA.stats.pending_forms;
+document.getElementById("stat-flagged").textContent = DATA.stats.flagged;
+
+document.getElementById("action-count").textContent = `${DATA.action_items.length} companies`;
+document.getElementById("action-list").innerHTML = DATA.action_items.length ? DATA.action_items.map(item => `
+  <div class="action-row">
+    <div>
+      <div class="company">${item.company}</div>
+      <div class="signal">${item.signal}</div>
+      ${item.why ? `<div class="why">${item.why}</div>` : ""}
+    </div>
+    ${pill(item.status)}
+    <a class="btn" href="${item.url}" target="_blank" rel="noopener">Open form &rarr;</a>
+  </div>
+`).join("") : `<p class="empty">Nothing left to fill — every queued form has been submitted or removed.</p>`;
+
+document.getElementById("sent-count").textContent = `${DATA.sent.length} emails`;
+document.getElementById("sent-table").innerHTML = DATA.sent.length ? DATA.sent.map(s => `
+  <tr><td class="company">${s.company}</td><td class="mono">${s.email}</td><td>${pill("sent")}</td></tr>
+`).join("") : `<tr><td class="empty" colspan="3">Nothing sent yet.</td></tr>`;
+
+document.getElementById("queued-count").textContent = `${DATA.queued_to_send.length} companies`;
+document.getElementById("queued-table").innerHTML = DATA.queued_to_send.length ? DATA.queued_to_send.map(q => `
+  <tr><td class="company">${q.company}</td><td class="mono">${q.email}</td><td>${q.country}</td></tr>
+`).join("") : `<tr><td class="empty" colspan="3">Nothing queued.</td></tr>`;
+
+document.getElementById("flagged-count").textContent = `${DATA.flagged.length} rows`;
+document.getElementById("flagged-list").innerHTML = DATA.flagged.length ? DATA.flagged.map(f => `
+  <div class="flag-card">
+    <div class="company">${f.company}</div>
+    <div class="addr">${f.email}</div>
+    <div class="reason">${f.reason}</div>
+  </div>
+`).join("") : `<p class="empty">Nothing flagged.</p>`;
+</script>
+</body>
+</html>

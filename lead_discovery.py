@@ -42,7 +42,12 @@ FIELD_ALIASES = {
     "lawful_basis": "lawful_basis",
     "basis": "lawful_basis",
     "country": "country",
+    "cc emails": "cc_emails",
+    "cc_emails": "cc_emails",
+    "cc": "cc_emails",
 }
+
+CC_SEPARATOR = ";"
 
 
 def normalize_email(email: str | None) -> str:
@@ -65,6 +70,32 @@ def validate_email(email: str | None, *, allow_example_domains: bool = False) ->
     return True
 
 
+def parse_cc_emails(raw: str | None, *, primary_email: str = "") -> List[str]:
+    """Parse a semicolon-separated CC list, keeping only valid, non-duplicate addresses.
+
+    Invalid or placeholder addresses are dropped (with a warning), not treated as a reason
+    to reject the whole row — CC contacts are best-effort enrichment, not a required field.
+    """
+
+    if not raw:
+        return []
+    primary = normalize_email(primary_email)
+    seen: set[str] = {primary} if primary else set()
+    result: List[str] = []
+    for candidate in raw.split(CC_SEPARATOR):
+        email = normalize_email(candidate)
+        if not email:
+            continue
+        if not validate_email(email):
+            log.warning("Dropped invalid or placeholder CC address: %s", email)
+            continue
+        if email in seen:
+            continue
+        seen.add(email)
+        result.append(email)
+    return result
+
+
 def _canonicalize_row(row: Dict[str, str]) -> Dict[str, str]:
     canonical: Dict[str, str] = {
         "name": "",
@@ -74,6 +105,7 @@ def _canonicalize_row(row: Dict[str, str]) -> Dict[str, str]:
         "source": "",
         "lawful_basis": "",
         "country": "",
+        "cc_emails": "",
     }
     for key, value in row.items():
         alias = FIELD_ALIASES.get((key or "").strip().lower())
@@ -131,6 +163,7 @@ def load_verified_prospects(
                 log.info("Rejected duplicate prospect: %s", row["email"])
                 continue
             seen.add(row["email"])
+            row["cc_emails"] = parse_cc_emails(row.get("cc_emails"), primary_email=row["email"])
             accepted.append(row)
 
     log.info("Loaded %s verified prospects from %s; rejected %s records", len(accepted), path, rejected)

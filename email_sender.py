@@ -10,7 +10,7 @@ import smtplib
 import socket
 import ssl
 import time
-from typing import Optional
+from typing import List, Optional
 
 from lead_discovery import validate_email
 
@@ -39,6 +39,7 @@ def send_email(
     subject: str,
     body: str,
     *,
+    cc: Optional[List[str]] = None,
     sender_email: Optional[str] = None,
     sender_password: Optional[str] = None,
     smtp_host: str = "smtp.gmail.com",
@@ -50,12 +51,17 @@ def send_email(
 ) -> DeliveryResult:
     """Send one email, or simulate delivery in dry-run mode.
 
+    `cc` is an optional list of additional recipient addresses (e.g. other real, verified
+    contacts at the same company). Invalid addresses in `cc` are silently dropped rather than
+    failing the whole send — the primary `recipient` is what's required to be valid.
+
     The function never raises delivery errors to callers. Instead it returns a structured
     result so the orchestration layer can mark CRM state accurately. Credentials are never
     logged.
     """
 
     recipient = (recipient or "").strip().lower()
+    valid_cc = sorted({c.strip().lower() for c in (cc or []) if validate_email(c)} - {recipient})
     sender_email = sender_email if sender_email is not None else os.getenv("SENDER_EMAIL", "")
     sender_password = sender_password if sender_password is not None else os.getenv("SENDER_PASSWORD", "")
 
@@ -65,8 +71,9 @@ def send_email(
         return DeliveryResult(False, "invalid_message", "Subject and body are required")
 
     if dry_run:
-        log.info("DRY RUN: would send email to %s with subject %r", recipient, subject)
-        return DeliveryResult(True, "dry_run", "SMTP not contacted in dry-run mode", f"dry-run:{recipient}")
+        cc_note = f" (cc: {', '.join(valid_cc)})" if valid_cc else ""
+        log.info("DRY RUN: would send email to %s%s with subject %r", recipient, cc_note, subject)
+        return DeliveryResult(True, "dry_run", f"SMTP not contacted in dry-run mode{cc_note}", f"dry-run:{recipient}")
 
     if not sender_email or not sender_password:
         log.error("SMTP configuration missing. sender_email=%s sender_password=%s", _redact(sender_email), _redact(sender_password))
@@ -77,6 +84,8 @@ def send_email(
     msg = EmailMessage()
     msg["From"] = sender_email
     msg["To"] = recipient
+    if valid_cc:
+        msg["Cc"] = ", ".join(valid_cc)
     msg["Subject"] = subject
     msg.set_content(body)
 
