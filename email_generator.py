@@ -67,7 +67,7 @@ def generate_personalized_email(prospect: Dict[str, str], sender_name: Optional[
     subject = f"Cooling for {company}?" if has_company else "Quick question?"
 
     if technology_need:
-        opener = f"Saw this about {company}: {technology_need}."
+        opener = f"Saw this about {company}: {technology_need.rstrip('.')}."
     elif has_company:
         opener = f"{company} looked like a fit for what we do at Borealis."
     else:
