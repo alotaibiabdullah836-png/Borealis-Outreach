@@ -46,6 +46,11 @@ MEETING_COLUMNS = {
     "meeting_updated": "TEXT DEFAULT ''",
 }
 
+# Columns added after the initial release, same ALTER-TABLE pattern as MEETING_COLUMNS.
+CONTACT_COLUMNS = {
+    "website": "TEXT DEFAULT ''",
+}
+
 BLOCKING_STATUSES = {"sending", "sent", "dry_run"}
 MEETING_STATUSES = {"none", "proposed", "confirmed", "declined"}
 
@@ -75,7 +80,7 @@ class DatabaseManager:
         with self._connect() as conn:
             conn.executescript(SCHEMA_SQL)
             existing = {row["name"] for row in conn.execute("PRAGMA table_info(leads)").fetchall()}
-            for column, definition in MEETING_COLUMNS.items():
+            for column, definition in {**MEETING_COLUMNS, **CONTACT_COLUMNS}.items():
                 if column not in existing:
                     conn.execute(f"ALTER TABLE leads ADD COLUMN {column} {definition}")
             conn.commit()
@@ -91,7 +96,11 @@ class DatabaseManager:
         if not email:
             return False
         now = utc_now()
-        metadata = {k: v for k, v in prospect.items() if k not in {"email", "name", "title", "company", "country", "source", "lawful_basis"}}
+        metadata = {
+            k: v
+            for k, v in prospect.items()
+            if k not in {"email", "name", "title", "company", "country", "source", "lawful_basis", "website"}
+        }
 
         with self._connect() as conn:
             existing = conn.execute("SELECT status FROM leads WHERE email = ?", (email,)).fetchone()
@@ -102,8 +111,8 @@ class DatabaseManager:
                 return False
             conn.execute(
                 """
-                INSERT INTO leads(email, name, title, company, country, source, lawful_basis, status, send_attempts, date_added, metadata_json)
-                VALUES (?, ?, ?, ?, ?, ?, ?, 'sending', 1, ?, ?)
+                INSERT INTO leads(email, name, title, company, country, source, lawful_basis, website, status, send_attempts, date_added, metadata_json)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'sending', 1, ?, ?)
                 ON CONFLICT(email) DO UPDATE SET
                     name=excluded.name,
                     title=excluded.title,
@@ -111,6 +120,7 @@ class DatabaseManager:
                     country=excluded.country,
                     source=excluded.source,
                     lawful_basis=excluded.lawful_basis,
+                    website=excluded.website,
                     status='sending',
                     send_attempts=leads.send_attempts + 1,
                     metadata_json=excluded.metadata_json
@@ -123,6 +133,7 @@ class DatabaseManager:
                     prospect.get("country", ""),
                     prospect.get("source", ""),
                     prospect.get("lawful_basis", ""),
+                    prospect.get("website", ""),
                     now,
                     json.dumps(metadata, sort_keys=True),
                 ),
@@ -228,6 +239,7 @@ class DatabaseManager:
             "name",
             "title",
             "company",
+            "website",
             "country",
             "source",
             "lawful_basis",

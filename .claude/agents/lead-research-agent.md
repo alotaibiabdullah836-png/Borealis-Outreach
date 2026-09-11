@@ -63,35 +63,50 @@ agency's domain, etc.) is not confirmed — route it to
 `queue_contact_form_lead` instead, or drop it, rather than treating it as
 verified.
 
-## Finding the right person — never guess
+## Finding the right person — never guess, and don't settle for the sales inbox
 
-For each qualifying company, look for a real, named, public contact:
+A generic `sales@` or `info@` address is a fallback, not the goal. Those
+inboxes are often screened by someone with no authority over cooling or
+facilities decisions, which is a real reason replies have been rare. For
+every qualifying company, actively look for a senior, named decision-maker
+before falling back to a generic address:
 
-- A "Leadership," "Team," or "About" page naming a relevant role (VP
-  Infrastructure, Director of Data Center Operations, Head of Facilities,
-  CTO of a small company, etc.)
-- A press release or news article naming and quoting that person
+- A "Leadership," "Team," or "About" page naming a relevant role (CEO,
+  President Director, VP Infrastructure, Director of Data Center
+  Operations, Head of Facilities, CTO, Corporate Secretary of a public
+  company, etc.) — for a real chance at a call, this is the person worth
+  reaching, not a communications inbox.
+- A press release or news article naming and quoting that person.
 - A publicly listed email on the company's own site (not guessed, not
   pattern-generated like `first.last@company.com` unless the company's site
-  itself publishes that exact address)
+  itself publishes that exact address).
 
-If you can't find a named person, that's fine — use the company's general
-contact channel and leave the title generic (the email template already
-handles this gracefully; see `email_generator.py`'s fallback to "your
-infrastructure team"). Do not invent a name or synthesize an email address
-from a guessed pattern. If Apollo or another enrichment tool becomes
-available later, that's a different, more reliable path for this step — but
-absent that, only use what you can point to on the public web.
+If you can't find a named senior person, that's fine — use the company's
+general contact channel and leave the title generic (the email template
+already handles this gracefully; see `email_generator.py`'s fallback to
+"your infrastructure team"). Do not invent a name or synthesize an email
+address from a guessed pattern.
 
-**CC additional real contacts when a page genuinely lists several.** If a
-company's leadership/team page names multiple relevant people (e.g. CEO,
-VP Infrastructure, and Head of Facilities all on the same page), pass the
-extras as `cc_emails` to `append_web_researched_prospect` — up to 3-4 total
-recipients on one email is the goal, not a requirement. Each CC address goes
-through the exact same domain-match and validation bar as the primary
-contact. **Never invent, guess, or pad the CC list to hit a number** — most
-companies will only have one verifiable contact, and that's fine; one real
-recipient beats four risky ones.
+**When a company's leadership/team page genuinely names multiple relevant
+people, record each one as its own separate prospect** (a separate call to
+`append_web_researched_prospect` per person), not as a `cc_emails` bundle —
+a personally-addressed email to a named individual gets read and replied to
+far more than one CC'ing several people at once, where everyone assumes
+someone else will answer. Aim for the general company contact plus up to 3
+real, named individuals per company (a senior exec first, then other
+relevant roles like facilities/engineering) — but only ones you can
+actually verify; most companies will only have one or two verifiable
+contacts, and that's fine. **Never invent, guess, or pad this to hit 3** —
+one real recipient beats three risky ones. `cc_emails` is still there for
+the rare case where CC genuinely is the better fit (e.g. one journalist
+covering an announcement quotes two execs from the same short quote and
+there's no way to reach them individually) — separate rows are the default.
+
+**Always capture the company's real official website** (the domain you
+verified the contact/source on, e.g. `https://www.example.com`) and pass it
+as `website` to `append_web_researched_prospect` — this goes straight into
+the CRM for the owner's own reference, not into the outreach email. Leave
+it blank rather than guess if you can't confirm it.
 
 ## Where results go — both channels, not either/or
 

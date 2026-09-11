@@ -82,13 +82,18 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
    not one-off. If you see a reply while checking a thread, tell him what it
    says; don't call `mcp__Gmail__reply` to answer it yourself unless he
    explicitly asks you to send that specific reply.
-8. **CC list, when present, still counts as one send.** A prospect's
-   `cc_emails` (from `data/prospects.csv`'s "CC Emails" column) are other
-   real, individually-verified contacts at the same company — pass them as
-   `cc` to `send_email`/`run_borealis_outreach`, or as `cc` to
-   `mcp__Gmail__send_message` for a one-off. One email to a To + several Cc
-   recipients is still a single send against the daily volume — don't count
-   it as multiple.
+8. **Multiple real contacts at one company get separate, individually-addressed
+   emails — not one email CC'ing everyone.** Scout records the general
+   company contact and up to 3 named senior people as separate rows in
+   `data/prospects.csv` rather than bundling them into `cc_emails` — a
+   personally-addressed email to a named person converts far better than a
+   CC blast where everyone assumes someone else will reply. Send to each
+   row individually; each one counts against the daily volume (a
+   well-covered company can legitimately use 2-4 of the day's sends). The
+   `cc_emails` field still exists for the rare case Scout genuinely
+   couldn't split contacts into separate rows — in that case, pass them as
+   `cc` to `send_email`/`mcp__Gmail__send_message`, and that one email
+   (with its CCs) counts as a single send.
 
 ## Typical requests and how to handle them
 

@@ -31,7 +31,7 @@ from lead_discovery import CC_SEPARATOR, normalize_email, validate_email
 
 log = logging.getLogger(__name__)
 
-PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Source", "Lawful Basis", "Country"]
+PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Website", "Source", "Lawful Basis", "Country"]
 QUEUE_STATUSES = {"pending", "filled_pending_review", "submitted", "blocked", "failed"}
 
 QUEUE_FIELDS = [
@@ -108,6 +108,10 @@ def append_web_researched_prospect(
     same outreach email — never pad this out with guessed addresses just to reach a
     target headcount; each one goes through the same validate_email check as the primary
     address and invalid ones are dropped rather than blocking the whole prospect.
+
+    Optional `website`: the company's real official site (e.g. "https://www.example.com"),
+    for the owner's own reference and for the contact-form channel — not sent to the
+    prospect. Leave blank rather than guess if it wasn't directly confirmed.
     """
 
     email = normalize_email(prospect.get("email"))
@@ -115,6 +119,7 @@ def append_web_researched_prospect(
     source = (prospect.get("source") or "").strip()
     technology_need = (prospect.get("technology_need") or "").strip()
     cc_candidates = prospect.get("cc_emails") or []
+    website = (prospect.get("website") or "").strip()
 
     if not validate_email(email):
         log.warning("Rejected web-researched prospect with invalid/placeholder email: %s", email)
@@ -146,6 +151,7 @@ def append_web_researched_prospect(
         "Company": company,
         "Email": email,
         "CC Emails": CC_SEPARATOR.join(valid_cc),
+        "Website": website,
         "Source": f"web_research: {source_note}"[:500],
         "Lawful Basis": (prospect.get("lawful_basis") or "legitimate_interest_b2b_public_contact").strip(),
         "Country": (prospect.get("country") or "").strip(),

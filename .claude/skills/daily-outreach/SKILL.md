@@ -90,15 +90,18 @@ kept. This file is a paper trail, not a trash can.
 ### 4. Send emails to what actually passed audit
 
 Use `email-outreach-agent` (Nova) or call `email_generator.py` /
-`database_manager.py` directly. Send to up to 10 audit-clean prospects —
-**fewer than 10 if fewer than 10 passed audit**, never padded to hit the
-number. A CC list on one prospect still counts as one send, not one per
-recipient (`.claude/agents/email-outreach-agent.md` rule 8). Never send to
-a company that already has status `sent`/`replied`/`bounced` in the CRM —
-`claim_for_sending` enforces this, don't route around it. Never reply to
-an existing prospect thread on your own initiative; if you see a reply
-while checking Gmail, note it for the user's report and leave it alone —
-the owner replies to prospects personally, always.
+`database_manager.py` directly. Send to up to 10 audit-clean prospect
+*rows* — **fewer than 10 if fewer than 10 passed audit**, never padded to
+hit the number. Since Scout records the general company contact and each
+real, named senior person as separate rows (not bundled as CC), a single
+well-covered company can legitimately account for 2-4 of the day's sends —
+that's the point, a personally-addressed email to the right person beats
+a CC blast (`.claude/agents/email-outreach-agent.md` rule 8). Never send to
+a company/email that already has status `sent`/`replied`/`bounced` in the
+CRM — `claim_for_sending` enforces this, don't route around it. Never
+reply to an existing prospect thread on your own initiative; if you see a
+reply while checking Gmail, note it for the user's report and leave it
+alone — the owner replies to prospects personally, always.
 
 ### 5. Fill the contact form for every company that got an email
 
