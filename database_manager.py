@@ -51,7 +51,7 @@ CONTACT_COLUMNS = {
     "website": "TEXT DEFAULT ''",
 }
 
-BLOCKING_STATUSES = {"sending", "sent", "dry_run"}
+BLOCKING_STATUSES = {"sending", "sent", "dry_run", "bounced"}
 MEETING_STATUSES = {"none", "proposed", "confirmed", "declined"}
 
 
