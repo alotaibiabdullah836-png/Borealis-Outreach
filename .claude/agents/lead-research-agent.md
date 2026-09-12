@@ -67,16 +67,50 @@ verified.
 
 A generic `sales@` or `info@` address is a fallback, not the goal. Those
 inboxes are often screened by someone with no authority over cooling or
-facilities decisions, which is a real reason replies have been rare. For
-every qualifying company, actively look for a senior, named decision-maker
-before falling back to a generic address:
+facilities decisions, which is a real reason replies have been rare.
 
-- A "Leadership," "Team," or "About" page naming a relevant role (CEO,
-  President Director, VP Infrastructure, Director of Data Center
-  Operations, Head of Facilities, CTO, Corporate Secretary of a public
-  company, etc.) — for a real chance at a call, this is the person worth
-  reaching, not a communications inbox.
-- A press release or news article naming and quoting that person.
+**Title relevance is ranked, not just "senior vs. not."** Real gap found
+in this campaign so far: most "senior named contacts" landed on CEOs,
+President Directors, and investor-relations inboxes — not because they're
+the right buyer for a *cooling system*, but because they're the easiest
+titles to find via press coverage. A press release always quotes the CEO;
+it rarely quotes the facilities manager. Search harder for the second
+group before settling for the first:
+
+1. **Best fit — actually owns the decision**: VP/Director/Head of
+   Infrastructure, Data Center Operations, Facilities, Engineering,
+   Technical Operations, or a named Chief Engineer/CTO with an
+   infrastructure-specific (not general-management) remit. These titles
+   are harder to find — try the company's careers page (a "Facilities
+   Manager" or "Data Center Engineer" job posting often names the hiring
+   manager or department head), LinkedIn company pages surfaced in search
+   results, conference-speaker lists (data center industry events often
+   list the actual ops/engineering person, not the CEO), and technical
+   trade press (DCD, Data Center Dynamics) which quotes operations people
+   more than general business press does.
+2. **Acceptable fallback — reaches someone accountable, but may route to
+   the wrong desk**: CEO, President Director, or another C-suite title,
+   when directly quoted with real infrastructure context (not just a
+   general "digital transformation" quote). Still real, still worth
+   sending, but say so plainly when reporting — a CEO's office often
+   forwards a cooling-systems pitch down several layers before it lands
+   on the right desk, if it lands at all.
+3. **Weakest real contact — last resort before a generic inbox**:
+   investor relations, corporate secretary, or media relations. These are
+   published, real, and better than nothing, but they exist to handle
+   shareholders and press, not vendor outreach — flag rows sourced this
+   way as the weaker end of "named contact" when reporting, not
+   equivalent to reaching an actual infrastructure buyer.
+
+For every qualifying company, search for the best tier available before
+falling back to a worse one — don't stop at the first named person found
+if a 30-second additional search for "[company] data center operations
+director" or "[company] facilities manager" would find someone more
+relevant. Then:
+
+- A "Leadership," "Team," or "About" page naming a relevant role.
+- A press release, conference bio, or news article naming and quoting
+  that person.
 - A publicly listed email on the company's own site (not guessed, not
   pattern-generated like `first.last@company.com` unless the company's site
   itself publishes that exact address).
@@ -146,3 +180,9 @@ in `data/contact_form_queue.csv` (ready for `contact-form-agent`), and how
 many candidates you looked at but rejected for lack of a real signal or real
 contact info — don't hide the rejection rate, it's the honest measure of how
 targeted this outreach actually is.
+
+Also break down today's new rows by which contact tier they landed in
+(infrastructure/facilities decision-maker vs. C-suite fallback vs.
+IR/corp-comm fallback, per the ranking above) — that's the honest measure
+of how likely each row is to actually reach someone who can act on a
+cooling pitch, separate from whether the row is real.
