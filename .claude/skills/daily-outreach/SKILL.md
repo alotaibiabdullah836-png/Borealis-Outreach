@@ -190,13 +190,13 @@ Tell the user, in plain terms:
   how many in-scope prospects total.
 - Anything blocked (network policy, missing credentials, scope questions)
   and what it means for tomorrow.
-- **Bounce rate**: search Gmail for `from:mailer-daemon` since the last
-  check and mark any hits `bounced` in the CRM (not `sent` — see
-  `database_manager.py`'s `BLOCKING_STATUSES`, which already stops a
-  bounced address from being auto-retried). Published deliverability
-  guidance puts 2% hard-bounce rate as the ceiling before it starts
-  damaging this Gmail account's sender reputation — if the running total
-  crosses that, say so explicitly rather than only reporting today's count.
+- **Bounce rate and send-timing compliance**: run `deliverability-agent`
+  as part of every cycle (not only when asked) — it checks Gmail for new
+  bounces since the last check, corrects any CRM rows still wrongly marked
+  `sent`, and reports the running hard-bounce rate against the 2%
+  ceiling and the business-hours compliance rate for recent sends. Fold
+  its findings into today's report; if the bounce rate is at or over 2%,
+  say so explicitly rather than only reporting today's send count.
 
 Getting a reply and booking an actual call is the owner's job, not this
 skill's — the email and form copy both already ask for a call
