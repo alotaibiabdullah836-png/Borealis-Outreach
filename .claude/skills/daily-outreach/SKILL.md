@@ -201,13 +201,13 @@ Tell the user, in plain terms:
   how many in-scope prospects total.
 - Anything blocked (network policy, missing credentials, scope questions)
   and what it means for tomorrow.
-- **Bounce rate and send-timing compliance**: run `deliverability-agent`
-  as part of every cycle (not only when asked) — it checks Gmail for new
-  bounces since the last check, corrects any CRM rows still wrongly marked
-  `sent`, and reports the running hard-bounce rate against the 2%
-  ceiling and the business-hours compliance rate for recent sends. Fold
-  its findings into today's report; if the bounce rate is at or over 2%,
-  say so explicitly rather than only reporting today's send count.
+- **Bounce rate and send-timing compliance**: run `reporting-agent`'s
+  health check as part of every cycle (not only when asked) — it checks
+  Gmail for new bounces since the last check, corrects any CRM rows still
+  wrongly marked `sent`, and reports the running hard-bounce rate against
+  the 2% ceiling and the business-hours compliance rate for recent sends.
+  Fold its findings into today's report; if the bounce rate is at or over
+  2%, say so explicitly rather than only reporting today's send count.
 
 Getting a reply and booking an actual call is the owner's job, not this
 skill's — the email and form copy both already ask for a call
