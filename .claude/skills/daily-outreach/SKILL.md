@@ -48,14 +48,15 @@ Cross-reference against the CRM (`database_manager.py`'s `DatabaseManager.list_r
 to see which of those are actually unsent — a row existing in prospects.csv
 doesn't mean it hasn't already been emailed.
 
-Target is **10 real sends/day**. If fewer than 10 unsent, in-scope,
-audit-clean prospects exist, go to step 2. If 10+ already exist, skip to
-step 3 — don't research more just because you can.
+Target is **20 real sends/day** (raised from 10 on 2026-09-13, at the
+owner's explicit request). If fewer than 20 unsent, in-scope, audit-clean
+prospects exist, go to step 2. If 20+ already exist, skip to step 3 —
+don't research more just because you can.
 
 ### 2. Research more, only if needed
 
 Invoke `lead-research-agent` (Scout) for enough new Indonesia-scope
-companies to comfortably clear the 10/day bar after audit losses — ask for
+companies to comfortably clear the 20/day bar after audit losses — ask for
 somewhat more than the shortfall, since step 3 will reject some. Give Scout
 the list of companies already covered (query `data/prospects.csv` and
 `data/contact_form_queue.csv` for existing company names) so it doesn't
@@ -111,11 +112,11 @@ template output.
 ### 4. Send emails to what actually passed audit
 
 Use `email-outreach-agent` (Nova) or call `email_generator.py` /
-`database_manager.py` directly. Send to up to 10 audit-clean prospect
-*rows* — **fewer than 10 if fewer than 10 passed audit**, never padded to
+`database_manager.py` directly. Send to up to 20 audit-clean prospect
+*rows* — **fewer than 20 if fewer than 20 passed audit**, never padded to
 hit the number. Since Scout records the general company contact and each
 real, named senior person as separate rows (not bundled as CC), a single
-well-covered company can legitimately account for 2-4 of the day's sends —
+well-covered company can legitimately account for several of the day's sends —
 that's the point, a personally-addressed email to the right person beats
 a CC blast (`.claude/agents/email-outreach-agent.md` rule 8). Never send to
 a company/email that already has status `sent`/`replied`/`bounced` in the
@@ -162,15 +163,28 @@ run didn't already do it. Check that CRM row statuses reflect exactly what
 happened this run — no row should say `sent` unless an email actually went
 out for it this run or a prior one.
 
-### 6a. Send the user the CRM file, every day, no exceptions
+### 6a. Send the user the CRM file AND the dashboard, every day, no exceptions
 
-After regenerating `data/crm_database.xlsx`, send it to the user directly
-via `SendUserFile` — this is a standing part of the daily run now, not
-something to do only when asked. Caption it with the real running total
-(e.g. "49 total, 48 sent, 1 bounced") pulled from `DatabaseManager`, not
+After regenerating both files, send **both** to the user directly via
+`SendUserFile` in the same call — this is a standing part of the daily
+run now, not something to do only when asked:
+
+- `data/crm_database.xlsx` — full CRM state, now including the `Website`
+  column (each company's real homepage).
+- `data/indonesia_outreach_desk.html` — the dashboard, which is what
+  actually has the specific, clickable **contact-form URLs** per company
+  (not just the homepage) — this is the tool for the owner to go fill in
+  his own contact details on a company's site himself, especially while
+  this session's network block keeps stopping `contact-form-agent` from
+  doing it automatically. Sending the CRM alone isn't enough for that —
+  the CRM's `Website` column is the homepage, the dashboard is the actual
+  "go fill this form" list.
+
+Caption with the real running totals (emails sent/bounced, forms
+pending/filled) pulled from `DatabaseManager` and the queue CSV, not
 estimated. Do this every day this skill runs, including when fired by the
-unattended scheduled trigger — the point is the user has the current file
-in hand without having to ask each time.
+unattended scheduled trigger — the point is the owner has both files in
+hand without having to ask each time.
 
 ### 7. Commit and push
 
@@ -220,7 +234,7 @@ person, twice.
 ## What "done" looks like
 
 A run of this skill is complete when: the day's real sends and form fills
-have both happened (or you've said exactly why fewer than 10 happened),
+have both happened (or you've said exactly why fewer than 20 happened),
 the CRM and dashboard reflect exactly that, the branch is pushed, and the
 report above has been given in the current conversation — not deferred,
 not summarized as "will report later." If this skill was invoked by an
