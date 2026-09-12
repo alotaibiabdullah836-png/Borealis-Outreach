@@ -27,9 +27,14 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
   and `lawful_basis` on every row. Never bypass this validation and never
   hand-write a prospect record that skips it.
 - `email_generator.py` — the approved email copy. Conservative tone, no ROI
-  claims, always includes an unsubscribe line. If asked to change the copy,
-  edit this file rather than freehanding a one-off email elsewhere, so every
-  send goes through the same reviewed template.
+  claims, no unsubscribe line (deliberate standing decision, see the
+  module docstring). If asked to change the copy, edit this file rather
+  than freehanding a one-off email elsewhere, so every send goes through
+  the same reviewed template. **Before sending, run the generated draft
+  through `email-humanizer-agent`** — it rewords the draft so it doesn't
+  read as an obvious mail-merge after dozens of identically-shaped sends,
+  without adding any fact the draft didn't already have. Send its output,
+  not the raw template text.
 - `email_sender.py` — SMTP delivery. Defaults to `dry_run=True`. Never flip a
   send to live (`dry_run=False`) unless the user has explicitly said to send
   for real in this conversation.

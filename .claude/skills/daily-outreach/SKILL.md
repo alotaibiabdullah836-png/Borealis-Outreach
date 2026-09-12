@@ -97,6 +97,17 @@ outside business hours, including a 2am batch. The scheduled cron already
 fires at 02:00 UTC (09:00 WIB) on weekdays for this reason — this check
 matters most for on-demand runs triggered mid-conversation.
 
+### 3b. Humanize the wording before sending
+
+For every audit-clean row, generate the deterministic draft with
+`generate_personalized_email()`, then run it through
+`email-humanizer-agent` before it goes anywhere near Gmail. The generator
+guarantees the facts are real; the humanizer's job is making sure the
+wording doesn't read as an obvious mail-merge after dozens of sends with
+the identical shape. It rewords only — it never adds a claim the original
+draft didn't already have. Send the humanized version, not the raw
+template output.
+
 ### 4. Send emails to what actually passed audit
 
 Use `email-outreach-agent` (Nova) or call `email_generator.py` /
