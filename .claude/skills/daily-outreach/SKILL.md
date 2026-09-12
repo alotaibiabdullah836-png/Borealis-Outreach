@@ -151,6 +151,16 @@ run didn't already do it. Check that CRM row statuses reflect exactly what
 happened this run — no row should say `sent` unless an email actually went
 out for it this run or a prior one.
 
+### 6a. Send the user the CRM file, every day, no exceptions
+
+After regenerating `data/crm_database.xlsx`, send it to the user directly
+via `SendUserFile` — this is a standing part of the daily run now, not
+something to do only when asked. Caption it with the real running total
+(e.g. "49 total, 48 sent, 1 bounced") pulled from `DatabaseManager`, not
+estimated. Do this every day this skill runs, including when fired by the
+unattended scheduled trigger — the point is the user has the current file
+in hand without having to ask each time.
+
 ### 7. Commit and push
 
 Commit the updated CSVs, CRM export, and dashboard to the current branch
