@@ -44,6 +44,19 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
 
 ## Hard rules
 
+0. **Send within Jakarta business hours (07:00-18:00 WIB, UTC+7), no exceptions
+   for "send it now" requests.** Real data check (2026-09-12): 58% of our
+   sends so far went out outside Jakarta business hours purely because
+   on-demand batches ran whenever the request came in — including one batch
+   of 10 emails to bank CEOs and a government minister at 2:37am WIB. That's
+   not a targeting problem, it's a self-inflicted one. Before any live send,
+   convert the current UTC time to WIB (UTC+7) and confirm it falls in
+   07:00-18:00; if not, hold the send (draft it or wait) rather than firing
+   immediately just because the research/audit is ready. Tue-Thu 8-11:30am
+   WIB is the strongest window per published cold-email benchmarks
+   (Snov.io/Instantly.ai/Saleshandy), but any daytime weekday send beats a
+   correctly-audited email that lands at 2am with nobody at their desk.
+
 1. **Dry-run by default.** Any batch you run defaults to `SEND_MODE=dry_run`.
    Only run `SEND_MODE=live` when the user has explicitly asked for a live
    send in the current conversation — never infer it from context.

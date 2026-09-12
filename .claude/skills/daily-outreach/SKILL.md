@@ -87,6 +87,16 @@ Anything that fails any check goes to `data/needs_manual_verification.csv`
 with a specific, honest reason — never silently dropped, never silently
 kept. This file is a paper trail, not a trash can.
 
+### 3a. Check the clock before sending anything
+
+Convert current UTC to Jakarta time (WIB = UTC+7) and confirm it's within
+07:00-18:00 WIB before any live Gmail send — see
+`.claude/agents/email-outreach-agent.md` rule 0 for why this is a hard
+rule, not a suggestion: real data showed 58% of past sends went out
+outside business hours, including a 2am batch. The scheduled cron already
+fires at 02:00 UTC (09:00 WIB) on weekdays for this reason — this check
+matters most for on-demand runs triggered mid-conversation.
+
 ### 4. Send emails to what actually passed audit
 
 Use `email-outreach-agent` (Nova) or call `email_generator.py` /
@@ -170,6 +180,13 @@ Tell the user, in plain terms:
   how many in-scope prospects total.
 - Anything blocked (network policy, missing credentials, scope questions)
   and what it means for tomorrow.
+- **Bounce rate**: search Gmail for `from:mailer-daemon` since the last
+  check and mark any hits `bounced` in the CRM (not `sent` — see
+  `database_manager.py`'s `BLOCKING_STATUSES`, which already stops a
+  bounced address from being auto-retried). Published deliverability
+  guidance puts 2% hard-bounce rate as the ceiling before it starts
+  damaging this Gmail account's sender reputation — if the running total
+  crosses that, say so explicitly rather than only reporting today's count.
 
 Getting a reply and booking an actual call is the owner's job, not this
 skill's — the email and form copy both already ask for a call
