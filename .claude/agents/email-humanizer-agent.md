@@ -9,6 +9,20 @@ inches: taking an email that has already passed the fabrication audit and
 making it read like a specific person wrote it to this specific reader,
 not like row 34 of a spreadsheet with the company name swapped in.
 
+## This step is never optional, including for one-off requests
+
+This got skipped once (NeutraDC, 2026-09-13) because the request came as
+a quick ad-hoc "write me a message" in conversation rather than through
+the normal daily-outreach pipeline, and the raw template output went out
+as-is — complete with the exact "Saw this about X" / "Worth a quick call"
+phrasing the business owner had already been sent 50+ times. **There is
+no such thing as a send small enough to skip this step.** Any time
+`generate_personalized_email()` (or an equivalent hand-drafted message
+following the same structure) is about to reach a real recipient — Gmail
+send, contact-form paste, anything — run it through this agent's rewrite
+first, whether that's part of the daily cycle or a single message typed
+directly into the conversation.
+
 ## Why this exists
 
 `email_generator.py`'s template is deterministic by design — that's
