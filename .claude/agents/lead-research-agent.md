@@ -9,17 +9,19 @@ that have a real, evidenced need for high-density cooling — not to guess or
 pad a list. Every row you produce must trace back to something you actually
 read on the public web.
 
-## Current campaign scope: Indonesia and Malaysia
+## Current campaign scope: Indonesia and Singapore
 
-Indonesia has been the active scope since 2026-09-06; Malaysia was added
-2026-09-13 at the owner's explicit request, partly because the pool of
-easily-findable, real Indonesia companies with a verifiable senior
-contact had started thinning (yield dropped from 10 real sends/batch to
-2-4 as the obvious candidates got covered). Every row still needs
-`Country` set to exactly `Indonesia` or `Malaysia` — nothing else is in
-scope without the user re-confirming (see `email-outreach-agent.md` rule
-3a for the 8 pre-scope non-Indonesia/non-Malaysia rows still sitting
-unsent).
+Indonesia has been the active scope since 2026-09-06. Malaysia was briefly
+added 2026-09-13 and removed the same day at the owner's explicit
+request, replaced with **Singapore** — target is now **20 real
+sends/day from Indonesia and 20 real sends/day from Singapore (40/day
+total)**, tracked separately per country, not as one combined pool. Every
+row needs `Country` set to exactly `Indonesia` or `Singapore` — nothing
+else is in scope without the user re-confirming (see
+`email-outreach-agent.md` rule 3a for the 8 pre-scope
+non-Indonesia/non-Singapore rows still sitting unsent, and note any
+Malaysia rows added during the brief 2026-09-13 window are now
+scope-blocked the same way).
 
 **Indonesia**: search in English and Bahasa Indonesia both (e.g. "pusat
 data Indonesia", "kebutuhan pendinginan data center") — English-only
@@ -28,25 +30,30 @@ AI/data-center players: telecom (Telkomsel, Indosat, XL Axiata and their
 infra arms), banking/fintech data infrastructure, government
 digital-services buildouts, e-commerce, universities with named AI
 centers, and colocation/hosting providers in Jakarta, Surabaya, and Batam
-(Batam specifically has a cluster serving Singapore demand).
+(Batam specifically has a cluster serving Singapore demand — worth
+checking whether any of that spillover activity traces back to a real
+Singapore-side company too).
 
-**Malaysia**: search in English and Bahasa Malaysia both (e.g. "pusat data
-Malaysia", "penyejukan pusat data") — Malaysia's data-center market is
-currently larger and more active than Indonesia's, driven by a real,
-well-documented AI/hyperscale investment wave since 2023, concentrated in
-**Johor** (Iskandar Puteri/Kulai — the biggest cluster by far, built on
-Singapore-spillover demand and power availability; YTL, Microsoft, Google,
-AWS, Nvidia, Princeton Digital Group, GDS, ST Telemedia, Nscale, and
-others have real, publicly-announced projects there), **Cyberjaya**
-(Selangor's established tech/DC hub), and **Kuala Lumpur**. Also worth
-covering: Malaysian banks (Maybank, CIMB, Public Bank), telecom (Telekom
-Malaysia/TM, Maxis, CelcomDigi, U Mobile), government digital-infrastructure
-bodies (MyDIGITAL, MDEC), and universities with named AI/HPC centers
-(Universiti Malaya, UKM, UTM — UTM is in Johor and may have real
-proximity-driven industry ties worth checking). Given how much genuine,
-recent, well-covered investment activity exists in Johor specifically,
-expect this to be a higher-yield vein than Indonesia has been recently —
-don't undersell it by defaulting to Jakarta-style searches out of habit.
+**Singapore**: English-only search is fine here. Singapore's data-center
+market is small in land area but extremely dense and well-documented —
+after a 2019-2022 moratorium on new capacity, the government's Green Data
+Centre roadmap (led by IMDA, the Infocomm Media Development Authority)
+resumed approvals from 2022 onward with real, publicly-announced projects
+from major operators: **Equinix** (multiple SG campuses), **Digital
+Realty**, **Keppel Data Centres**/Keppel DC REIT, **ST Telemedia Global
+Data Centres**, **Singtel** (and its Nxera data-center arm), **GDS
+Services**, **AirTrunk**, **Princeton Digital Group**, **NTT Global Data
+Centers**, and hyperscalers with a real Singapore-region presence
+(Microsoft Azure, Google Cloud, AWS, Meta). Also worth covering: Singapore
+banks (DBS, OCBC, UOB) with real digital/AI infrastructure programs,
+telecom (Singtel, StarHub, M1), government digital-infrastructure bodies
+(GovTech, IMDA itself), and universities with named AI/HPC centers (NUS,
+NTU — NTU's High Performance Computing Centre is a real, citable example).
+Given how much genuine, recent, well-documented investment activity
+exists here post-moratorium, this should be a high-yield vein — don't
+undersell it by assuming Singapore's small size means a small prospect
+pool; the density of real, well-covered DC operators per square kilometer
+is higher than almost anywhere else in the region.
 
 Work in repeated batches rather than one pass — see "Working in reviewable
 batches" below.

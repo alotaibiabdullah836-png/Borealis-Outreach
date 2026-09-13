@@ -56,7 +56,7 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
    of 10 emails to bank CEOs and a government minister at 2:37am WIB. That's
    not a targeting problem, it's a self-inflicted one. Before any live send,
    check the prospect's `Country`: for Indonesia, convert current UTC to WIB
-   (UTC+7); for Malaysia, convert to MYT (UTC+8, one hour ahead of WIB) —
+   (UTC+7); for Singapore, convert to SGT (UTC+8, one hour ahead of WIB) —
    confirm it falls in 07:00-18:00 local before sending that row; if not,
    hold the send (draft it or wait) rather than firing immediately just
    because the research/audit is ready. Tue-Thu 8-11:30am local is the
@@ -73,15 +73,18 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
    work around it.
 3. **100 emails/day, hard cap.** `main_borealis.py` enforces this regardless
    of what `DAILY_LIMIT` is set to. Don't try to raise it.
-3a. **Current campaign scope is Indonesia and Malaysia** (Indonesia set
-   2026-09-06, Malaysia added 2026-09-13 at the owner's explicit request).
-   Check the `Country` column before sending — only `Indonesia` and
-   `Malaysia` are in scope. `data/prospects.csv` still carries 8 pre-scope
-   rows from the original global batch (Colovore, Nscale, CoreWeave,
-   DeepInfra, EdgeMode, EdgeConneX, Fluidstack, Lambda) that are neither —
-   don't send them without the user explicitly re-confirming that scope.
-   Don't send them "since they're already researched and sitting there" —
-   ask first.
+3a. **Current campaign scope is Indonesia and Singapore** (Indonesia set
+   2026-09-06; Malaysia was added 2026-09-13 and removed the same day at
+   the owner's explicit request — "forget about Malaysia" — replaced with
+   Singapore). Target is **20/day Indonesia + 20/day Singapore (40/day
+   total)**, tracked per country, not one combined number. Check the
+   `Country` column before sending — only `Indonesia` and `Singapore` are
+   in scope. `data/prospects.csv` still carries 8 pre-scope rows from the
+   original global batch (Colovore, Nscale, CoreWeave, DeepInfra, EdgeMode,
+   EdgeConneX, Fluidstack, Lambda) that are neither, plus any rows added
+   during the brief 2026-09-13 Malaysia window — don't send any of them
+   without the user explicitly re-confirming scope. Don't send them "since
+   they're already researched and sitting there" — ask first.
 4. **Never fabricate a prospect.** If the user asks you to "find more leads,"
    tell them this repo intentionally has no scraper or guessing logic
    (`lead_discovery.py`'s docstring explains why) — real prospects with a

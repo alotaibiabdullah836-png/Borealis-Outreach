@@ -1,6 +1,6 @@
 ---
 name: daily-outreach
-description: Runs Borealis's daily cold-outreach cycle for the Indonesia and Malaysia data-center/cooling campaign — research enough real prospects to hit the day's send target, audit every new row for fabrication risk, send personalized emails, fill the same companies' website contact forms so every emailed company also gets a form submission asking for a call, update the CRM (data/outreach.sqlite3, data/crm_database.xlsx), rebuild the dashboard, and report real numbers back to the user. Use this whenever the user asks to "run today's outreach," "send today's emails," "do the daily CRM/email run," or anything about keeping the daily send cadence going — including when a scheduled/automated trigger fires this task with no human present. Do not use it for a one-off single-prospect email (that's email-outreach-agent directly) or for replying to a prospect who already responded (that's meeting-scheduler-agent, and only the user does that).
+description: Runs Borealis's daily cold-outreach cycle for the Indonesia and Singapore data-center/cooling campaign — research enough real prospects to hit the day's send target (20 Indonesia + 20 Singapore), audit every new row for fabrication risk, send personalized emails, fill the same companies' website contact forms so every emailed company also gets a form submission asking for a call, update the CRM (data/outreach.sqlite3, data/crm_database.xlsx), rebuild the dashboard, and report real numbers back to the user. Use this whenever the user asks to "run today's outreach," "send today's emails," "do the daily CRM/email run," or anything about keeping the daily send cadence going — including when a scheduled/automated trigger fires this task with no human present. Do not use it for a one-off single-prospect email (that's email-outreach-agent directly) or for replying to a prospect who already responded (that's meeting-scheduler-agent, and only the user does that).
 ---
 
 # Daily Outreach Cycle
@@ -24,23 +24,26 @@ plausible-looking.
 Read `README_BOREALIS.md` for the system overview if you haven't already
 worked in this repo this session. Confirm current campaign scope by
 checking `.claude/agents/email-outreach-agent.md` section 3a — as of
-writing the campaign is **Indonesia and Malaysia** (Malaysia added
-2026-09-13); rows outside those two countries in `data/prospects.csv` are
-scope-blocked and need explicit user reconfirmation before anything is
-sent to them. Scope can change — always trust the agent file over this
+writing the campaign is **Indonesia and Singapore** (Malaysia was added
+and then removed the same day, 2026-09-13, replaced with Singapore at the
+owner's explicit request); rows outside those two countries in
+`data/prospects.csv` (including any Malaysia rows from that brief window)
+are scope-blocked and need explicit user reconfirmation before anything
+is sent to them. Scope can change — always trust the agent file over this
 skill if they disagree, and flag the mismatch to the user if you find one.
 
 ## The cycle
 
-### 1. Check how many real, unsent, in-scope prospects are ready
+### 1. Check how many real, unsent, in-scope prospects are ready — per country
 
 ```bash
 python3 -c "
 import csv
 with open('data/prospects.csv') as f:
     rows = list(csv.DictReader(f))
-in_scope = [r for r in rows if r.get('Country','').strip().lower() in ('indonesia', 'malaysia')]
-print('in-scope rows:', len(in_scope))
+for country in ('indonesia', 'singapore'):
+    in_scope = [r for r in rows if r.get('Country','').strip().lower() == country]
+    print(f'{country}: {len(in_scope)} rows')
 "
 ```
 
@@ -48,21 +51,25 @@ Cross-reference against the CRM (`database_manager.py`'s `DatabaseManager.list_r
 to see which of those are actually unsent — a row existing in prospects.csv
 doesn't mean it hasn't already been emailed.
 
-Target is **20 real sends/day** (raised from 10 on 2026-09-13, at the
-owner's explicit request). If fewer than 20 unsent, in-scope, audit-clean
-prospects exist, go to step 2. If 20+ already exist, skip to step 3 —
+Target is **20 real sends/day from Indonesia AND 20 real sends/day from
+Singapore (40/day total)** — set 2026-09-13 at the owner's explicit
+request, tracked as two separate per-country counts, not one combined
+pool of 40. Check each country's shortfall separately. If either country
+has fewer than 20 unsent, in-scope, audit-clean prospects, go to step 2
+for that country specifically. If both already have 20+, skip to step 3 —
 don't research more just because you can.
 
 ### 2. Research more, only if needed
 
-Invoke `lead-research-agent` (Scout) for enough new Indonesia-scope
-companies to comfortably clear the 20/day bar after audit losses — ask for
-somewhat more than the shortfall, since step 3 will reject some. Give Scout
-the list of companies already covered (query `data/prospects.csv` and
-`data/contact_form_queue.csv` for existing company names) so it doesn't
-duplicate research. This can run as a background agent while you do other
-prep, but don't proceed to step 3 for a given row until its research is
-actually in hand — don't estimate what it will find.
+Invoke `lead-research-agent` (Scout) for enough new companies in whichever
+country (or both) is short, to comfortably clear that country's 20/day bar
+after audit losses — ask for somewhat more than the shortfall, since step 3
+will reject some. Give Scout the list of companies already covered (query
+`data/prospects.csv` and `data/contact_form_queue.csv` for existing
+company names) so it doesn't duplicate research. This can run as a
+background agent while you do other prep, but don't proceed to step 3 for
+a given row until its research is actually in hand — don't estimate what
+it will find.
 
 ### 3. Audit every new row yourself — this is the step that actually matters
 
@@ -80,7 +87,7 @@ not a finished product. For every new row, check:
 - **Name attribution**: is there a real person's name attached, or is this
   a role-style/personal-name-pattern address nobody can confirm reaches a
   human (e.g. `michael@company.com` with no `Name` field filled in)?
-- **Country**: is it actually Indonesia or Malaysia, matching current scope?
+- **Country**: is it actually Indonesia or Singapore, matching current scope?
 - **CC Emails** (if present): are they real, individually-sourced contacts
   at the same company, not guessed variations on a pattern?
 
@@ -90,13 +97,14 @@ kept. This file is a paper trail, not a trash can.
 
 ### 3a. Check the clock before sending anything
 
-Convert current UTC to Jakarta time (WIB = UTC+7) and confirm it's within
-07:00-18:00 WIB before any live Gmail send — see
+Convert current UTC to the prospect's local time — WIB (UTC+7) for
+Indonesia, SGT (UTC+8) for Singapore — and confirm it's within 07:00-18:00
+local before any live Gmail send for that row — see
 `.claude/agents/email-outreach-agent.md` rule 0 for why this is a hard
 rule, not a suggestion: real data showed 58% of past sends went out
 outside business hours, including a 2am batch. The scheduled cron already
-fires at 02:00 UTC (09:00 WIB) on weekdays for this reason — this check
-matters most for on-demand runs triggered mid-conversation.
+fires at 02:00 UTC (09:00 WIB / 10:00 SGT) on weekdays for this reason —
+this check matters most for on-demand runs triggered mid-conversation.
 
 ### 3b. Humanize the wording before sending
 
@@ -113,8 +121,9 @@ template output.
 
 Use `email-outreach-agent` (Nova) or call `email_generator.py` /
 `database_manager.py` directly. Send to up to 20 audit-clean prospect
-*rows* — **fewer than 20 if fewer than 20 passed audit**, never padded to
-hit the number. Since Scout records the general company contact and each
+*rows per country* (Indonesia and Singapore tracked separately) — **fewer
+than 20 for a country if fewer than 20 passed audit for it**, never padded
+to hit the number. Since Scout records the general company contact and each
 real, named senior person as separate rows (not bundled as CC), a single
 well-covered company can legitimately account for several of the day's sends —
 that's the point, a personally-addressed email to the right person beats
