@@ -31,7 +31,7 @@ from lead_discovery import CC_SEPARATOR, normalize_email, validate_email
 
 log = logging.getLogger(__name__)
 
-PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Website", "Source", "Lawful Basis", "Country"]
+PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Website", "WhatsApp", "Source", "Lawful Basis", "Country"]
 QUEUE_STATUSES = {"pending", "filled_pending_review", "submitted", "blocked", "failed"}
 
 QUEUE_FIELDS = [
@@ -39,6 +39,7 @@ QUEUE_FIELDS = [
     "Title",
     "Company",
     "Website",
+    "WhatsApp",
     "Contact Form URL",
     "Status",
     "Notes",
@@ -112,6 +113,12 @@ def append_web_researched_prospect(
     Optional `website`: the company's real official site (e.g. "https://www.example.com"),
     for the owner's own reference and for the contact-form channel — not sent to the
     prospect. Leave blank rather than guess if it wasn't directly confirmed.
+
+    Optional `whatsapp`: a real WhatsApp Business number *explicitly published as such*
+    on the company's own site (common for SEA business contact pages) — for the owner's
+    own reference only, never sent to or messaged automatically. Never infer a WhatsApp
+    number from a regular phone number found elsewhere; leave blank unless the source
+    page itself labels it as a WhatsApp contact.
     """
 
     email = normalize_email(prospect.get("email"))
@@ -120,6 +127,7 @@ def append_web_researched_prospect(
     technology_need = (prospect.get("technology_need") or "").strip()
     cc_candidates = prospect.get("cc_emails") or []
     website = (prospect.get("website") or "").strip()
+    whatsapp = (prospect.get("whatsapp") or "").strip()
 
     if not validate_email(email):
         log.warning("Rejected web-researched prospect with invalid/placeholder email: %s", email)
@@ -152,6 +160,7 @@ def append_web_researched_prospect(
         "Email": email,
         "CC Emails": CC_SEPARATOR.join(valid_cc),
         "Website": website,
+        "WhatsApp": whatsapp,
         "Source": f"web_research: {source_note}"[:500],
         "Lawful Basis": (prospect.get("lawful_basis") or "legitimate_interest_b2b_public_contact").strip(),
         "Country": (prospect.get("country") or "").strip(),
@@ -175,6 +184,7 @@ def queue_contact_form_lead(
 
     company = (prospect.get("company") or "").strip()
     website = (prospect.get("website") or "").strip()
+    whatsapp = (prospect.get("whatsapp") or "").strip()
     contact_form_url = (prospect.get("contact_form_url") or website).strip()
     source = (prospect.get("source") or "").strip()
 
@@ -206,6 +216,7 @@ def queue_contact_form_lead(
         "Title": (prospect.get("title") or "").strip(),
         "Company": company,
         "Website": website,
+        "WhatsApp": whatsapp,
         "Contact Form URL": contact_form_url,
         "Status": "pending",
         "Notes": "",

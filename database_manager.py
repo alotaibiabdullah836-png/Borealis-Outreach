@@ -49,6 +49,7 @@ MEETING_COLUMNS = {
 # Columns added after the initial release, same ALTER-TABLE pattern as MEETING_COLUMNS.
 CONTACT_COLUMNS = {
     "website": "TEXT DEFAULT ''",
+    "whatsapp": "TEXT DEFAULT ''",
 }
 
 BLOCKING_STATUSES = {"sending", "sent", "dry_run", "bounced"}
@@ -99,7 +100,7 @@ class DatabaseManager:
         metadata = {
             k: v
             for k, v in prospect.items()
-            if k not in {"email", "name", "title", "company", "country", "source", "lawful_basis", "website"}
+            if k not in {"email", "name", "title", "company", "country", "source", "lawful_basis", "website", "whatsapp"}
         }
 
         with self._connect() as conn:
@@ -111,8 +112,8 @@ class DatabaseManager:
                 return False
             conn.execute(
                 """
-                INSERT INTO leads(email, name, title, company, country, source, lawful_basis, website, status, send_attempts, date_added, metadata_json)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'sending', 1, ?, ?)
+                INSERT INTO leads(email, name, title, company, country, source, lawful_basis, website, whatsapp, status, send_attempts, date_added, metadata_json)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'sending', 1, ?, ?)
                 ON CONFLICT(email) DO UPDATE SET
                     name=excluded.name,
                     title=excluded.title,
@@ -121,6 +122,7 @@ class DatabaseManager:
                     source=excluded.source,
                     lawful_basis=excluded.lawful_basis,
                     website=excluded.website,
+                    whatsapp=excluded.whatsapp,
                     status='sending',
                     send_attempts=leads.send_attempts + 1,
                     metadata_json=excluded.metadata_json
@@ -134,6 +136,7 @@ class DatabaseManager:
                     prospect.get("source", ""),
                     prospect.get("lawful_basis", ""),
                     prospect.get("website", ""),
+                    prospect.get("whatsapp", ""),
                     now,
                     json.dumps(metadata, sort_keys=True),
                 ),
@@ -240,6 +243,7 @@ class DatabaseManager:
             "title",
             "company",
             "website",
+            "whatsapp",
             "country",
             "source",
             "lawful_basis",

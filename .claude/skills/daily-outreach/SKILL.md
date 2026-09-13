@@ -178,8 +178,11 @@ After regenerating both files, send **both** to the user directly via
 `SendUserFile` in the same call — this is a standing part of the daily
 run now, not something to do only when asked:
 
-- `data/crm_database.xlsx` — full CRM state, now including the `Website`
-  column (each company's real homepage).
+- `data/crm_database.xlsx` — full CRM state, including the `Website`
+  column (each company's real homepage) and the `WhatsApp` column (a real
+  WhatsApp number only where the company's own site explicitly published
+  one as such — most rows will have this blank, and that's correct, not
+  a gap to fill by guessing).
 - `data/indonesia_outreach_desk.html` — the dashboard, which is what
   actually has the specific, clickable **contact-form URLs** per company
   (not just the homepage) — this is the tool for the owner to go fill in

@@ -178,6 +178,16 @@ as `website` to `append_web_researched_prospect` — this goes straight into
 the CRM for the owner's own reference, not into the outreach email. Leave
 it blank rather than guess if you can't confirm it.
 
+**Capture a WhatsApp number too, but only if the company's own site
+explicitly publishes one as a WhatsApp contact** — pass it as `whatsapp`
+to `append_web_researched_prospect` (or `queue_contact_form_lead`). This is
+genuinely common on Indonesian and Singaporean business contact/about pages
+(a "Chat via WhatsApp" link or a number explicitly labeled WhatsApp). The
+same rule as email applies: **never infer or convert a regular phone
+number into a WhatsApp number** — if the page doesn't label it as
+WhatsApp, leave the field blank. This is for the owner's own reference in
+the CRM only, never a channel this campaign messages through automatically.
+
 ## Where results go — both channels, not either/or
 
 Outreach for this campaign runs email AND a contact-form fill for the same
