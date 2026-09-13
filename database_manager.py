@@ -265,6 +265,118 @@ class DatabaseManager:
         log.info("Exported CRM report to %s", self.excel_path)
         return self.excel_path
 
+    def export_full_excel(
+        self,
+        *,
+        prospects_csv: str | Path = "data/prospects.csv",
+        queue_csv: str | Path = "data/contact_form_queue.csv",
+        verification_csv: str | Path = "data/needs_manual_verification.csv",
+        output_path: str | Path = "data/crm_database_full.xlsx",
+    ) -> Path:
+        """Export one workbook covering sent AND unsent prospects, real state only.
+
+        `export_excel` (above) stays a pure reflection of what `claim_for_sending` has
+        actually touched -- that's what main_borealis.py calls after a batch, and what
+        the existing meeting-scheduler test asserts against, so it must not change shape.
+        This method is additive: it takes those same CRM rows and merges in every
+        audited-but-not-yet-sent row still sitting in `prospects.csv` (status set to the
+        literal string "unsent", not a guess at what it will become), so the owner can see
+        the whole real pipeline -- sent and unsent -- in a single file, in one sheet.
+        Contact-form-queue and needs-manual-verification rows go in their own sheets in
+        the same workbook rather than blended into the main one, since they don't share
+        the same columns (no email) or the same meaning (verification rows were rejected,
+        not merely unsent).
+        """
+
+        import csv as _csv
+
+        sent_rows = self.list_rows()
+        combined: List[Dict[str, object]] = list(sent_rows)
+        seen_emails = {row["email"] for row in sent_rows}
+
+        prospects_path = Path(prospects_csv)
+        if prospects_path.exists() and prospects_path.stat().st_size > 0:
+            with prospects_path.open("r", newline="", encoding="utf-8-sig") as handle:
+                for row in _csv.DictReader(handle):
+                    email = normalize_email(row.get("Email"))
+                    if not email or email in seen_emails:
+                        continue
+                    seen_emails.add(email)
+                    combined.append(
+                        {
+                            "email": email,
+                            "name": (row.get("Name") or "").strip(),
+                            "title": (row.get("Title") or "").strip(),
+                            "company": (row.get("Company") or "").strip(),
+                            "website": (row.get("Website") or "").strip(),
+                            "whatsapp": (row.get("WhatsApp") or "").strip(),
+                            "country": (row.get("Country") or "").strip(),
+                            "source": (row.get("Source") or "").strip(),
+                            "lawful_basis": (row.get("Lawful Basis") or "").strip(),
+                            "status": "unsent",
+                            "send_attempts": 0,
+                            "message_id": "",
+                            "last_error": "",
+                            "date_added": "",
+                            "date_contacted": "",
+                            "meeting_status": "none",
+                            "meeting_time": "",
+                            "proposed_slots_json": "[]",
+                            "meeting_notes": "",
+                            "meeting_updated": "",
+                        }
+                    )
+
+        columns = [
+            "email",
+            "name",
+            "title",
+            "company",
+            "website",
+            "whatsapp",
+            "country",
+            "source",
+            "lawful_basis",
+            "status",
+            "send_attempts",
+            "message_id",
+            "last_error",
+            "date_added",
+            "date_contacted",
+            "meeting_status",
+            "meeting_time",
+            "proposed_slots_json",
+            "meeting_notes",
+            "meeting_updated",
+        ]
+        all_prospects_df = pd.DataFrame(combined, columns=columns)
+
+        output_path = Path(output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
+            all_prospects_df.to_excel(writer, sheet_name="All Prospects", index=False)
+
+            queue_path = Path(queue_csv)
+            if queue_path.exists() and queue_path.stat().st_size > 0:
+                with queue_path.open("r", newline="", encoding="utf-8-sig") as handle:
+                    queue_rows = list(_csv.DictReader(handle))
+                if queue_rows:
+                    pd.DataFrame(queue_rows).to_excel(writer, sheet_name="Contact Form Queue", index=False)
+
+            verification_path = Path(verification_csv)
+            if verification_path.exists() and verification_path.stat().st_size > 0:
+                with verification_path.open("r", newline="", encoding="utf-8-sig") as handle:
+                    verification_rows = list(_csv.DictReader(handle))
+                if verification_rows:
+                    pd.DataFrame(verification_rows).to_excel(writer, sheet_name="Needs Manual Verification", index=False)
+
+        log.info(
+            "Exported full CRM (sent + unsent) to %s: %d total prospect rows",
+            output_path,
+            len(combined),
+        )
+        return output_path
+
 
 # Backward-compatible helper.
 def add_lead(prospect: Dict[str, str]) -> None:
