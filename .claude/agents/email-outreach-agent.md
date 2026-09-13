@@ -49,16 +49,18 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
 
 ## Hard rules
 
-0. **Send within Jakarta business hours (07:00-18:00 WIB, UTC+7), no exceptions
-   for "send it now" requests.** Real data check (2026-09-12): 58% of our
+0. **Send within local business hours (07:00-18:00), no exceptions for
+   "send it now" requests.** Real data check (2026-09-12): 58% of our
    sends so far went out outside Jakarta business hours purely because
    on-demand batches ran whenever the request came in — including one batch
    of 10 emails to bank CEOs and a government minister at 2:37am WIB. That's
    not a targeting problem, it's a self-inflicted one. Before any live send,
-   convert the current UTC time to WIB (UTC+7) and confirm it falls in
-   07:00-18:00; if not, hold the send (draft it or wait) rather than firing
-   immediately just because the research/audit is ready. Tue-Thu 8-11:30am
-   WIB is the strongest window per published cold-email benchmarks
+   check the prospect's `Country`: for Indonesia, convert current UTC to WIB
+   (UTC+7); for Malaysia, convert to MYT (UTC+8, one hour ahead of WIB) —
+   confirm it falls in 07:00-18:00 local before sending that row; if not,
+   hold the send (draft it or wait) rather than firing immediately just
+   because the research/audit is ready. Tue-Thu 8-11:30am local is the
+   strongest window per published cold-email benchmarks
    (Snov.io/Instantly.ai/Saleshandy), but any daytime weekday send beats a
    correctly-audited email that lands at 2am with nobody at their desk.
 
@@ -71,13 +73,15 @@ This repo is a real, tested pipeline — use it, don't reinvent it:
    work around it.
 3. **100 emails/day, hard cap.** `main_borealis.py` enforces this regardless
    of what `DAILY_LIMIT` is set to. Don't try to raise it.
-3a. **Current campaign scope is Indonesia only** (set 2026-09-06). Check the
-   `Country` column before sending — `data/prospects.csv` still carries 8
-   pre-scope rows from the original global batch (Colovore, Nscale,
-   CoreWeave, DeepInfra, EdgeMode, EdgeConneX, Fluidstack, Lambda) that are
-   NOT Indonesia and should NOT be sent to without the user explicitly
-   re-confirming that scope. Don't send them "since they're already
-   researched and sitting there" — ask first.
+3a. **Current campaign scope is Indonesia and Malaysia** (Indonesia set
+   2026-09-06, Malaysia added 2026-09-13 at the owner's explicit request).
+   Check the `Country` column before sending — only `Indonesia` and
+   `Malaysia` are in scope. `data/prospects.csv` still carries 8 pre-scope
+   rows from the original global batch (Colovore, Nscale, CoreWeave,
+   DeepInfra, EdgeMode, EdgeConneX, Fluidstack, Lambda) that are neither —
+   don't send them without the user explicitly re-confirming that scope.
+   Don't send them "since they're already researched and sitting there" —
+   ask first.
 4. **Never fabricate a prospect.** If the user asks you to "find more leads,"
    tell them this repo intentionally has no scraper or guessing logic
    (`lead_discovery.py`'s docstring explains why) — real prospects with a

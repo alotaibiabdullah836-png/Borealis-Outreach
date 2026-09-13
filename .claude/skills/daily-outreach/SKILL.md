@@ -1,6 +1,6 @@
 ---
 name: daily-outreach
-description: Runs Borealis's daily cold-outreach cycle for the Indonesia data-center/cooling campaign — research enough real prospects to hit the day's send target, audit every new row for fabrication risk, send personalized emails, fill the same companies' website contact forms so every emailed company also gets a form submission asking for a call, update the CRM (data/outreach.sqlite3, data/crm_database.xlsx), rebuild the dashboard, and report real numbers back to the user. Use this whenever the user asks to "run today's outreach," "send today's emails," "do the daily CRM/email run," or anything about keeping the daily send cadence going — including when a scheduled/automated trigger fires this task with no human present. Do not use it for a one-off single-prospect email (that's email-outreach-agent directly) or for replying to a prospect who already responded (that's meeting-scheduler-agent, and only the user does that).
+description: Runs Borealis's daily cold-outreach cycle for the Indonesia and Malaysia data-center/cooling campaign — research enough real prospects to hit the day's send target, audit every new row for fabrication risk, send personalized emails, fill the same companies' website contact forms so every emailed company also gets a form submission asking for a call, update the CRM (data/outreach.sqlite3, data/crm_database.xlsx), rebuild the dashboard, and report real numbers back to the user. Use this whenever the user asks to "run today's outreach," "send today's emails," "do the daily CRM/email run," or anything about keeping the daily send cadence going — including when a scheduled/automated trigger fires this task with no human present. Do not use it for a one-off single-prospect email (that's email-outreach-agent directly) or for replying to a prospect who already responded (that's meeting-scheduler-agent, and only the user does that).
 ---
 
 # Daily Outreach Cycle
@@ -24,11 +24,11 @@ plausible-looking.
 Read `README_BOREALIS.md` for the system overview if you haven't already
 worked in this repo this session. Confirm current campaign scope by
 checking `.claude/agents/email-outreach-agent.md` section 3a — as of
-writing the campaign is **Indonesia only**; non-Indonesia rows in
-`data/prospects.csv` are scope-blocked and need explicit user
-reconfirmation before anything is sent to them. Scope can change — always
-trust the agent file over this skill if they disagree, and flag the
-mismatch to the user if you find one.
+writing the campaign is **Indonesia and Malaysia** (Malaysia added
+2026-09-13); rows outside those two countries in `data/prospects.csv` are
+scope-blocked and need explicit user reconfirmation before anything is
+sent to them. Scope can change — always trust the agent file over this
+skill if they disagree, and flag the mismatch to the user if you find one.
 
 ## The cycle
 
@@ -39,8 +39,8 @@ python3 -c "
 import csv
 with open('data/prospects.csv') as f:
     rows = list(csv.DictReader(f))
-indo = [r for r in rows if r.get('Country','').strip().lower()=='indonesia']
-print('indonesia rows:', len(indo))
+in_scope = [r for r in rows if r.get('Country','').strip().lower() in ('indonesia', 'malaysia')]
+print('in-scope rows:', len(in_scope))
 "
 ```
 
@@ -80,7 +80,7 @@ not a finished product. For every new row, check:
 - **Name attribution**: is there a real person's name attached, or is this
   a role-style/personal-name-pattern address nobody can confirm reaches a
   human (e.g. `michael@company.com` with no `Name` field filled in)?
-- **Country**: is it actually Indonesia, matching current scope?
+- **Country**: is it actually Indonesia or Malaysia, matching current scope?
 - **CC Emails** (if present): are they real, individually-sourced contacts
   at the same company, not guessed variations on a pattern?
 

@@ -9,18 +9,47 @@ that have a real, evidenced need for high-density cooling — not to guess or
 pad a list. Every row you produce must trace back to something you actually
 read on the public web.
 
-## Current campaign scope: Indonesia, 10 days
+## Current campaign scope: Indonesia and Malaysia
 
-The active campaign targets companies operating in Indonesia. Search in
-English and Bahasa Indonesia both (e.g. "pusat data Indonesia", "kebutuhan
-pendinginan data center") — English-only search will miss local coverage.
-Sectors worth covering beyond generic AI/data-center players: Indonesian
-telecom (Telkomsel, Indosat, XL Axiata and their infra arms), banking/fintech
-data infrastructure, government digital-services buildouts, e-commerce
-(Tokopedia, Bukalapak-scale and smaller), and colocation/hosting providers in
-Jakarta, Surabaya, and Batam (Batam specifically has a cluster of data
-centers serving Singapore demand). Work in repeated batches across the 10
-days rather than one pass — see "Working in reviewable batches" below.
+Indonesia has been the active scope since 2026-09-06; Malaysia was added
+2026-09-13 at the owner's explicit request, partly because the pool of
+easily-findable, real Indonesia companies with a verifiable senior
+contact had started thinning (yield dropped from 10 real sends/batch to
+2-4 as the obvious candidates got covered). Every row still needs
+`Country` set to exactly `Indonesia` or `Malaysia` — nothing else is in
+scope without the user re-confirming (see `email-outreach-agent.md` rule
+3a for the 8 pre-scope non-Indonesia/non-Malaysia rows still sitting
+unsent).
+
+**Indonesia**: search in English and Bahasa Indonesia both (e.g. "pusat
+data Indonesia", "kebutuhan pendinginan data center") — English-only
+search will miss local coverage. Sectors worth covering beyond generic
+AI/data-center players: telecom (Telkomsel, Indosat, XL Axiata and their
+infra arms), banking/fintech data infrastructure, government
+digital-services buildouts, e-commerce, universities with named AI
+centers, and colocation/hosting providers in Jakarta, Surabaya, and Batam
+(Batam specifically has a cluster serving Singapore demand).
+
+**Malaysia**: search in English and Bahasa Malaysia both (e.g. "pusat data
+Malaysia", "penyejukan pusat data") — Malaysia's data-center market is
+currently larger and more active than Indonesia's, driven by a real,
+well-documented AI/hyperscale investment wave since 2023, concentrated in
+**Johor** (Iskandar Puteri/Kulai — the biggest cluster by far, built on
+Singapore-spillover demand and power availability; YTL, Microsoft, Google,
+AWS, Nvidia, Princeton Digital Group, GDS, ST Telemedia, Nscale, and
+others have real, publicly-announced projects there), **Cyberjaya**
+(Selangor's established tech/DC hub), and **Kuala Lumpur**. Also worth
+covering: Malaysian banks (Maybank, CIMB, Public Bank), telecom (Telekom
+Malaysia/TM, Maxis, CelcomDigi, U Mobile), government digital-infrastructure
+bodies (MyDIGITAL, MDEC), and universities with named AI/HPC centers
+(Universiti Malaya, UKM, UTM — UTM is in Johor and may have real
+proximity-driven industry ties worth checking). Given how much genuine,
+recent, well-covered investment activity exists in Johor specifically,
+expect this to be a higher-yield vein than Indonesia has been recently —
+don't undersell it by defaulting to Jakarta-style searches out of habit.
+
+Work in repeated batches rather than one pass — see "Working in reviewable
+batches" below.
 
 ## What "needs Borealis" looks like
 
