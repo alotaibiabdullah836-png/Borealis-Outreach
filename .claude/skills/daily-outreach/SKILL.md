@@ -174,15 +174,22 @@ out for it this run or a prior one.
 
 ### 6a. Send the user the CRM file AND the dashboard, every day, no exceptions
 
-After regenerating both files, send **both** to the user directly via
+After regenerating both files, also call `DatabaseManager().export_full_excel()`
+(added 2026-09-13 at the owner's explicit request for sent and unsent
+merged into one file) and send **all three** to the user directly via
 `SendUserFile` in the same call — this is a standing part of the daily
 run now, not something to do only when asked:
 
-- `data/crm_database.xlsx` — full CRM state, including the `Website`
-  column (each company's real homepage) and the `WhatsApp` column (a real
-  WhatsApp number only where the company's own site explicitly published
-  one as such — most rows will have this blank, and that's correct, not
-  a gap to fill by guessing).
+- `data/crm_database.xlsx` — CRM state for what's actually been sent,
+  including the `Website` column (each company's real homepage) and the
+  `WhatsApp` column (a real WhatsApp number only where the company's own
+  site explicitly published one as such — most rows will have this
+  blank, and that's correct, not a gap to fill by guessing).
+- `data/crm_database_full.xlsx` — the same data plus every audited but
+  still-unsent prospect, all in one "All Prospects" sheet (status
+  `unsent`), with the contact-form queue and needs-manual-verification
+  rows as their own sheets in the same workbook. This is the "everything,
+  sent or not, in one file" view.
 - `data/indonesia_outreach_desk.html` — the dashboard, which is what
   actually has the specific, clickable **contact-form URLs** per company
   (not just the homepage) — this is the tool for the owner to go fill in
