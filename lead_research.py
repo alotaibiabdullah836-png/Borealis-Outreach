@@ -31,7 +31,7 @@ from lead_discovery import CC_SEPARATOR, normalize_email, validate_email
 
 log = logging.getLogger(__name__)
 
-PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Website", "WhatsApp", "Source", "Lawful Basis", "Country"]
+PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Website", "WhatsApp", "Phone", "Source", "Lawful Basis", "Country"]
 QUEUE_STATUSES = {"pending", "filled_pending_review", "submitted", "blocked", "failed"}
 
 QUEUE_FIELDS = [
@@ -40,6 +40,7 @@ QUEUE_FIELDS = [
     "Company",
     "Website",
     "WhatsApp",
+    "Phone",
     "Contact Form URL",
     "Status",
     "Notes",
@@ -119,6 +120,11 @@ def append_web_researched_prospect(
     own reference only, never sent to or messaged automatically. Never infer a WhatsApp
     number from a regular phone number found elsewhere; leave blank unless the source
     page itself labels it as a WhatsApp contact.
+
+    Optional `phone`: a real general/business phone number published on the company's own
+    contact page — for the owner's own reference only, never dialed automatically. Same
+    never-guess rule as email/website/whatsapp: leave blank rather than infer or construct
+    one.
     """
 
     email = normalize_email(prospect.get("email"))
@@ -128,6 +134,7 @@ def append_web_researched_prospect(
     cc_candidates = prospect.get("cc_emails") or []
     website = (prospect.get("website") or "").strip()
     whatsapp = (prospect.get("whatsapp") or "").strip()
+    phone = (prospect.get("phone") or "").strip()
 
     if not validate_email(email):
         log.warning("Rejected web-researched prospect with invalid/placeholder email: %s", email)
@@ -161,6 +168,7 @@ def append_web_researched_prospect(
         "CC Emails": CC_SEPARATOR.join(valid_cc),
         "Website": website,
         "WhatsApp": whatsapp,
+        "Phone": phone,
         "Source": f"web_research: {source_note}"[:500],
         "Lawful Basis": (prospect.get("lawful_basis") or "legitimate_interest_b2b_public_contact").strip(),
         "Country": (prospect.get("country") or "").strip(),
@@ -185,6 +193,7 @@ def queue_contact_form_lead(
     company = (prospect.get("company") or "").strip()
     website = (prospect.get("website") or "").strip()
     whatsapp = (prospect.get("whatsapp") or "").strip()
+    phone = (prospect.get("phone") or "").strip()
     contact_form_url = (prospect.get("contact_form_url") or website).strip()
     source = (prospect.get("source") or "").strip()
 
@@ -217,6 +226,7 @@ def queue_contact_form_lead(
         "Company": company,
         "Website": website,
         "WhatsApp": whatsapp,
+        "Phone": phone,
         "Contact Form URL": contact_form_url,
         "Status": "pending",
         "Notes": "",

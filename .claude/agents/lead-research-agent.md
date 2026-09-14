@@ -188,6 +188,14 @@ number into a WhatsApp number** — if the page doesn't label it as
 WhatsApp, leave the field blank. This is for the owner's own reference in
 the CRM only, never a channel this campaign messages through automatically.
 
+**Capture a general phone number the same way** — pass it as `phone` when
+the company's own contact/about page publishes a business phone number
+(landline or mobile, not specifically labeled WhatsApp). Same rule: real
+and published only, never guessed or pattern-generated, leave blank if
+you don't find one. `website`, `whatsapp`, and `phone` are three separate,
+independent fields — a company may have any combination of them published,
+and it's normal for one or two to stay blank.
+
 ## Where results go — both channels, not either/or
 
 Outreach for this campaign runs email AND a contact-form fill for the same

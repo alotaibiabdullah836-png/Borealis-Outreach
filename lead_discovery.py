@@ -47,6 +47,8 @@ FIELD_ALIASES = {
     "cc": "cc_emails",
     "website": "website",
     "whatsapp": "whatsapp",
+    "phone": "phone",
+    "phone number": "phone",
 }
 
 CC_SEPARATOR = ";"
@@ -110,6 +112,7 @@ def _canonicalize_row(row: Dict[str, str]) -> Dict[str, str]:
         "cc_emails": "",
         "website": "",
         "whatsapp": "",
+        "phone": "",
     }
     for key, value in row.items():
         alias = FIELD_ALIASES.get((key or "").strip().lower())

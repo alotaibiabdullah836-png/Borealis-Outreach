@@ -181,10 +181,10 @@ merged into one file) and send **all three** to the user directly via
 run now, not something to do only when asked:
 
 - `data/crm_database.xlsx` — CRM state for what's actually been sent,
-  including the `Website` column (each company's real homepage) and the
-  `WhatsApp` column (a real WhatsApp number only where the company's own
-  site explicitly published one as such — most rows will have this
-  blank, and that's correct, not a gap to fill by guessing).
+  including `Website`, `WhatsApp` (only where the company's own site
+  explicitly published one as such), and `Phone` (a real published
+  business number) — most rows will have WhatsApp/Phone blank, and
+  that's correct, not a gap to fill by guessing.
 - `data/crm_database_full.xlsx` — the same data plus every audited but
   still-unsent prospect, all in one "All Prospects" sheet (status
   `unsent`), with the contact-form queue and needs-manual-verification
