@@ -1,6 +1,22 @@
 import csv
 
+import pytest
+
+import lead_research
 from lead_research import append_web_researched_prospect, mark_queue_status, queue_contact_form_lead
+
+
+@pytest.fixture(autouse=True)
+def _fake_domain_always_resolves(monkeypatch):
+    """Fixtures use .example.io addresses that don't resolve on the real internet.
+
+    The domain-resolution gate (added 2026-09-15) needs a real DNS lookup in
+    production, but tests shouldn't depend on live network access or on
+    example.io happening to exist -- so stub it to always pass here, except in
+    the dedicated test below that exercises the rejection path itself.
+    """
+
+    monkeypatch.setattr(lead_research, "domain_resolves", lambda value: True)
 
 
 GOOD_PROSPECT = {
@@ -44,6 +60,20 @@ def test_append_web_researched_prospect_requires_source(tmp_path):
     csv_path = tmp_path / "prospects.csv"
     bad = dict(GOOD_PROSPECT, source="")
     assert append_web_researched_prospect(bad, prospects_csv=csv_path) is False
+
+
+def test_append_web_researched_prospect_rejects_non_resolving_domain(tmp_path, monkeypatch):
+    """A domain that fails real DNS resolution is rejected outright, not flagged for review.
+
+    Regression test for a real hard bounce (Angkasa Pura Sarana Digital,
+    apsdigital.co.id, 2026-09-15) whose email passed the format/placeholder
+    check but pointed at a domain with no DNS record at all.
+    """
+
+    monkeypatch.setattr(lead_research, "domain_resolves", lambda value: False)
+    csv_path = tmp_path / "prospects.csv"
+    assert append_web_researched_prospect(GOOD_PROSPECT, prospects_csv=csv_path) is False
+    assert not csv_path.exists()
 
 
 def test_append_web_researched_prospect_deduplicates(tmp_path):

@@ -14,7 +14,51 @@ import re
 from pathlib import Path
 from typing import Dict, List
 
+import dns.resolver
+
 log = logging.getLogger(__name__)
+
+
+def domain_resolves(domain_or_email: str, *, timeout: float = 3.0) -> bool:
+    """Check whether a domain can actually receive mail, independent of any HTTP/HTTPS block.
+
+    Added 2026-09-15 after a real hard bounce (Angkasa Pura Sarana Digital,
+    apsdigital.co.id) reached a domain that turns out not to exist in DNS at
+    all -- something the domain-match audit couldn't catch while this
+    session's egress policy blocks WebFetch, because comparing two domain
+    strings in search-result text says nothing about whether either one
+    actually exists. Plain DNS lookup is a different code path than the
+    blocked HTTPS CONNECT tunnel and keeps working regardless, so it's a
+    cheap, real check worth running on every new prospect before it's
+    trusted.
+
+    Checks MX first, falling back to A/AAAA per RFC 5321 (a domain with no MX
+    record still accepts mail at its address record if one exists). This
+    fallback matters in practice: the first version of this check used only
+    `socket.gethostbyname` (A-record only) and would have wrongly rejected
+    cmi.chinamobile.com, a real prospect already sent to and not bounced --
+    it has valid MX records (mx*.feishu.cn) but no website A record. A
+    domain is only treated as dead if *both* lookups come back NXDOMAIN/
+    no-answer.
+    """
+
+    value = (domain_or_email or "").strip()
+    if "@" in value:
+        value = value.rsplit("@", 1)[-1]
+    if not value:
+        return False
+
+    resolver = dns.resolver.Resolver()
+    resolver.lifetime = timeout
+    for record_type in ("MX", "A", "AAAA"):
+        try:
+            resolver.resolve(value, record_type)
+            return True
+        except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN):
+            continue
+        except Exception:  # timeouts, no nameservers, etc. -- don't treat as confirmed-dead
+            return True
+    return False
 
 EMAIL_RE = re.compile(r"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$", re.IGNORECASE)
 BLOCKED_DOMAINS = {

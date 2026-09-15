@@ -27,7 +27,7 @@ import logging
 from pathlib import Path
 from typing import Dict, Sequence
 
-from lead_discovery import CC_SEPARATOR, normalize_email, validate_email
+from lead_discovery import CC_SEPARATOR, domain_resolves, normalize_email, validate_email
 
 log = logging.getLogger(__name__)
 
@@ -138,6 +138,9 @@ def append_web_researched_prospect(
 
     if not validate_email(email):
         log.warning("Rejected web-researched prospect with invalid/placeholder email: %s", email)
+        return False
+    if not domain_resolves(email):
+        log.warning("Rejected web-researched prospect with a non-resolving email domain: %s", email)
         return False
     if not company:
         log.warning("Rejected web-researched prospect with no company: %s", email)

@@ -99,6 +99,20 @@ agency's domain, etc.) is not confirmed — route it to
 `queue_contact_form_lead` instead, or drop it, rather than treating it as
 verified.
 
+**Note (added 2026-09-15): `append_web_researched_prospect` now rejects a
+domain automatically if it has no real DNS record (checked via MX, falling
+back to A/AAAA)** — this is a real technical gate, not just a review step,
+and it will silently return `False` for a row like that even if everything
+else about it looked right. This exists because this session's egress
+policy blocking WebFetch means you often can't fetch a page to confirm a
+domain even loads, and a plausible-looking domain string in a search
+snippet isn't proof it exists (real case: Angkasa Pura Sarana Digital's
+`apsdigital.co.id` looked fine in text but had zero DNS records and hard
+bounced). If a row you're confident in gets silently rejected, check
+whether the domain actually resolves before assuming a bug — it may be a
+real dead domain you should route to `needs_manual_verification.csv`
+territory instead, or drop, rather than re-attempt.
+
 ## Finding the right person — never guess, and don't settle for the sales inbox
 
 A generic `sales@` or `info@` address is a fallback, not the goal. Those
