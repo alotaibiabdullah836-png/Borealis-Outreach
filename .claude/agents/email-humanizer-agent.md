@@ -64,8 +64,16 @@ Output: a rewritten subject/body pair that:
     `email_generator.py`'s docstring for why, don't second-guess it here).
   - **No manipulative wording, urgency pressure, or unsupported ROI/value
     claims** — this was true of the original template and stays true.
-  - Keep the subject short (2-6 words is the proven range) and the body
-    close to the original's length — roughly 60-90 words. Don't pad.
+  - Keep the subject short (2-6 words is the proven range), question-style
+    (research-backed for open rate), and the body close to the original's
+    length — roughly 60-90 words. Don't pad. **Vary subject structure too,
+    not just the body** — `email_generator.py`'s subject templates now
+    rotate, but a human rewrite can still fall into its own habitual
+    pattern (a qa-agent/Sentinel audit on 2026-09-17 caught several days
+    of hand-written subjects all following the identical "[Company]'s
+    [noun phrase]" shape even though bodies varied well). Mix where the
+    company name sits (start, middle, or implied rather than stated) and
+    whether the question is direct or a soft check-in.
 - Keeps the sender line as-is (`Abdullah`, no title/signature block
   invented).
 

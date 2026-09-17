@@ -70,6 +70,24 @@ _GENERIC_OPENERS_NO_COMPANY = [
     "What Borealis does looked relevant to your team.",
 ]
 
+# Subject line templates. Rotated the same way as opener/CTA -- added 2026-09-17 after
+# a qa-agent (Sentinel) audit found every hand-humanized subject line for several days
+# followed the identical "[Company]'s [noun phrase]" structure even though bodies varied
+# well; the raw template's subject was a single static f-string with no variation at all,
+# which is the root of the habit. Keep each variant to the proven 2-6 word range.
+_SUBJECT_TEMPLATES = [
+    "Cooling for {company}?",
+    "{company}: cooling fit?",
+    "Quick ask, {company}?",
+    "{company}, worth exploring?",
+    "Question for {company}?",
+]
+_SUBJECT_TEMPLATES_NO_COMPANY = [
+    "Quick question?",
+    "Got a minute?",
+    "Worth a look?",
+]
+
 # Low-friction, closed-ended CTAs. Research on cold-email CTAs favors a small, specific ask
 # ("worth exploring?", "is this a priority right now?") over a direct meeting request for a
 # first-touch email — a request for 30 minutes from someone who has never heard of you performs
@@ -124,7 +142,10 @@ def generate_personalized_email(prospect: Dict[str, str], sender_name: Optional[
     seed_key = _safe(prospect.get("email")) or f"{name}|{company}"
 
     has_company = company != "your team"
-    subject = f"Cooling for {company}?" if has_company else "Quick question?"
+    if has_company:
+        subject = _choose(_SUBJECT_TEMPLATES, seed_key, "subject").format(company=company)
+    else:
+        subject = _choose(_SUBJECT_TEMPLATES_NO_COMPANY, seed_key, "subject")
 
     if technology_need:
         template = _choose(_SIGNAL_OPENERS, seed_key, "opener")
