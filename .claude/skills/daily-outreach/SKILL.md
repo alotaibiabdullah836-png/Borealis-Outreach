@@ -241,6 +241,15 @@ Tell the user, in plain terms:
   the 2% ceiling and the business-hours compliance rate for recent sends.
   Fold its findings into today's report; if the bounce rate is at or over
   2%, say so explicitly rather than only reporting today's send count.
+- **System health**: run `qa-agent`'s (Sentinel's) daily check as part of
+  every cycle (not only when asked) — it runs the test suite and fixes any
+  real code bug it finds, checks `data/prospects.csv`/the CRM for
+  integrity gaps (blank fields, duplicate emails, stale CSV headers), and
+  spot-checks whether today's sends actually got humanized or went out as
+  raw, identical-shaped template text. Fold its findings into today's
+  report — a code bug it fixed, a data-integrity gap it found, or a
+  humanization skip it caught are all real news the owner needs, not
+  background noise to summarize away.
 
 Getting a reply and booking an actual call is the owner's job, not this
 skill's — the email and form copy both already ask for a call
