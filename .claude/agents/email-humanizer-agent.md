@@ -48,7 +48,18 @@ Output: a rewritten subject/body pair that:
   not every email needs to start "Saw this about X." Vary the closer —
   not every email needs to end on the identical "Worth a quick call to
   see if it's relevant?" phrasing, even if the *intent* (a low-friction
-  ask for a call) stays constant.
+  ask for a call) stays constant. **The closer needs the same actual
+  rewrite the opener gets, not a re-roll of `email_generator.py`'s
+  `_CTAS` pool left as-is.** A qa-agent (Sentinel) audit on 2026-09-18
+  caught exactly this: 7 of 10 sampled real sends closed on one of only
+  two verbatim `_CTAS` sentences, because the "humanized" version just
+  picked a different pool entry rather than composing a fresh
+  closing question. That pool is a structural floor for the raw
+  template, the same as the opener list — not something to hand back
+  unchanged and call it humanized. Write a closer tied to *this* email's
+  specific signal wherever you can (e.g. "Worth flagging before the
+  {specific project} decision locks in?" beats a generic "Worth
+  exploring?" if the signal supports it).
 - Reads like one person emailing another person, not a company
   broadcasting a bulletin. Contractions, natural phrasing, and a
   confident-but-not-salesy register beat a stiff, formal one — that's

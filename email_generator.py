@@ -92,12 +92,32 @@ _SUBJECT_TEMPLATES_NO_COMPANY = [
 # ("worth exploring?", "is this a priority right now?") over a direct meeting request for a
 # first-touch email — a request for 30 minutes from someone who has never heard of you performs
 # worse than a one-word-answer question. Rotated the same way as the opener, per email address.
+#
+# WHY THIS LIST IS LONGER THAN IT LOOKS LIKE IT NEEDS TO BE (expanded 2026-09-18): a qa-agent
+# (Sentinel) audit found that in practice, hand-humanized sends were picking a closer straight
+# from this pool and leaving it there rather than composing a fresh one -- 7 of 10 sampled real
+# sends shared one of only two of these five sentences, verbatim. That's the exact "ten emails
+# sharing an identical closing sentence" failure email-humanizer-agent.md warns against, except
+# it wasn't even reworded first. A short list makes that failure mode easy to fall into by
+# habit; a longer one raises the floor, same reasoning as _SIGNAL_OPENERS and
+# _SUBJECT_TEMPLATES. It is still only a floor: humanizing a batch should compose a genuinely
+# specific closing question tied to that email's own signal wherever possible, not just accept
+# whichever line this pool hands back.
 _CTAS = [
     "Worth a quick call to see if it's relevant?",
     "Worth exploring?",
     "Is this on your radar right now?",
     "Worth a look on your side?",
     "Does this line up with where things are headed?",
+    "Worth a conversation?",
+    "Is this something you're already tracking?",
+    "Open to a quick look at this?",
+    "Does this match where you're headed?",
+    "Worth flagging internally?",
+    "Is timing right for a quick chat on this?",
+    "Would it help to compare notes on this?",
+    "Is this on your team's radar yet?",
+    "Worth a closer look?",
 ]
 
 

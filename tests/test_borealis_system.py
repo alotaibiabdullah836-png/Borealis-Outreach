@@ -73,10 +73,17 @@ def test_email_body_is_short():
 
 
 def test_email_ends_with_single_low_friction_question_cta():
+    from email_generator import _CTAS
+
     prospect = {"name": "Ada Lovelace", "company": "Analytical Cooling", "email": "ada@analyticalcooling.com"}
     generated = generate_personalized_email(prospect)
     body = generated["body"]
-    assert "worth a quick call" in body.lower()
+    # The CTA line is one of the approved low-friction pool entries, not a specific hard-coded
+    # phrase -- asserting one exact string here is what let a real bug (email-humanizer-agent
+    # picking a different phrase from the tiny original 5-item pool without ever composing a
+    # fresh one) go unnoticed; _CTAS was expanded 2026-09-18 specifically to fix that, so this
+    # test now checks the actual contract (a real pool entry) instead of one frozen outcome.
+    assert any(cta in body for cta in _CTAS)
     # Exactly one question mark in the whole email: a single sales CTA, not several asks stacked up.
     assert body.count("?") == 1
 
