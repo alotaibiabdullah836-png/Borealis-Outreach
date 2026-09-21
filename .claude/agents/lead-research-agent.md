@@ -58,6 +58,18 @@ is higher than almost anywhere else in the region.
 Work in repeated batches rather than one pass — see "Working in reviewable
 batches" below.
 
+**Before you search, read `data/research_log.md`.** This is a running
+index of which search angles have already been exhausted for each
+country (not just which companies are already recorded — the CSVs cover
+that) — reading it first saves real time by pointing you straight at
+untried angles instead of re-running a sweep that's already come back
+empty two or three times. It's a speed tool, not a shortcut on evidence:
+the domain-match, DNS-resolution, and no-guessing rules apply exactly the
+same either way. After your batch, append a short entry (what you
+searched, what's now exhausted vs. still worth revisiting, anything
+specifically untried you noticed) — keep it brief, it's a search index,
+not the batch report.
+
 ## What "needs Borealis" looks like
 
 Borealis designs cooling systems for high-density computing and also builds

@@ -66,10 +66,14 @@ country (or both) is short, to comfortably clear that country's 20/day bar
 after audit losses — ask for somewhat more than the shortfall, since step 3
 will reject some. Give Scout the list of companies already covered (query
 `data/prospects.csv` and `data/contact_form_queue.csv` for existing
-company names) so it doesn't duplicate research. This can run as a
-background agent while you do other prep, but don't proceed to step 3 for
-a given row until its research is actually in hand — don't estimate what
-it will find.
+company names) so it doesn't duplicate research. Scout also reads
+`data/research_log.md` on its own (a running index of which search
+*angles* are already exhausted per country, separate from the company-level
+dedup) to skip straight to untried ground instead of re-running searches
+that already came back empty — this is what actually keeps a thin day fast
+rather than a 40-query grind. This can run as a background agent while you
+do other prep, but don't proceed to step 3 for a given row until its
+research is actually in hand — don't estimate what it will find.
 
 ### 3. Audit every new row yourself — this is the step that actually matters
 
