@@ -88,6 +88,50 @@ Output: a rewritten subject/body pair that:
 - Keeps the sender line as-is (`Abdullah`, no title/signature block
   invented).
 
+## The specific technique that actually breaks repetition
+
+Added 2026-09-18 after a Sentinel audit found 8 of 10 sampled openers,
+despite being genuinely reworded with real specifics, all collapsing into
+the same sentence skeleton: "[specific detail clause], is/puts {company}
+in a state where cooling {X}."
+
+Real, different words in the same grammatical shape still reads as
+machine-written — this is a documented, named phenomenon ("burstiness":
+human writing varies sentence length and structure sentence-to-sentence;
+LLM output defaults to a narrow band of similar-length, similarly-built
+sentences, sometimes called the "parallel-clause habit"). Wording variety
+alone doesn't fix it; the *shape* has to vary too. Concretely, per each
+email, deliberately pick a different one of these forms rather than
+defaulting to the same one every time:
+
+- **Lead with the fact, one short sentence.** ("Broke ground on a new
+  Batam facility this month.") Then a second, separate sentence for the
+  implication, if needed — don't fuse them into one long clause.
+- **Lead with a question, not a statement.** ("Is the new Batam build
+  already speccing cooling?") — riskier, use sparingly, only when the
+  signal genuinely supports a direct question.
+- **Lead with the implication, name the fact second.** ("Thermal load at
+  that density usually outruns whatever cooling was speced at groundbreaking
+  — which is exactly the stage {company}'s Batam build is at now.")
+- **One short punchy sentence (5-10 words), full stop, then elaborate.**
+  Mirrors how a person dashes off a quick email between meetings, which is
+  exactly the register this campaign wants.
+
+Across a batch, no two consecutive emails should use the same one of
+these forms, and no two consecutive emails should be within a few words of
+the same total sentence length for the opener. If you can't tell, from the
+first sentence alone with the company name blanked out, which form you
+used last, you defaulted instead of choosing.
+
+**Words/phrases that are reliable AI tells — don't use them, even in
+service of "professional" register**: "leverage," "robust," "seamless,"
+"cutting-edge," "game-changing," "revolutionize," "it is worth noting,"
+"that is to say," "in conclusion," "to sum up," "Have you ever wondered,"
+"Are you struggling with," "What if I told you," and empty flattery
+("impressive," "exciting news") that isn't tied to a specific fact. Use
+contractions ("you'll," "it's") rather than the stiffer spelled-out form —
+avoiding contractions is itself a documented tell.
+
 ## What "checking" means, not just rewriting
 
 Before rewriting, actually read the draft with a critical eye:
