@@ -244,6 +244,68 @@ today.
   insight columns) beyond what a WebSearch snippet surfaces remains
   technically untested pending working WebFetch.
 
+**Day 10 (2026-09-22, targeted retry of Day 9's specific unconverted-person list —
+not a new search, explicitly NOT looking for new companies): 0 of 12 converted.**
+WebFetch confirmed still fully egress-blocked at the start (tested against
+dci-indonesia.com/about-us/, EGRESS_BLOCKED) — ran on WebSearch only, with the
+mandatory second independently-worded cross-check on every specific email
+claim before considering it, per the fallback protocol.
+- **Scope**: the exact 12-person list carried over from Day 9 (Otto Toto Sugiri
+  DCI, Tim Rosenfield Firmus, Darren Hawkins SpaceDC, Kurniawan Dwi Prasetyo
+  BDx, Stephanus Oscar Digital Edge, A.S. "Sandy" Yudhastiya Equinix Indonesia,
+  Michael Alifen AREA31, Bobby Wee Racks Central, Kenneth Phua Golden Digital
+  Gateway, Budi Satria Dharma Purba Telin, Dwina Septiani Wijaya Peruri,
+  Bambang Setiyo Prayitno BMKG) — all already represented at the company level
+  in prospects.csv/contact_form_queue.csv via a generic address.
+- **New channels tried this pass (not repeats of Day 9's plain WebSearch)**:
+  IDX annual-report/investor-relations correspondence angle (DCI Indonesia),
+  DJKI/Google Patents applicant-contact angle (DCI Indonesia, Firmus/Peruri),
+  conference-speaker-bio direct-contact angle (Otto Toto Sugiri at APAC
+  Finance Forum, Tim Rosenfield at TechWeek SG/ATxSummit, Stephanus Oscar at
+  Indonesia Cloud & Datacenter Convention 2025 — found he spoke specifically
+  on "New Cooling Challenges in AI Computing and HPC", a strong cooling-signal
+  detail worth noting for the existing Digital Edge row's context, but the
+  event's own contact only reaches organizer W.Media, not the speaker), and
+  LinkedIn public "Contact info" tab angle (Kurniawan Dwi Prasetyo, Darren
+  Hawkins, Tim Rosenfield). Roughly 28 distinct queries across the 12 people.
+- **Result: every single specific email claim surfaced was unusable** —
+  either a masked third-party scraper address (ZoomInfo/RocketReach pattern
+  like `t***@firmus.co`, `k***@bdxworld.com`, `a******@equinix.hk`,
+  `m**@area31.id`, `b******@rackscentral.com`, `a***@peruri.co.id` — none of
+  these are "published," reconstructing them would be exactly the guessing
+  the rules forbid) or, in one case, a wrong-domain personal address
+  (Stephanus Oscar: an AI-summarized result surfaced `stephanusoscar@gmail.com`
+  and `oscars@umich.edu`, neither on digitaledgedc.com/edge.id, correctly
+  rejected on the domain-match rule even before considering it's an
+  unverifiable personal/alumni address). For 3 of the 12 (Bambang Setiyo
+  Prayitno/BMKG, Dwina Septiani Wijaya/Peruri, Budi Satria Dharma Purba/Telin)
+  no specific email claim of any kind — masked or otherwise — surfaced at all;
+  the best found was a real named adjacent contact with a phone number only
+  (Adi Sunardi, Peruri's Head of Corporate Secretary, consistently named as
+  press contact across multiple peruri.co.id releases with a real phone
+  ext., but zero email anywhere, masked or not).
+- **Firmus patent search (DJKI/Google Patents angle) surfaced a real detail
+  worth flagging but not actionable today**: Firmus's liquid-cooling patents
+  (e.g. US12245406B2, EP4334658A4) are filed under "Firmus Metal Technologies
+  Singapore Pte Ltd" with named inventors Andrew Buls, Oliver Curtis, Hamish
+  Kerr, Jonathan Levee — none is Tim Rosenfield, and patent filings don't
+  expose personal correspondence emails anyway, so this dead-ends for the
+  email-finding goal, but Buls/Curtis/Kerr/Levee could be a genuinely new
+  angle for a future *name-finding* (not this pass's email-only) search if
+  the company list is reopened.
+- **Net for the day: 0 new prospects.csv rows, 0 new contact_form_queue.csv
+  rows** (all 12 target companies already queued/prospected). This confirms
+  Day 9's conclusion rather than overturning it: the blocker is specifically
+  WebFetch access to each company's own leadership/team/investor-relations
+  page, not a lack of real named people or a lack of search effort. All 12
+  people remain genuinely real, genuinely well-titled, and genuinely
+  unconverted — none should be treated as a dead end, they're a direct
+  retry list the moment WebFetch works again (prioritize dci-indonesia.com/
+  investor-relations, bdxworld.com leadership, digitaledgedc.com/id.
+  digitaledgedc.com team page, telin.net/en/company/leadership, peruri.co.id
+  press-release corporate-secretary page for Adi Sunardi's email
+  specifically since his name+role+phone are already fully confirmed).
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
@@ -493,3 +555,85 @@ surfaced, per the fallback protocol.
   and should be re-run against the named-people list above (not a fresh
   name search) the moment WebFetch works again, rather than treated as a
   dead end.
+
+**Day 8 (2026-09-22, third pass — targeted conversion attempt on the 7
+specific unconverted names from the pass above, via NEW channels only:
+SGX/ACRA/gov directories, patent/trademark filings, conference speaker
+bios, LinkedIn "Contact info" tab, and press-release "Media Contact"
+boilerplate).** WebFetch re-confirmed egress-blocked at the start
+(sttelemediagdc.com, EGRESS_BLOCKED) — WebSearch-only, mandatory
+second-query cross-check per candidate, per the fallback protocol.
+- **2 of 7 converted**:
+  - **Jacqueline Poh (CEO, JTC)** — jacqueline_poh@jtc.gov.sg, found via
+    sgdi.gov.sg (Singapore's official government staff directory, a real
+    public-record channel not tried on this name before) and corroborated
+    identically across three independently-worded queries, including one
+    hitting the specific sgdi.gov.sg/.../jtc/departments/cxo page. Domain
+    resolves. Added alongside the existing Christine Wong (Assistant CEO)
+    row — this is the C-suite fallback tier, not the facilities-ops tier,
+    but a genuinely different, real, senior person quoted specifically on
+    the Jurong Island DC Park.
+  - **Phoebe Ewe (VP Marketing & Communications, Empyrion Digital)** —
+    phoebe.ewe@empyriondigital.com confirmed this pass, resolving last
+    time's inconsistency: three independently-worded queries this time all
+    converged on the same address, sourced directly from Empyrion's own
+    press-release boilerplate on empyriondigital.com itself (not a
+    third-party scraper), with the phone number (+65 9878 7977) matching
+    the already-confirmed-real number exactly — the literalness and
+    domain-match (own company domain, not PR agency) made this
+    confirmable where last time's masked/inconsistent snippets weren't.
+    Weakest tier (comms/PR), flagged as such.
+- **5 of 7 NOT converted, specifically because they re-failed (or newly
+  failed) the mandatory cross-check** — every one of these is a case
+  where a plausible address surfaced but a second query either (a)
+  returned a *different* address, or (b) only ever appeared as an
+  unmasked "the search summarizer completed a first.last@domain pattern"
+  read rather than a literal quoted/indexed snippet:
+  - **Bruno Lopez (STT GDC)** — bruno.lopez@sttelemediagdc.com vs.
+    bruno_lopez@sttelemedia.com, inconsistent across queries, same
+    failure as the prior pass. IPOS/patent-filing angle tried, surfaced
+    nothing STT-GDC-specific (only unrelated USPTO patents). DCD/conference
+    speaker-inquiry angle tried, no direct contact surfaced.
+  - **Wong Wai Meng (Keppel Data Centres)** — wwong@keppeldatacentres.com
+    surfaced from ContactOut/RocketReach-sourced summaries, but querying
+    the exact string in quotes returned no page that actually displays it
+    (the AI summary just echoed the query back) — this is the clearest
+    sign yet of a summarizer completing a plausible pattern rather than
+    quoting real text, so correctly not used. Keppel DC REIT SGX
+    annual-report/circular angle tried (a real new channel) — he isn't a
+    named director of the REIT entity itself (that's the separate
+    manager/REIT board), so no filing-level disclosure exists for him
+    there.
+  - **Jamie Khoo (DayOne)** — only ever a ZoomInfo-masked j***@dayonedc.com
+    across every channel tried (ACRA/UEN corporate registration lookup
+    tried as a new channel — confirms 3 DayOne Singapore entities exist
+    but ACRA listings don't expose personal officer emails).
+  - **Serene Nah (Digital Realty)** — no personal email found via any new
+    channel. Notable: Digital Realty's actual PR contact, Joyce Ng
+    (jong@digitalrealty.com), was found consistently and cleanly via the
+    press-release "Media Contact" boilerplate channel — but she was
+    already added to prospects.csv in an earlier batch, so this is not a
+    new row, just confirmation the channel works when a real boilerplate
+    contact exists (unlike Serene Nah's own address, which doesn't appear
+    to be published anywhere).
+  - **Goh Wei Boon (GovTech)** — re-checked sgdi.gov.sg specifically per
+    the task's request for a third source; still split
+    goh_wei_boon@tech.gov.sg vs. weiboongoh@tech.gov.sg across queries,
+    same unresolved conflict as last pass. Not used, per instruction not
+    to reuse a failed candidate without real new corroboration.
+- **Net for this pass: 2 new prospects.csv rows (Jacqueline Poh, Phoebe
+  Ewe), 0 new contact_form_queue.csv rows** (STT GDC, Keppel Data Centres,
+  DayOne, and GovTech were all already queued from earlier passes — no new
+  queue entries needed). **The gap on the remaining 5 is real, not a
+  process failure**: sgdi.gov.sg worked cleanly for two different
+  Singapore statutory-board CEOs this pass (Jacqueline Poh converted;
+  Goh Wei Boon still split) showing the channel is genuine but not
+  reliable for every name, and corporate press-release boilerplate worked
+  cleanly for two comms contacts (Phoebe Ewe converted; Joyce Ng already
+  on file) but never surfaced the CEO/MD-level personal address at any of
+  STT GDC, Keppel, DayOne, or Digital Realty. Worth flagging for a future
+  pass: if WebFetch is ever restored, the single highest-value action
+  would be directly reading sgdi.gov.sg's GovTech department page and
+  keppeldatacentres.com/about/management to resolve the two remaining
+  split-result conflicts (Goh Wei Boon, Wong Wai Meng) rather than
+  re-running WebSearch on them again.
