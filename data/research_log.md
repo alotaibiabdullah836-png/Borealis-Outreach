@@ -108,6 +108,45 @@ snippets only, cross-checked per-claim as the fallback protocol requires.
   not the name-finding step — flag this clearly for whoever runs the next
   pass with working WebFetch.
 
+**Day 8 (2026-09-22, fresh-news-only sweep): thorough attempt, 0 new companies found.**
+WebFetch confirmed still fully egress-blocked this session (tested against
+dci-indonesia.com and DCD directly; proxy status endpoint also showed
+gateway 403-to-CONNECT even for www.google.com moments before this batch)
+— ran on WebSearch snippets only, per the fallback protocol, though no new
+rows were added so the domain-match/DNS gate wasn't actually exercised
+today.
+- **~16 distinct queries run**, covering: general Indonesia DC news
+  (English + Bahasa), "hari ini"/last-24-48h date-restricted news, Danantara
+  (sovereign wealth fund) data-center investment plans, the IDX-listed-emiten
+  conglomerate-pivot wave (MGLV/NexAI, DSSA/SM+, GTN, EDGE/Indointernet),
+  Batam Singapore-spillover follow-up (PT Equator Gate System/RangeIDC),
+  insurance-sector DC signal, sovereign-AI/supercomputer angle, cooling/PUE-
+  specific Bahasa angle (kendala pendinginan, liquid cooling), and a
+  DailySocial/Teknoia startup-press check.
+- **Every lead traced back to a company already in prospects.csv or
+  contact_form_queue.csv**: BDx Indonesia (today's real CGK4/Jatiluhur
+  groundbreaking, still same company), Firmus, Zankore, DayOne, Digital
+  Edge Indonesia, NexAI/MGLV, DSSA/SM+, GTN (now EdgeConneX), STT GDC
+  Indonesia, NTT Indonesia, PT Equator Gate System Batam/RangeIDC, Mitratel.
+  One near-miss: **PT Indointernet Tbk (EDGE, IDX ticker)** looked distinct
+  at first (own domain edge.id/indonet.co.id, own connect@edge.id email,
+  IDX-listed) but on closer check is majority-owned and operationally
+  rebranded by Digital Edge (same EDGE1/2/3 facilities/brand already
+  represented in prospects.csv under Digital Edge Indonesia) — judged too
+  close to the same company to add as a genuinely separate prospect, so
+  deliberately not added.
+- **Conclusion: pool is genuinely exhausted for this angle right now.**
+  Indonesia's DC news cycle this week is dominated by follow-on coverage
+  (groundbreakings, financing closes, capacity milestones) of the same
+  handful of large operators already captured in prior batches, not new
+  entrants. Worth retrying "fresh news" again in a few days rather than
+  today — the deep-Bahasa-trade-press angle is now also more thoroughly
+  tried (still nothing new) and can probably be downgraded from "untried"
+  to "exhausted" alongside the rest, though a dedicated pass through
+  smaller regional Bahasa outlets (Kompas.id regional editions, Kontan
+  insight columns) beyond what a WebSearch snippet surfaces remains
+  technically untested pending working WebFetch.
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
@@ -213,3 +252,57 @@ caught and reverted before reporting.
   not qualifying prospects (vendor/contractor, not end-customer). Worth
   retrying this specific sub-angle only if/when WebFetch access is
   restored.
+
+**Day 8 (2026-09-22, fresh-news-only sweep, last 1-2 days): 0 net new
+rows.** WebFetch confirmed still fully egress-blocked this session
+(EGRESS_BLOCKED error on datacenterdynamics.com and theedgesingapore.com
+specifically, not just a generic failure) — ran entirely on WebSearch
+cross-checked per the fallback protocol. Checked: the DC-CFA2 200MW/50MW-
+each award to Digital Realty/Equinix/Keppel/STT GDC on Jurong Island
+(liquid cooling + Green Mark Platinum mandated) — all four already
+well-covered in prospects.csv with named contacts, this is a fresh project
+detail on existing companies, not a new company. DayOne's SG1 groundbreaking
+(20MW, Jurong, hybrid air/liquid cooling) — already in both files. Bridge
+Data Centres' up to S$5B investment — already queued. JTC/Jurong Island
+700MW park — already in prospects.csv (Christine Wong). OpenAI's S$300M
+Singapore Applied AI Lab — checked and correctly excluded: it's a
+Forward-Deployed-Engineer talent/deployment program, no physical
+infrastructure or cooling signal. Firmus Technologies' new $5.5B valuation/
+$330M raise — already in prospects.csv (their real facility signal is
+Batam, Indonesia, already correctly filed under Indonesia not Singapore).
+Bitdeer — Singapore-HQ'd but its actual data center buildout (65.1MW A202,
+liquid-cooled) is in Johor, Malaysia (scope-blocked) — no Singapore-based
+facility found, correctly not added. Temasek's AI/infra investment
+strategy (targeting 15% of portfolio by 2031) — investor not an operator,
+no direct cooling need of its own, correctly excluded. NCS Group/Alibaba
+Cloud AI partnership, NSCC's new ASPIRE 2B supercomputer (launched June
+2026) — NSCC already in both files. Insurance-sector angle (the one
+"untried" item flagged Day 7) re-checked with a fresh query — still
+nothing: only found insurers writing risk/coverage products *about* the
+DC boom (Allianz, HDI Global), not insurers with their own facility need.
+Now genuinely exhausted, not just lightly checked.
+- **One genuinely new company found, NOT added — flag for next session
+  with working WebFetch**: **Nava** (formerly Kluisz.ai), an APAC neocloud/
+  GPU-cloud startup that moved its regional HQ to Singapore in April 2026
+  after a $22M Series A (Greenoaks-led), explicitly hiring for "data center
+  design and GPU engineering" roles in Singapore — including a live,
+  specific "Data Center Network Engineer" posting on foundit.sg/LinkedIn
+  (spine-leaf/VXLAN-EVPN data center network build-out, a real
+  infrastructure hiring signal, not guessed). Could not confirm a
+  domain-matched contact: the company's likely domain (nava.com) is
+  contested by search results — a pre-existing, differently-branded "NAVA
+  AI-Native Cloud Platform" site exists at that domain and multiple other
+  unrelated companies also use "Nava" (Nava PBC, Nava Benefits, Nava
+  Software Solutions, Navan.ai), and WebFetch being blocked meant the
+  actual site content couldn't be checked to confirm which one is the
+  GPU-cloud startup. No contact-form URL was confirmed either. Both nava.com
+  and kluisz.ai resolve via DNS, which doesn't resolve the ambiguity.
+  **Worth revisiting specifically to confirm nava.com's actual content**
+  once WebFetch is restored — this is a real, well-documented company with
+  a real infrastructure signal, purely blocked on domain confirmation, not
+  on evidence.
+- Net for the day: 0 new prospects.csv rows, 0 new contact_form_queue.csv
+  rows. Every real signal found traced back to a company already recorded
+  in either file. The Singapore pool at the current evidence bar is now
+  genuinely exhausted for a fresh-news sweep on this date — the only
+  concrete untried thread left is the Nava domain-confirmation retry above.

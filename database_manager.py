@@ -165,14 +165,27 @@ class DatabaseManager:
             return
         date_contacted = utc_now() if success else ""
         with self._connect() as conn:
-            conn.execute(
-                """
-                UPDATE leads
-                SET status = ?, message_id = ?, last_error = ?, date_contacted = ?
-                WHERE email = ?
-                """,
-                (status, message_id, error[:1000], date_contacted, normalized),
-            )
+            if message_id:
+                conn.execute(
+                    """
+                    UPDATE leads
+                    SET status = ?, message_id = ?, last_error = ?, date_contacted = ?
+                    WHERE email = ?
+                    """,
+                    (status, message_id, error[:1000], date_contacted, normalized),
+                )
+            else:
+                # Don't blank an existing message_id when the caller doesn't pass
+                # one (e.g. a bounce correction after the fact) - that field is
+                # the only proof a since-corrected row was ever actually sent.
+                conn.execute(
+                    """
+                    UPDATE leads
+                    SET status = ?, last_error = ?, date_contacted = ?
+                    WHERE email = ?
+                    """,
+                    (status, error[:1000], date_contacted, normalized),
+                )
             conn.commit()
 
     def _ensure_lead_row(self, conn: sqlite3.Connection, email: str) -> None:
