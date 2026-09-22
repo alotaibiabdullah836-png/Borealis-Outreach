@@ -65,6 +65,103 @@ fresh sweep of the same category):
 - Deep Bahasa-only trade press (beyond the couple of ID-language queries
   run so far) — only lightly touched.
 
+**Day 9 (2026-09-22, second-contact-upgrade pass, not a new-company search):
+angle was "find a second, more senior real named contact at companies
+already in prospects.csv/contact_form_queue.csv." WebFetch confirmed still
+fully egress-blocked (tested against dci-indonesia.com/about-us/, got
+EGRESS_BLOCKED) — ran entirely on WebSearch, with a mandatory second
+independently-worded query per email claim before accepting it, per the
+fallback protocol. Checked ~78 Indonesia prospects.csv rows for candidates;
+ran ~20 name-finding searches and ~10 email-verification searches across
+roughly 16 distinct companies/institutions.**
+- **Corporate data-center operators (DCI Indonesia, Firmus Technologies,
+  SpaceDC, BDx Indonesia, Digital Edge Indonesia, Equinix Indonesia, GDS
+  Indonesia, AREA31/DVO, Racks Central, Golden Digital Gateway, Telin,
+  Peruri, Bank Rakyat Indonesia, Pupuk Indonesia): real senior/facilities
+  names were genuinely findable for almost all of them (Otto Toto Sugiri
+  DCI President Director; Tim Rosenfield Firmus co-CEO; Darren Hawkins
+  SpaceDC CEO; Kurniawan Dwi Prasetyo BDx Indonesia Director & COO —
+  genuinely Tier-1 facilities-ops title; Stephanus Oscar Digital Edge
+  Indonesia CEO; A.S. "Sandy" Yudhastiya, Equinix Indonesia's own careers
+  blog names him as heading data center operations — genuinely Tier-1;
+  Michael Alifen AREA31/DVO President Director; Bobby Wee Racks Central
+  Founder/CEO; Kenneth Phua Golden Digital Gateway Director; Budi Satria
+  Dharma Purba Telin CEO; Dwina Septiani Wijaya Peruri President Director;
+  Saladin Dharma Nugraha Effendi BRI IT Director; Bambang Setiyo Prayitno
+  BMKG Direktur Data dan Komputasi). **Zero of these converted to a
+  verified row** — every specific email found was either a masked
+  third-party scraper guess (ZoomInfo/RocketReach k***@, b******@, etc.,
+  correctly not used) or, in one case (toto@dci-indonesia.com from
+  salesgear.io, and separately contact@bdx-indonesia.com from a WebSearch
+  AI-summary), a claim with NO independent corroboration anywhere else on
+  the web and in BDx's case an outright wrong domain (BDx Indonesia's real
+  domain is bdxworld.com, not bdx-indonesia.com — confirmed by a dedicated
+  follow-up search) — both correctly rejected as unverifiable/fabricated
+  rather than used. This closely repeats Day 7's finding: for large/funded
+  corporate operators, named senior people are easy to find via press
+  coverage but their personal emails are essentially never published
+  anywhere WebSearch can see; only a direct WebFetch of the company's own
+  leadership/team page would resolve this, and that remains blocked.
+- **Universities/research institutions were the productive vein today** —
+  .ac.id/.go.id institutions publish real personal staff emails far more
+  reliably than corporates do, and this angle hadn't been tried
+  specifically as a *second-contact-upgrade* search before. Two real
+  upgrades found and added:
+  - **Dr. Mardhani Riasetiawan, Head of UGM's Digital Transformation
+    Bureau** — mardhani@ugm.ac.id, corroborated by two independent
+    WebSearch queries and matching his own staff subdomain
+    (mardhani.staff.ugm.ac.id); he coordinated the UGM Indosat NVIDIA AI
+    Technology Center launch, a more directly relevant infrastructure
+    contact than the Rector already on file for UGM.
+  - **Prof. Dr. Ir. Adhi Dharma Wibawa, Head of ITS's Center of AI and
+    Digital Technology (AIDT/KATD)** — ad_wibawa@its.ac.id, corroborated
+    by two independent WebSearch queries showing the address on the
+    center's own webinar content pages; he heads the very center that
+    operates the NVIDIA DGX-A100 already cited as ITS's technology-need
+    signal in the existing prospects.csv row (previously only the Rector
+    was on file).
+  - Other university names found but NOT converted (no real personal
+    email locatable, only masked/guessed): Nugraha Priya Utama (ITB AI
+    Center head — Google Scholar only shows a "verified email domain"
+    indicator, not an actual address); Rosni Lumbantoruan (IT Del AI
+    Center head — ZoomInfo masked r***@del.ac.id only); I Putu Agus Eka
+    Darma Udayana (Udayana UCEAI head — no email, and a search explicitly
+    surfaced a SignalHire *pattern guess* which was correctly not used);
+    Khoirul Anwar (Telkom University AICOMS director — real published
+    email anwarkhoirul@telkomuniversity.ac.id found and corroborated, but
+    NOT added because AICOMS's own infrastructure/compute need couldn't
+    be independently confirmed — the DGX-A100 signal already on file for
+    Telkom University traces to a different center/Prof. Suyanto, not
+    AICOMS, so adding him would have overstated the evidence).
+  - Gunadarma's HPC Hub has a real, domain-matched, infra-specific inbox
+    (infodgx@gunadarma.ac.id, better-targeted than the mediacenter@
+    already on file) but no named individual behind it was found — not
+    added since today's angle specifically required a named senior
+    contact, but worth flagging as a strictly-generic-inbox upgrade for a
+    future pass if the bar on that gets relaxed.
+- **Net for the day: 2 new prospects.csv rows** (both upgrades at
+  companies already on file: UGM and ITS), **0 new contact_form_queue.csv
+  rows** (no newly qualifying companies found today — this was an
+  upgrade-only pass, not a discovery pass), **~16 companies/institutions
+  checked, ~14 rejected** for lack of a verifiable (non-guessed,
+  non-masked) email despite a real named person being found in most
+  cases. This is a genuinely low hit rate but an honest one — the
+  underlying blocker is unchanged from Day 7: WebFetch being blocked
+  prevents checking company leadership pages directly, and WebSearch
+  summaries of third-party scraper sites (ZoomInfo/RocketReach/
+  Salesgear/SignalHire) reliably surface masked or fabricated-looking
+  addresses that must be rejected. **Worth revisiting specifically at
+  dci-indonesia.com/board-of-directors, bdxworld.com, and
+  digitaledgedc.com leadership pages once WebFetch is restored** — these
+  three had genuinely senior named people (Sugiri, Prasetyo, Oscar) with
+  a real chance of a published email being visible on a page WebSearch
+  couldn't fully surface today. The university/.ac.id angle specifically
+  (searching named heads of existing AI/HPC centers already cited as
+  technology-need signals, rather than generic Rector/PR contacts) is
+  genuinely still untried for Brawijaya (already 2 good contacts, skip),
+  IPB (already good), Udayana, Gunadarma DGX team, and BRIN Mahameru — a
+  further pass there could still find 1-2 more real upgrades.
+
 **Day 7 (2026-09-21, second pass — job-board + LinkedIn/conference facilities-tier
 angle): tried in earnest, mixed result.** WebFetch was fully egress-blocked all
 session (every domain tested failed, not just a few) so this ran on WebSearch
@@ -306,3 +403,93 @@ Now genuinely exhausted, not just lightly checked.
   in either file. The Singapore pool at the current evidence bar is now
   genuinely exhausted for a fresh-news sweep on this date — the only
   concrete untried thread left is the Nava domain-confirmation retry above.
+
+**Day 8 (2026-09-22, second pass — senior-executive-upgrade angle): thorough
+attempt across ~20 already-listed companies, 1 net new row, confirms the
+Day 7 finding rather than overturning it.** WebFetch re-confirmed fully
+egress-blocked at the start of this pass (tested against digitalrealty.com,
+EGRESS_BLOCKED error) — ran on WebSearch snippets only, cross-checked with
+a second independently-worded query per company wherever a candidate email
+surfaced, per the fallback protocol.
+- **Companies checked for a second/more-senior named contact** (pulled from
+  today's prospects.csv Singapore rows): Digital Realty, Keppel Data
+  Centres, ST Telemedia GDC, DayOne Data Centers, StarHub, JTC, Micron
+  Singapore, Silicon Box, GDS International, Empyrion Digital (queue),
+  Bridge Data Centres (queue), A*STAR IHPC (queue), GovTech, Equinix
+  (referenced but not its own row) — roughly 14 companies, ~30 distinct
+  WebSearch queries.
+- **Real, personally-infrastructure-relevant senior quotes found for**:
+  Bruno Lopez (President & Group CEO, STT GDC — personally quoted on the
+  FutureGrid HVDC-AI testbed), Wong Wai Meng (CEO, Keppel Data Centres —
+  personally quoted on the SGP9/floating-DC seawater-cooling vision), Jamie
+  Khoo (CEO, DayOne — personally quoted on Singapore's next-gen digital
+  infrastructure), Serene Nah (MD & Head of APAC, Digital Realty —
+  personally quoted on the DC-CFA2 50MW award), Jamie Khoo (CEO, GDS
+  International — already have IR contact for this company), Jacqueline
+  Poh (CEO, JTC — personally quoted on the Jurong Island DC Park), Eric Fan
+  (CEO, Bridge Data Centres — personally quoted specifically on
+  next-generation cooling systems as part of the S$5B plan), Phoebe Ewe
+  (VP Marketing & Communications, Empyrion Digital — named PR contact
+  boilerplate on multiple press releases with a real, consistent phone
+  number +65 9878 7977).
+- **Only 1 of these converted to a usable row, and it's not actually a
+  named-person upgrade**: **Bridge Data Centres**, media@bridgedatacentres.com
+  — verified via two independently-worded queries both returning the same
+  address consistently attributed to the company's own press-release
+  boilerplate (bridgedatacentres.com/Press%20Releases,
+  bridgedatacentres.com/media-centre), domain-matched, DNS-resolved (passed
+  the automatic gate). Added to prospects.csv with Eric Fan's cooling-specific
+  quote as the technology-need signal, title left as "Media Enquiries" since
+  Eric Fan's own personal email could not be confirmed. Bridge Data Centres
+  had zero prospects.csv row before today (only a contact_form_queue.csv
+  row), so this is a net-new email channel for a company with unusually
+  strong, cooling-specific signal — but flag honestly: it is a generic
+  press inbox, not a senior named person, i.e. it does NOT satisfy today's
+  specific "named senior executive" angle even though it's a legitimate,
+  verified new row.
+- **Every other senior-named lead hit the same wall as Day 7**: a real,
+  well-titled, personally-infrastructure-quoted person exists, but no
+  domain-matched *published* email could be confirmed with confidence.
+  Several WebSearch results *claimed* a specific address (e.g.
+  "bruno.lopez@sttelemediagdc.com", "goh_wei_boon@tech.gov.sg" for GovTech
+  CEO Goh Wei Boon via sgdi.gov.sg) but **failed the mandatory second-query
+  cross-check** — re-running independently-worded queries either returned a
+  *different* address the second time (GovTech: goh_wei_boon@ vs.
+  weiboongoh@) or repeated the identical address suspiciously consistently
+  across unrelated first/last-name-pattern queries in a way indistinguishable
+  from the search summarizer completing a plausible first.last@domain
+  pattern rather than quoting real indexed text (STT GDC's Bruno Lopez).
+  Per the hard rule against guessed/pattern-generated addresses, none of
+  these were used. Phoebe Ewe's email specifically rendered as a
+  bracket-masked placeholder in the actual press-release-boilerplate quote
+  (the most literal, least-paraphrased result) across three separate
+  queries, while a first-name-guess-shaped "phoebe@empyriondigital.com"
+  appeared in two less-literal summaries — inconsistent enough that this
+  was deliberately not used either, despite Phoebe Ewe being a genuinely
+  real, senior, named, infrastructure-adjacent (comms) contact.
+- **Confirms this is a WebFetch-blocked problem, not a "these emails don't
+  exist" problem**: every miss above is a company that plausibly *does*
+  publish these emails on its own newsroom/press-release/leadership page
+  (Empyrion Digital and Bridge Data Centres both clearly do, going by how
+  cleanly their generic media@ addresses surfaced) — the specific named
+  individual's address is very likely sitting on the same page, just not
+  confirmable via WebSearch-snippet-only. **Highest-value retry list once
+  WebFetch is restored, in priority order**: empyriondigital.com press
+  release pages (Phoebe Ewe), sttelemediagdc.com/about-us/our-leadership
+  (Bruno Lopez), keppeldatacentres.com/about/management (Wong Wai Meng),
+  digitalrealty.com/about/newsroom (Serene Nah), jtc.gov.sg leadership
+  pages (Jacqueline Poh) — all have a real quoted senior person and a
+  plausible own-domain page, purely blocked on confirmation.
+- **Nava/nava.com**: not retried this pass (WebFetch confirmed blocked
+  before this angle started, so the one useful thing a working WebFetch
+  could do — read nava.com directly — still couldn't be done). Still
+  pending for a session with working WebFetch.
+- Net for the day (this pass): 1 new prospects.csv row (Bridge Data
+  Centres, weak-tier/generic — not a named-senior upgrade), 0 new
+  contact_form_queue.csv rows, ~14 companies checked for a senior-contact
+  upgrade with 8 real named senior people identified but 7 of them still
+  unconverted for lack of a confirmable email. The senior-executive-upgrade
+  angle is NOT exhausted — it is specifically blocked on WebFetch access,
+  and should be re-run against the named-people list above (not a fresh
+  name search) the moment WebFetch works again, rather than treated as a
+  dead end.
