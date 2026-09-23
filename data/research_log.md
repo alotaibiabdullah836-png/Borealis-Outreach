@@ -719,3 +719,144 @@ second-query cross-check per candidate, per the fallback protocol.
   keppeldatacentres.com/about/management to resolve the two remaining
   split-result conflicts (Goh Wei Boon, Wong Wai Meng) rather than
   re-running WebSearch on them again.
+
+**Day 11 (2026-09-23, new-company discovery sweep, since senior-exec-upgrade
+angle on existing companies is now heavily exhausted per Days 7-10): thin
+yield, 1 prospects.csv row + 2 contact_form_queue.csv rows, honestly
+reflecting a genuinely thinning pool at this evidence bar.** WebFetch
+re-confirmed fully egress-blocked at the very start via both a direct
+WebFetch test (www.jtc.gov.sg, EGRESS_BLOCKED) and a raw curl-through-proxy
+test (both www.jtc.gov.sg and www.nava.com returned `connect_rejected` /
+"403 to CONNECT" at the proxy level, confirming this is an org-policy
+block, not a tool-specific issue) — ran entirely on WebSearch, with a
+mandatory second independently-worded query before accepting any specific
+email claim, per the fallback protocol.
+- **Nava/nava.com retried as flagged**: still unresolved. nava.com
+  consistently surfaces as "NAVA - AI-Native Cloud Platform | Next
+  Generation Cloud Computing" across ~4 independently-worded queries, and
+  one AI-summary asserted "the company's official website is nava.com" —
+  but no press article (DCD, inc42, YourStory, TNGlobal, etc.) actually
+  quotes nava.com as the company's own URL in text; the summary reads as
+  the search summarizer completing a plausible match from the bare domain
+  string appearing in result titles, the same "pattern-completion" red
+  flag that's been correctly rejected elsewhere in this log. Also found:
+  navapbc.com (Nava PBC, US healthcare) and navasoftware.com (unrelated)
+  are two more distinct "Nava"-branded companies, reinforcing the
+  ambiguity. **Left unconverted, no row added** — still genuinely blocked
+  on WebFetch, not on evidence; same retry recommendation stands.
+- **New companies found and added**:
+  - **NTT Global Data Centers (Singapore)** — added to prospects.csv:
+    Sally Comollo, Director of Communications, sally.comollo@global.ntt
+    (domain-matched to services.global.ntt, corroborated identically
+    across two independently-worded queries and consistent with her
+    LinkedIn title/tenure — not masked, a real recurring press-release
+    boilerplate contact). Technology need: NTT's own Serangoon Data
+    Center (SG1) page (services.global.ntt) confirms a real, named
+    Singapore facility (NTT's first self-built DC outside Japan, N+1
+    chilled-water cooling) plus NTT's own AI-and-HPC-ready-data-centers
+    page describing active liquid-cooling/direct-to-chip rollout across
+    its portfolio including Asia-Pacific. Weakest tier (comms/PR contact,
+    not facilities-ops), flagged as such.
+  - **Equinix Singapore** — queued (contact_form_queue.csv) using the
+    Singapore-specific colocation page as the contact form URL (distinct
+    from the generic /contact-us already used for Equinix Indonesia, so
+    it didn't dedupe). Real signal: SG6, a US$260M+ sixth Singapore IBX
+    facility explicitly positioned for AI innovation capacity (Mingtiandi,
+    cross-checked). MD Yee May Leong is named/quoted but no non-masked
+    personal email found (only ZoomInfo-style masked addresses across
+    every query run), and the company's generic press@equinix.com is
+    already used for Equinix Indonesia in prospects.csv, so this stayed
+    queue-only. Note: a data-integrity slip happened here on first
+    write — the technology_need string's "$260M"/"$86M" figures were
+    mangled to "60M+"/"6M" by shell variable expansion inside a bash -c
+    call (bash interpreted `$2` as a positional parameter). Caught on
+    verification read-back and corrected directly in the CSV before this
+    log entry — flagging explicitly so a future batch double-quotes `$`
+    literals or uses single-quoted heredocs to avoid repeating it.
+  - **Huawei Cloud Singapore** — queued (contact_form_queue.csv). Real,
+    current signal (DCD): Huawei launched a new Singapore cloud region for
+    government/financial-services/large-enterprise customers, currently
+    one data center with a disclosed plan to expand to three facilities
+    for active-active failover, explicitly positioning Singapore as one of
+    Huawei Cloud's largest regions outside China. No named person or
+    verifiable email found (only a general Singapore office phone number
+    via Huawei's Public Affairs and Communications Dept.), so queue-only.
+- **Rejected/not added despite a real underlying company**: Princeton
+  Digital Group Singapore (real DCSG facility in Central Singapore,
+  CEO Rangu Salgame genuinely quoted on AI-led 1GW Asia expansion in a
+  Bloomberg interview, only masked ZoomInfo emails found for him) — its
+  contact form (princetondg.com/contact/) is a single global URL already
+  queued under "Princeton Digital Group (PDG) Indonesia," so it correctly
+  deduped rather than creating a redundant row; the Singapore facility
+  signal is noted here for the record. Alibaba Cloud Singapore (real,
+  current second-availability-zone expansion signal, MTCS L3/PCI-DSS
+  certs, VP Sicheng Yu quoted) — also deduped, already queued from Day 6
+  (2026-09-21) under the same contact-us URL; candidate press emails
+  found this pass (luica@alibaba-inc.com, crystal.liu@alibaba-inc.com)
+  use a different domain (alibaba-inc.com) than the verified source
+  (alibabacloud.com) so were correctly not used even had it been new.
+  A*STAR IHPC (now A*STAR IAIC) — confirmed current Executive Director is
+  Dr. Su Yi (not the outdated Prof Lim Keng Hui, who has since moved to
+  SERC Assistant CEO), but the only email found was
+  "suyi@a-star.edu.sg" sourced from a RocketReach "Email Format" page —
+  which by definition shows guessed pattern conventions, not a confirmed
+  address — correctly rejected; A*STAR IHPC/A*CRC is already queue-only
+  from a prior day, unaffected. NTU HPCC's existing row (Li Boyang,
+  Director) reconfirmed still accurate; found a second real named person
+  (Luca Dal Zilio, HPCC Committee Chair) but no unmasked email, not added.
+- **Genuinely checked and rejected for lack of real Singapore-specific
+  facility signal** (all real companies, but the evidence didn't clear the
+  bar): Sea Limited/Shopee ("quietly building its own data centers across
+  Southeast Asia" per a fresh article, but explicitly no disclosed
+  location or timeline — too vague, and Malaysia not Singapore is named as
+  the lead site); Grab (AI Centre of Excellence is a talent/model-building
+  initiative, not a physical infrastructure signal, same conclusion as
+  prior batches); Databricks Singapore ($350M investment is office
+  expansion/headcount/training facilities, not a physical DC or compute
+  buildout); Galaxy Data Center (real Singapore-registered HQ, real
+  marketing@galaxy-dc.com contact found, but its only disclosed physical
+  campus is in Rayong, Thailand — same "HQ here, facility elsewhere"
+  pattern already correctly excluded for Bitdeer/GLP); GLP's data center
+  fund (Singapore-HQ'd company, but the disclosed fund asset is in
+  Beijing, China — same pattern); ByteDance Singapore (secures capacity
+  via the existing AirTrunk/DayOne consortium deals already on file, no
+  independent facility); CoreWeave, Nebius, Lambda Labs (no Singapore
+  presence found — CoreWeave explicitly chose Indonesia over Singapore
+  citing SG's power constraints, a useful negative data point); Visa
+  Singapore (real transaction-processing data center, but the only
+  coverage found is a stale 2017 announcement, well outside the
+  2025/2026 current-need bar this campaign uses); PayPal Singapore, Trust
+  Bank/GXS Bank/MariBank/ANEXT Bank (all cloud-native on AWS/Snowflake,
+  no owned-facility signal); NCS Group (Singtel subsidiary; the Bedok
+  facility found is Singtel/NCS colocation space, not evidence of NCS's
+  own infrastructure buildout); AIMS Data Centre Singapore (real but tiny
+  — a 0.2MW colocation tenancy inside Telstra's Paya Lebar DC, not a real
+  facility-owner signal); insurance sector re-checked once more
+  (Prudential/Great Eastern/NTUC Income) — still nothing, now genuinely
+  exhausted rather than "lightly checked."
+- **Fresh-news check**: reviewed this week's Singapore DC headlines
+  (Databricks $350M, Google Cloud Singapore Engineering Center opening
+  Sept 15, the $27B AI-infrastructure-by-2030 figure, DC-CFA2's 200MW
+  award) — all either already-covered companies or talent/office
+  investments rather than physical infrastructure, confirming the fresh-
+  news vein is thin again this week specifically (no DC-CFA3 has been
+  announced yet; DC-CFA2, launched Dec 2025 with an end-March-2026
+  submission deadline, is still the most recent round and its 4 awardees
+  — Digital Realty, Equinix, Keppel, STT GDC — are all already on file).
+- **Net for the day: 1 new prospects.csv row, 2 new contact_form_queue.csv
+  rows, 0 needs_manual_verification.csv additions.** This is a
+  genuinely thin day, consistent with Days 8-10's conclusion that the
+  Singapore pool is heavily mined at the current evidence bar — most
+  remaining real, well-documented companies either (a) already have a
+  named senior person on file with no findable personal email (WebFetch-
+  blocked, not evidence-blocked), or (b) are Singapore-HQ'd but building
+  their actual physical capacity elsewhere in the region (Thailand,
+  Malaysia, China), which this campaign correctly treats as out of scope
+  for a "Singapore needs cooling" pitch. The single highest-value untried
+  thread remains the same as Day 8: resolving nava.com's actual content
+  once WebFetch works. Beyond that, the senior-executive-upgrade list from
+  Days 7-8 (Bruno Lopez/STT GDC, Wong Wai Meng/Keppel, Jamie Khoo/DayOne,
+  Serene Nah/Digital Realty, Goh Wei Boon/GovTech, Rangu Salgame/PDG,
+  Yee May Leong/Equinix) is still the best return-on-effort list for a
+  session with working WebFetch, now with Yee May Leong and Rangu Salgame
+  added to it from today.
