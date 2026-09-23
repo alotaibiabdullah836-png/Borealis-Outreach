@@ -306,6 +306,88 @@ claim before considering it, per the fallback protocol.
   press-release corporate-secretary page for Adi Sunardi's email
   specifically since his name+role+phone are already fully confirmed).
 
+**Day 11 (2026-09-23, fresh-angle sweep: CoreWeave/BKPM/Danantara fresh-news check, new
+IDX-conglomerate angle (TOWR/Iforte), and a further .ac.id university-upgrade pass):
+3 new prospects.csv rows, 0 new contact_form_queue.csv rows.** WebFetch confirmed still
+fully egress-blocked at the start (tested against dci-indonesia.com/about-us/,
+EGRESS_BLOCKED) — ran on WebSearch only, with the mandatory second independently-worded
+cross-check on every specific email claim before using it, per the fallback protocol.
+DNS resolution was independently spot-checked via `python3 socket.gethostbyname` for
+every candidate domain before adding (all resolved) in addition to the tool's own
+automatic gate.
+- **Fresh-news pass (~15 queries, English + Bahasa)**: CoreWeave's real Indonesia
+  expansion (announced 2026-08-04, 3 new facilities/360MW, first APAC move) and
+  Worldvuer iByond's $400M "Asia's first quantum AI data center" (BKPM-facilitated,
+  Tunas Prima Industrial Estate, Batam) both turned out to already be discovered —
+  CoreWeave Indonesia was already queue-only (contact_form_queue.csv row, since
+  press@coreweave.com is already used for the existing US row) from a prior batch;
+  Worldvuer iByond was genuinely NOT yet in either file and was added fresh today
+  (info@worldvueribyond.com, cross-checked twice, domain-matched to the company's own
+  worldvueribyond.com site, sourced to the BKPM press release + Antara Kepri). Also
+  checked and found already-queued-not-new: Iforte/TOWR (PT Sarana Menara Nusantara's
+  data-center pivot, ~10MW initial IT load) and Tokopedia-UI AI Center of Excellence
+  (queue-only, Dr. Adila A. Krisnadhi as Director) — both already in
+  contact_form_queue.csv from a 2026-09-11 batch, confirming this file needs a
+  company-name grep before adding, not just a memory check.
+- **University/.ac.id upgrade pass (specifically targeting institutions NOT yet given a
+  named-individual upgrade)**: found 2 real, cross-checked, domain-matched personal
+  emails and added both as new prospects.csv rows:
+  - **Fariz Darari** (Faculty in Charge, Tokopedia-UI AI Center of Excellence, UI) —
+    fariz@ui.ac.id, sourced to his own cs.ui.ac.id faculty page, corroborated by two
+    independently-worded queries. This is a genuine upgrade for a company that was
+    previously queue-only with zero prospects.csv email on file.
+  - **Prof. Made Sudarma** (Head, UCEAI, Universitas Udayana) — msudarma@unud.ac.id,
+    sourced to Udayana's own faculty-directory subdomain
+    (udayananetworking.unud.ac.id), corroborated twice. Upgrades the existing
+    Universitas Udayana row (previously only generic humas@unud.ac.id).
+  - Checked but NOT converted (no real personal email found, only masked/generic):
+    Rifki Sadikin (Head, BRIN Pusat Riset Komputasi, which runs Mahameru HPC — real,
+    well-titled, on-point person, but no email beyond BRIN's general ppid@brin.go.id
+    surfaced anywhere); Gunadarma HPC-hub's DGX team (site has a "Kontak" page but
+    WebSearch snippets only ever return the generic team/contact form, no named
+    individual); Dr. Irdika Mansur at IPB (already has a working generic
+    advanced-lab@apps.ipb.ac.id row — search only turned up masked
+    ZoomInfo/RocketReach results for a more specific address, correctly not used).
+  - Checked and correctly found NOT qualifying (no physical GPU/data-center facility,
+    cloud/course-only): UMN's new Google-partnered "AI Learning Center" (Chromebooks +
+    Google Workspace, not a compute facility), UPH's GPU-computing course listing (an
+    educational course, not a facility). Checked and found nothing at all: Universitas
+    Sebelas Maret (UNS), Universitas Sumatera Utara (USU), ITERA, Universitas
+    Mulawarman — no AI/HPC center of any kind surfaced for these four.
+- **Other sectors re-checked this pass, all came back empty or already-covered**:
+  Tower Bersama/Protelindo (data-center pivot is specifically Iforte, already queued);
+  NeuCentrIX/Digiserve (Telkom brands, no new signal beyond NeutraDC already on file);
+  XLSmart (Rp20T capex is 5G/BTS-focused, no data-center-specific signal); Pertamina
+  Digital (AI-in-operations only, no facility signal); Bank BTN, Bank Danamon, Bank
+  Jago, SeaBank, KB Bank Indonesia (IT-capex/AI-adoption PR only, no facility-level
+  signal — KB Bank's real DC connection is as a *lender* on BDx's loan facility, not a
+  buyer, so correctly not added); Bank Indonesia (central bank), OJK (regulator) — no
+  AI-data-center-facility signal of their own; GARUDA national AI program (an ASN
+  training/skills initiative, not an infrastructure buildout); Pos Indonesia, Jasa
+  Marga, Hermina/Awal Bros hospital groups — no signal found; PDN Batam/PDN IKN
+  (government's 2nd/3rd national data centers) — same underlying government entity
+  (Komdigi/IKN Authority) already in prospects.csv, not a separate company.
+- **BDx Indonesia's CGK4 groundbreaking (640MW, Jatiluhur, West Java, 2026-09-22,
+  direct-to-chip liquid cooling up to 500kW/rack)** is today's single most prominent
+  fresh headline but is, again, the same already-fully-covered company (BDx Indonesia,
+  support@bdxworld.com in prospects.csv + blocked contact-form-queue row) — a fresh
+  detail, not a new company, consistent with the Day 8 pattern.
+- **Net for the day: 3 new prospects.csv rows (Fariz Darari/UI, Made Sudarma/Udayana,
+  WorldVuer iByond), 0 new contact_form_queue.csv rows, 0 needs_manual_verification.csv
+  additions.** This is a genuinely low yield given the search volume (~35 queries) but
+  an honest one: 10 days of prior batches have already mined the obvious operators,
+  telcos, banks, universities, and government bodies thoroughly. The .ac.id
+  named-individual-upgrade angle remains the most reliable source of *new, real* rows
+  at this point (2 of 3 today came from it) and is NOT yet exhausted — untried
+  candidates for next time: Universitas Andalas, Universitas Lampung, Universitas
+  Sriwijaya, Universitas Airlangga, Universitas Diponegoro, Universitas Padjadjaran
+  (all confirmed in earlier batches to have *some* AI/CS program but not yet checked
+  specifically for a named AI/HPC-center head with a personal email, as opposed to a
+  generic Rektor/Humas contact). Also worth a dedicated future pass: BDx's own
+  bdxworld.com leadership page and DCI Indonesia's investor-relations page, still
+  blocked on WebFetch as of today, both carrying real named senior people (Kurniawan
+  Dwi Prasetyo, Otto Toto Sugiri) with no confirmable email yet.
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
