@@ -172,7 +172,7 @@ def append_web_researched_prospect(
         "Website": website,
         "WhatsApp": whatsapp,
         "Phone": phone,
-        "Source": f"web_research: {source_note}"[:500],
+        "Source": f"web_research: {source_note}"[:900],
         "Lawful Basis": (prospect.get("lawful_basis") or "legitimate_interest_b2b_public_contact").strip(),
         "Country": (prospect.get("country") or "").strip(),
     }
@@ -233,8 +233,8 @@ def queue_contact_form_lead(
         "Contact Form URL": contact_form_url,
         "Status": "pending",
         "Notes": "",
-        "Technology Need Signal": (prospect.get("technology_need") or "").strip()[:500],
-        "Source": source[:500],
+        "Technology Need Signal": (prospect.get("technology_need") or "").strip()[:900],
+        "Source": source[:900],
         "Date Found": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
     _append_row(queue_csv, QUEUE_FIELDS, row)
