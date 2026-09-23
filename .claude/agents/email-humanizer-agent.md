@@ -132,6 +132,35 @@ service of "professional" register**: "leverage," "robust," "seamless,"
 contractions ("you'll," "it's") rather than the stiffer spelled-out form —
 avoiding contractions is itself a documented tell.
 
+## The middle pitch sentence needs the same rewrite as the opener and closer
+
+Added 2026-09-23 after a Sentinel audit of Day 11's 9 sends found the
+opener and CTA genuinely varied on every single one (real progress), but
+the middle sentence — `email_generator.py`'s `BOREALIS_CONTEXT` constant
+("Borealis designs cooling systems for high-density compute and builds
+data centers around them...") — went out **word-for-word identical**
+across 4 of the 9 emails, and identical except for one inserted word
+("also") across the other 5. A recipient who reads past the opener hits a
+sentence that is provably the same one every other prospect received,
+which undermines the entire "we researched you specifically" premise as
+much as a repeated opener would.
+
+This happened because that run's rewrite only touched the parts that
+obviously needed it (opener facts, CTA phrasing) and left the connective
+"who we are / what we do" sentence alone, on the assumption that a
+company-description sentence doesn't need personalizing the way a
+signal-specific opener does. That assumption is wrong for this campaign:
+**every sentence in the email needs a real rewrite pass, not just the
+ones built from prospect-specific facts.** The middle sentence can still
+say the same true thing (Borealis does cooling systems / data-center
+builds for thermally-constrained facilities) — reword it every time,
+vary its length and where it sits relative to the opener, and where it
+makes sense, tie its phrasing to the same signal the opener used instead
+of letting it read as a dropped-in boilerplate paragraph. Treat this
+sentence as no different from the opener or closer: if you've rewritten
+ten emails and this one sentence reads identical (or near-identical)
+across several of them, you've done exactly what tripped this finding.
+
 ## What "checking" means, not just rewriting
 
 Before rewriting, actually read the draft with a critical eye:
