@@ -130,14 +130,19 @@ def _extract_signal_from_source(source: str | None) -> str:
     """Pull the technology-need evidence lead_research.py records into the Source column.
 
     lead_research.append_web_researched_prospect writes Source as
-    "web_research: <url> — <technology_need>". Manually curated rows (Source="manual research",
-    etc.) have no such signal, and the caller falls back to generic phrasing in that case.
+    "web_research: <url> — <technology_need>" (an em dash separates the citation from the
+    signal text, though some rows use a plain " -- " instead). Manually curated rows
+    (Source="manual research", etc.) have no such signal, and the caller falls back to
+    generic phrasing in that case.
     """
 
     source = (source or "").strip()
-    if not source.startswith("web_research:") or " — " not in source:
+    if not source.startswith("web_research:"):
         return ""
-    return source.split(" — ", 1)[1].strip()
+    for delimiter in (" — ", " -- "):
+        if delimiter in source:
+            return source.split(delimiter, 1)[1].strip()
+    return ""
 
 
 def _choose(options: list[str], seed_key: str, salt: str) -> str:
