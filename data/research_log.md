@@ -388,6 +388,101 @@ automatic gate.
   blocked on WebFetch as of today, both carrying real named senior people (Kurniawan
   Dwi Prasetyo, Otto Toto Sugiri) with no confirmable email yet.
 
+**Day 12 (2026-09-24, .ac.id untried-university retry + broad fresh-sector sweep): thin
+yield, 2 new prospects.csv rows, 1 new contact_form_queue.csv row.** WebFetch confirmed
+egress-blocked at the start (tested against dci-indonesia.com/about-us/, EGRESS_BLOCKED)
+— ran entirely on WebSearch, with a mandatory second independently-worded query before
+accepting any specific email claim, per the fallback protocol. Both new domains
+(smplus.com, pajak.go.id) independently confirmed to resolve via `python3
+socket.gethostbyname` before adding, in addition to the tool's own automatic DNS gate.
+- **Closed out Day 11's specific untried-university list**: Universitas Andalas, Airlangga,
+  Diponegoro, Sriwijaya, Padjadjaran, Lampung — checked each specifically for a *built*
+  AI/HPC facility (not just a course or a visiting Telkom AI Center of Excellence
+  roadshow). **None qualified** — every search either returned nothing university-specific
+  or resurfaced UGM/other-already-covered centers. This angle can now be downgraded from
+  "untried" to genuinely exhausted for these 6 names; the .ac.id vein overall isn't
+  necessarily dead (BINUS and Universitas Pertamina were also checked fresh this pass, also
+  no qualifying facility/no confirmable email — see below) but the specific named list
+  carried over from Day 11 is now closed.
+- **2 new companies found and added to prospects.csv** (both genuinely new, not upgrades):
+  - **SM+ Data Centers (PT DSST Mas Gemilang / Sinar Mas)** — info@smplus.com, domain-matched
+    to smplus.com (the company's own site, corroborated identically across two
+    independently-worded queries). This is the operating entity for SMX01, a Tier IV
+    AI-ready data center in Jakarta's CBD (18MW scalable to 60MW, liquid cooling) — a JV
+    partner of LG Sinar Mas and DSSA already queue-only in prior batches, but SM+ itself
+    (the entity that actually holds/operates the facility per its own site) had never been
+    given its own row. Source: the SMX01 topping-off press coverage (w.media, corroborated
+    against SM+'s own smplus.com/data-center/ page).
+  - **Direktorat Jenderal Pajak (DJP) — Kementerian Keuangan RI** — humas@pajak.go.id,
+    domain-matched to pajak.go.id, sourced to multiple Indonesian tech-press pieces (Liputan6,
+    Sumbawanews) confirming DJP operates a newly built AI-based data center in Jakarta
+    (~Rp1.3T / KRW100bn, built by LG CNS, DJP took over full operational management in
+    April 2026) powering its Coretax national tax-administration system — a real, current,
+    government-operated AI facility not previously in either file. Also queued to
+    contact_form_queue.csv (https://pajak.go.id/en/form/contact) as the dual-channel backup.
+    The humas@ address pattern is consistent with dozens of already-verified .go.id rows in
+    this campaign (humas@ugm.ac.id, humas@bpbatam.go.id, humas@komdigi.go.id, humas@bmkg.go.id
+    etc.), which was weighed alongside the second query's softer ("appears to be") corroboration
+    in deciding to use it — flagging this reasoning explicitly since the second-query
+    confirmation was weaker than the ideal literal re-quote.
+  - Note: a third candidate, LG Sinar Mas itself (already queue-only), was NOT converted —
+    Director & COO Ariawan gave a strong, directly on-point cooling quote ("why cooling is
+    becoming a resilience issue") but no personal or generic domain-matched email for
+    lgsinarmas.com could be found via any channel tried (press-release boilerplate,
+    LinkedIn, conference-bio angle) — stays queue-only, flagged as a good retry target if
+    WebFetch is ever restored (lgsinarmas.com/about, dssa.co.id press pages).
+- **Broad new-sector sweep, all came back empty or already-covered** (each checked with
+  1-3 targeted queries): ports/logistics (Pelindo — digital transformation PR only, no
+  DC/cooling signal); crypto exchanges (Indodax/Tokocrypto/Pintu/ICEx Group — shared
+  clearing/custody infrastructure, no individual facility-owner signal); Jakarta Smart
+  City (Nodeflux computer-vision partnership — software/analytics, not a facility);
+  PLN Icon Plus (already queue-only, no named-contact upgrade found — ZoomInfo-masked or
+  unconfirmed director names only); BSSN/National Data Center cybersecurity angle (security
+  posture, not a new facility); digital banks (Superbank, Allo Bank [already queue-only,
+  Iswibowo Isakar's title/role confirmed real but only ZoomInfo-masked email found, not
+  converted], blu by BCA — no new facility signal beyond BCA's existing row); MIND ID/
+  Freeport (AI-based exploration software, no data-center signal); esports/cloud gaming
+  (Radian Arc — stale 2021 partnership with already-covered Moratelindo, not itself
+  Indonesia-based); Blaize/Nokia/Datacomm AI inference partnership (Datacomm Diangraha
+  already covered, same company); Oracle Indonesia's "largest AI center in ASEAN" claim
+  (already queue-only, and closer reading shows the underlying facility is DayOne's Batam
+  campus which Oracle leases capacity from — not an independent Oracle-owned facility);
+  DayOne Batam, STT GDC Indonesia, NTT Indonesia, Microsoft Indonesia, EDGNEX Indonesia,
+  Alibaba Cloud Indonesia, Tencent Cloud Indonesia, Telkomsigma, RangeIDC/PT Equator Gate
+  System Batam, SIDI/INET, Astragraphia AGIT, PT Sinergi Informatika Semen Indonesia (SISI)
+  — all already queue-only from prior batches, each re-checked this pass for a
+  named-contact upgrade, none converted (masked ZoomInfo/RocketReach addresses or no
+  domain-matched published email found for any of them); Arsari Group/Indosat's "Raia
+  Grid" GPU assembly JV (a manufacturing/assembly line, not clearly a compute facility
+  with the same cooling-need profile — deliberately not added, borderline fit); BPS
+  Economic Census AI usage (software/survey-app level, no physical facility); Eijkman/BRIN
+  genomics HPC (same BRIN Mahameru entity already twice-covered, not a separate company);
+  Bea Cukai CEISA Command Center and Kemhan AI command-center initiatives (both vague,
+  no specific physical high-density facility described); eFishery, Halodoc (cloud-customer
+  AI usage signals, not facility-owner signals, consistent with the established
+  e-commerce/fintech pattern); BINUS AI R&D Center / AIRDC (BINUS-NVIDIA GPU cluster is a
+  real, strong signal, already queue-only — found a real named director, Prof. Bens
+  Pardamean, but no confirmable personal or center email on binus.ac.id, not converted);
+  Universitas Pertamina (no AI/HPC facility found).
+- **Net for the day: 2 new prospects.csv rows, 1 new contact_form_queue.csv row, 0
+  needs_manual_verification.csv additions.** One domain-mismatch red flag caught and
+  correctly NOT used: DSSA's "corcom@dss.co.id" (missing the "a" — dssa.co.id is the
+  verified/real domain) kept resurfacing as if legitimate across searches, the same
+  near-miss-domain pattern flagged repeatedly earlier in this log (Telkomsel, Kredivo,
+  OCBC NISP) — discarded without adding, DSSA remains queue-only. This is a genuinely thin
+  day for *new companies* specifically — confirms Day 8/11's conclusion that Indonesia's
+  DC news cycle is now dominated by fresh coverage of already-known operators rather than
+  new entrants, and the named-contact-upgrade angle for existing queue-only companies
+  continues to be blocked almost entirely by WebFetch access rather than a lack of real
+  named people (Ariawan/LG Sinar Mas, Iswibowo Isakar/Allo Bank, Bens Pardamean/BINUS,
+  Otto Toto Sugiri/DCI and the rest of the Day 9-10 list all still stand as real,
+  well-titled, unconverted candidates for the day WebFetch works again). **Worth trying
+  next**: a dedicated pass on Danantara's "National AI Data Center & Electrification
+  Strategic Workshop" (2026-09-23/24, Wisma Danantara) for any newly named participating
+  company not yet covered — this pass only found NeutraDC (already covered) attending, but
+  the workshop reportedly included "state-owned enterprises across sectors" which wasn't
+  fully enumerated in available coverage.
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
