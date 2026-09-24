@@ -955,3 +955,163 @@ email claim, per the fallback protocol.
   Yee May Leong/Equinix) is still the best return-on-effort list for a
   session with working WebFetch, now with Yee May Leong and Rangu Salgame
   added to it from today.
+
+**Day 12 (2026-09-24, new-company/new-angle discovery sweep): genuinely good
+yield, 5 new prospects.csv rows + 6 new contact_form_queue.csv rows.**
+WebFetch re-confirmed fully egress-blocked at the very start (direct test
+against www.jtc.gov.sg returned EGRESS_BLOCKED) — ran entirely on WebSearch,
+with a mandatory second independently-worded query before accepting any
+specific email claim, per the fallback protocol. DNS resolution was
+independently spot-checked via `python3 socket.gethostbyname` for every
+candidate domain before adding, in addition to the tool's own automatic gate
+(this caught one real case: gis.a-star.edu.sg does NOT resolve, so a
+would-be media contact on that subdomain was correctly routed to
+queue-only instead — see below).
+- **The single most productive new thread this session: Singapore's academic
+  AI-compute-facility angle, which had NOT been mined before at the level of
+  "physical GPU facility hosted at a Singapore polytechnic/health system,"
+  as distinct from the university-HPC-centre angle (NUS/NTU) already
+  exhausted in Days 7-8.** Found via a plain "hospital AI compute" /
+  "polytechnic AI centre NVIDIA" style search:
+  - **Singapore Institute of Technology (SIT) — SIT x NVIDIA AI Centre
+    (SNAIC)**: a real ~250 sqm facility built around an NVIDIA DGX H200 at
+    SIT Punggol Campus (currently housed at SIT@NYP pending permanent move),
+    50+ research engineers/students, 20+ industry partners (SMRT,
+    Prudential). media@singaporetech.edu.sg confirmed on SIT's own
+    press-contacts page across two independently-worded queries. Added to
+    both prospects.csv and contact_form_queue.csv.
+  - **National University Health System (NUHS)**: operates Prescience,
+    Singapore's third national supercomputer and first in healthcare (live
+    since 2023), running multiple NVIDIA DGX A100 nodes for medical LLM
+    training, built jointly with NSCC. nuhs_media@nuhs.edu.sg confirmed
+    twice, domain-matched to nuhs.edu.sg's own contact page. Added to both
+    files.
+  - **Institute of Technical Education (ITE) College Central — AiTE**: a
+    dedicated physical AI training facility hosting "NVIDIA's supercomputing
+    platform," established under a 3-year ITE-NVIDIA AI Workforce Readiness
+    Programme. college_central@ite.edu.sg confirmed twice, domain-matched.
+    Added to both files.
+  - **Republic Polytechnic (RP) — AI Technology Centre (AITC)**: a real
+    facility backed by NVIDIA/NSCC/YooZoo with AI/cyber/cloud/immersive-tech
+    labs. A specific named contact (Vimala Christie, Corporate
+    Communications, vimala_christie@rp.edu.sg) surfaced on the first query
+    but the second independently-worded cross-check query did NOT
+    corroborate it (returned nothing relevant) — correctly NOT used per the
+    mandatory-cross-check rule; routed to contact_form_queue.csv only
+    instead. Worth a retry as a named-contact upgrade another day.
+- **Genuinely new fresh-news company (2026-09-22 announcement, so within the
+  last 48h at batch time)**: **EdgeConneX Singapore** joined the NUS-led
+  Sustainable Tropical Data Centre Testbed (STDCT) Phase 2.0 as top-tier
+  anchor partner — a multi-year commitment funding liquid-cooling and
+  ultra-high-density-rack research for tropical conditions, contributing its
+  own "Ingenuity" high-density DC solution. Confirmed as a real,
+  locally-registered entity (EdgeConneX Singapore Pte Ltd via sgpbusiness.com)
+  with its own APAC HQ in Singapore (Marina Square) — distinct from the
+  already-queued EdgeConneX Indonesia (Jakarta) row, so queued separately
+  under its own /asia-pacific/ contact URL rather than deduping. This is a
+  clean example of the "fresh-news → follow the consortium → find the other
+  members" pattern paying off.
+- **Following the STDCT thread further found its two academic
+  Programme-Director-level leads — both a Tier-1 (best-fit) contact by this
+  campaign's own ranking, since their day job is literally researching
+  cooling for AI racks**: **Assoc Prof Lee Poh Seng** (NUS Mechanical
+  Engineering, Programme Director, STDCT; personal research focus is
+  high-performance/microchannel cooling) — pohseng@nus.edu.sg, and **Prof
+  Wen Yonggang** (NTU, Programme Co-Director, STDCT) — ygwen@ntu.edu.sg.
+  Both emails corroborated across two independently-worded queries each,
+  domain-matched to nus.edu.sg / ntu.edu.sg. Added as new, distinctly-named
+  rows under "NUS - Sustainable Tropical Data Centre Testbed" /
+  "NTU - Sustainable Tropical Data Centre Testbed" rather than folding into
+  the existing NUS-IT / NTU-HPCC rows, since this is a materially different
+  unit/signal from either.
+- **STDCT 2.0's other two named industry partners (Schneider Electric,
+  Eaton) were deliberately NOT added** — both sell their own cooling/power
+  infrastructure products (Schneider owns Uniflair/APC cooling lines; Eaton
+  has its own cooling-adjacent power-management products), so both are
+  vendor-conflicts under this campaign's existing ST Engineering/Johnson
+  Controls exclusion rule, not prospects. Not logged to
+  needs_manual_verification.csv since the exclusion is clear-cut and
+  already-established policy, not a borderline judgment call.
+- **A*STAR Genome Institute of Singapore (GIS)**: real signal (GIS's own
+  "Scientific Computing Platform" page describes itself as the only local
+  entity supporting genomics research at petabyte scale, combining
+  on-premise HPC with NSCC/A*CRC GPU/FPGA resources). The natural named
+  contact, Dr Jonathan Göke (Assistant Director, AI & Compute, GIS), could
+  NOT be converted — three different candidate email forms surfaced across
+  queries (jonathan_goeke@a-star.edu.sg, gokej@gis.a-star.edu.sg, plus an
+  "obscured" pattern), failing the cross-check; separately, GIS's own media
+  contact (Winnie Lim, limcp2@gis.a-star.edu.sg) is on the gis.a-star.edu.sg
+  subdomain, which was independently confirmed via `socket.gethostbyname`
+  to NOT resolve at all (a live example of the DNS-gate note in this
+  campaign's brief) — so GIS was queued (contact-form only) via
+  a-star.edu.sg/gis/contact-us instead of risking either address.
+- **Checked and correctly rejected this pass** (all real companies/signals,
+  evidence didn't clear the bar): DBS Bank and UOB Bank Singapore (both
+  real, heavy AI investors, but no *own physical facility* signal — DBS's
+  AI story is internal ML/analytics, UOB's Punggol Digital District Tower
+  80 is an office/tech-staff building with "AI-enabled meeting tools," not
+  a compute-dense facility; both banks' role in the DC sector found this
+  pass is specifically as *lenders* to DayOne's Batam facility, not
+  buyers); STACK Infrastructure (Singapore is its APAC regional HQ, but its
+  actual nearby physical campus is in Johor Bahru, Malaysia — same
+  "HQ-here-facility-elsewhere" pattern already excluded for
+  Bitdeer/GLP/Galaxy DC); China Telecom Global Singapore (real physical
+  footprint — 400 racks, own ops centre inside Global Switch's Woodlands
+  DC — but the only sourceable news for it is the 2019 facility opening,
+  well outside this campaign's 2025/2026 current-need bar, and no
+  2025/2026 Singapore-specific expansion signal was found despite a
+  dedicated search); Anthropic Singapore (new SEA office, but explicitly a
+  S$20M engineering/talent office, not infrastructure — its actual physical
+  DC investment is in Queensland, Australia via Singapore-based developer
+  Zerra DC, another HQ-here-facility-elsewhere case); Ocean Network Express
+  /ONE (Singapore-HQ'd, but fully cloud-native on Google Cloud/SAP, no
+  owned-facility signal); Monetary Authority of Singapore (S$100M for
+  quantum/AI capability is a funding programme, not its own facility);
+  Chayora/CtrlS/Yotta/Nabiax (no Singapore presence found for any of the
+  four); Tencent Cloud Singapore (only a 2021 AZ-opening reference, no
+  2025/2026-specific expansion found); Frasers Property, Nanyang
+  Polytechnic, Singapore Polytechnic, Temasek Polytechnic, Ngee Ann
+  Polytechnic, SMU (Singapore Management University — search results kept
+  conflating with Southern Methodist University in Dallas; no distinct
+  Singapore-specific physical GPU/HPC facility found), DSO National
+  Laboratories, Changi Airport Group, SingHealth group-level (only a
+  Community-Hospitals-specific media contact on a different domain,
+  singhealthch.com.sg, was found — not used since it doesn't clearly cover
+  the SGH-campus supercomputer signal, and no clean group-level contact
+  converted) — all checked, none converted.
+- **Nava/nava.com**: retried once more with a new angle (searching for
+  Abhinav Sinha's own press/investor contact, and for a kluisz.ai→nava.com
+  redirect confirmation) — still unresolved, same pattern as Days 8/11: the
+  AI-summary keeps asserting nava.com is the company's own site, but no
+  article was found actually quoting "nava.com" as such in body text, still
+  indistinguishable from pattern-completion off the bare domain string in
+  result titles. Left unconverted again. This is now the fourth session
+  this has failed to resolve via WebSearch-only — genuinely at the point of
+  needing a working WebFetch (or a direct site visit) rather than another
+  WebSearch attempt; not worth re-trying via WebSearch again absent a new
+  angle.
+- **Batam/Singapore-spillover cross-check (per campaign brief's explicit
+  prompt to check this)**: found BW Digital, a genuinely Singapore-HQ'd
+  subsidiary of BW Group (Singapore-based energy/maritime company) actively
+  developing a data centre at Nongsa Digital Park, Batam. Per this
+  campaign's own established "HQ-here-facility-elsewhere" exclusion (already
+  applied to Bitdeer/GLP/STACK/Zerra DC above), the physical facility is in
+  Indonesia, not Singapore, so this was NOT added as a Singapore row —
+  flagging here as a pointer for whoever next runs an Indonesia batch,
+  since BW Digital does not appear to be in prospects.csv/contact_form_queue.csv
+  under Indonesia either as far as this session checked.
+- **Net for the day: 5 new prospects.csv rows (SIT, NUHS, ITE College
+  Central, Lee Poh Seng/NUS-STDCT, Wen Yonggang/NTU-STDCT), 6 new
+  contact_form_queue.csv rows (SIT, NUHS, ITE College Central, EdgeConneX
+  Singapore, A*STAR GIS, Republic Polytechnic), 0 needs_manual_verification.csv
+  additions.** This is the best single-day yield since Day 7, and confirms
+  the "academic AI-compute-facility" and "follow a consortium's other
+  members" angles were genuinely untried at this level of specificity
+  before today, not just re-runs of an exhausted search. **Worth a real
+  pass next time**: a named-contact upgrade specifically for Republic
+  Polytechnic (Vimala Christie failed cross-check once, could resolve
+  differently next attempt), NP/SP/Temasek/Ngee Ann Polytechnics'
+  individual AI-lab pages directly (this pass only ran broad searches, not
+  a per-institution deep dive), and the SingHealth main-group corporate
+  communications contact (only the Community Hospitals subset converted a
+  usable-looking but ultimately not-used address).
