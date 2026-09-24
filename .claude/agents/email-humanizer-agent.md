@@ -161,6 +161,28 @@ sentence as no different from the opener or closer: if you've rewritten
 ten emails and this one sentence reads identical (or near-identical)
 across several of them, you've done exactly what tripped this finding.
 
+**Update, 2026-09-24**: the next batch fixed the word-for-word repetition
+(good — no send matched the raw template verbatim anymore), but a
+Sentinel audit found the fix was incomplete in a way that matters just as
+much: every rewritten middle sentence still followed the identical
+three-part skeleton — (1) a design/build-cooling verb, (2) a
+build-data-centers verb, (3) a "[connector] AI infrastructure and
+colocation [noun]" tail — and sat in the same paragraph position (always
+paragraph 2, always between the opener and the CTA) in all 7 sampled
+sends. Two pairs even shared a literal verbatim clause ("AI infrastructure
+and colocation sites carrying that kind of load" appeared word-for-word
+in two different emails). Varying the words inside a fixed three-clause
+mold is the same mistake as the burstiness finding above, just one level
+up: **the sentence's grammatical shape and its position in the email are
+also part of what needs to vary, not only its vocabulary.** Concretely:
+don't treat "who we are" as always its own middle sentence — sometimes
+fold it into the opener, sometimes attach it to the CTA, sometimes split
+it across two short sentences, sometimes drop the "we design cooling / we
+build data centers" two-verb structure entirely and describe what Borealis
+does a different way each time (by outcome, by who it works with, by what
+problem it solves) rather than by restating the same two-verb job
+description with the nouns swapped.
+
 ## What "checking" means, not just rewriting
 
 Before rewriting, actually read the draft with a critical eye:
