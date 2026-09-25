@@ -483,6 +483,94 @@ socket.gethostbyname` before adding, in addition to the tool's own automatic DNS
   the workshop reportedly included "state-owned enterprises across sectors" which wasn't
   fully enumerated in available coverage.
 
+**Day 13 (2026-09-25, gov-agency-with-own-DC follow-up + broader colocation-operator sweep
+via a market-report company-list angle): 3 new prospects.csv rows, 6 new
+contact_form_queue.csv rows — the best single-day yield since Day 7/11.** WebFetch
+re-confirmed egress-blocked at the start (tested against dci-indonesia.com/about-us/,
+EGRESS_BLOCKED) — ran entirely on WebSearch, with a mandatory second independently-worded
+query before accepting any specific email claim, per the fallback protocol. All new domains
+independently spot-checked for DNS resolution via `python3 socket.gethostbyname` before
+adding, in addition to the tool's own automatic gate.
+- **Government-agency-with-own-AI-DC angle (the specific untried sub-angle flagged coming
+  into today)**: checked BPS/Statistics Indonesia (has an ISO-27001 DC+DRC, but only for its
+  own census/survey systems — no AI-buildout or cooling-constraint signal, just routine
+  infra), BPJS Ketenagakerjaan (investing *in* AI-infrastructure companies as an LP, not
+  building its own facility — wrong signal type), Polri/digital forensics (Puslabfor is real
+  but no AI-data-center or cooling signal found at all), Kemendagri (Dukcapil's Data Center
+  Ampera is already in contact_form_queue.csv from a prior batch, not new), Kemenkes/
+  SATUSEHAT (already covered; no *new* facility found, only app-feature updates), Imigrasi
+  (autogate facial-recognition rollout, but data sits on the already-covered Komdigi PDN, not
+  a separate facility), BSSN (has an internal "Pusat Data dan TIK" but no AI/cooling-specific
+  public signal). **None of these qualified** — this angle is now genuinely exhausted, not
+  just under-tried; the "government agency with a real facility" vein from Day 12 (DJP/
+  Coretax) appears to have been the exception, not the norm.
+- **Productive new angle: pulling the named-operator list out of a syndicated market-research
+  press release** ("Indonesia Data Center Investment Analysis Report 2026" /
+  researchandmarkets/Arizton, surfaced via a generic fresh-news query) rather than searching
+  company-by-company — its "Key Companies" list named several real, smaller/mid-size
+  colocation operators never checked before: Bitera Data Center, DTP, MettaDC, K2 Strategic,
+  Pure Data Centres, IDC Indonesia (also listed Bitera-adjacent Golden Fast Network and
+  NexByte Data Center, both checked and deliberately NOT added — see below). All six were
+  independently verified as real, currently-operating Jakarta-area facilities via DCD/Baxtel/
+  PeeringDB/company-site cross-checks, not taken on the press release's word alone.
+  - **3 converted to prospects.csv** (domain-matched email = website domain, confirmed by two
+    independently-worded queries each): **Bitera Data Center** (marketing@bitera-dc.com,
+    20MW Tier III, ~4,000 racks, CEO Tedy Harjanto quoted on Indonesia's still-low DC power
+    density per capita — a real technology-need proxy), **MettaDC** (sales@mettadc.com, 35MW
+    ID01 live with President Director Sukoco Halim quoted targeting 500MW total capacity
+    incl. Batam/Nusantara), **DTP/PT Dwi Tunggal Putra** (sales@dtp.net.id, 4 Jakarta
+    colocation facilities under the GSD brand, Director & CEO Michael Alifen; also captured a
+    real explicitly-labeled WhatsApp number, +62 822-9999-9387, and a general phone number
+    from its own site). All 3 also queued to contact_form_queue.csv as the dual-channel
+    backup. Flag: DTP is a ~47.6% shareholder in AREA31's parent (PT Dunia Virtual Online),
+    and Michael Alifen holds leadership roles at both — judged a real, separately-facilitied
+    company (different brand, different domain, distinct DC portfolio) rather than a
+    duplicate of the already-covered AREA31 row, but noting the related-party structure for
+    transparency.
+  - **3 correctly routed to contact_form_queue.csv ONLY, not prospects.csv, on the
+    domain-match rule**: **K2 Strategic Indonesia** (Kuok Group/Sinar Mas Land JV, real
+    58.8MW+100MW-planned Bekasi/Karawang campuses — but the only email found,
+    info@k2strategic.org, does not match the company's own site domain, k2strategic.co;
+    routed to the site's own contact-us page instead of using the mismatched address), **Pure
+    Data Centres** (real operational 20MW JKT01 facility — but the only email found,
+    info@puredc.global, doesn't match the site domain puredc.com; routed to
+    puredc.com/contact-us instead), **IDC Indonesia** (Indonesia's first carrier-neutral DC,
+    6 facilities nationwide, real and long-established — but every specific email found was
+    a RocketReach/SignalHire *pattern guess* like "first@idc.co.id," not a published address;
+    routed to the site itself as no dedicated contact-form URL could be confirmed).
+  - **Checked and deliberately NOT added (too weak a signal)**: Golden Fast Network/
+    Goldenfast Networks (real Jakarta colo, but budget VPS/dedicated-server hosting with no
+    AI, high-density, or cooling-specific signal anywhere — closer to the e-commerce/
+    cloud-customer pattern already excluded elsewhere in this log) and NexByte Data Center
+    (PT Mahavira System Integra — only 53 racks, 133.5 sqm, no AI/density signal at all).
+  - **Other names on the same market-report list, checked and found already-covered, not
+    new**: BDx, Telkom Indonesia, Princeton Digital Group, Digital Realty (via Bersama
+    Digital Data Centers), Digital Edge, ST Telemedia GDC, DCI Indonesia, Racks Central,
+    Elitery, SM+, Equinix, Google (Google Cloud Indonesia already queued). **NTT DATA**
+    (confirmed via services.global.ntt — the JKT2A/JKT3 GPU-expansion coverage) is the same
+    entity/domain as the already-queued "NTT Indonesia" row, not a separate company.
+- **Other sweeps run this pass, all empty or already-covered**: fresh-news check for any
+  new Indonesia AI-DC announcement in the last 24-48h (everything found — CoreWeave,
+  BDx CGK4, Digital Edge, EDGNEX — already on file); Danantara's National AI Data Center &
+  Electrification Strategic Workshop follow-up (confirmed only already-covered NeutraDC/
+  Telkom and PLN named as participants; "70+ BUMN respondents" reported in aggregate, no
+  further individual companies enumerated in available coverage); Multipolar Technology's
+  GTN data-center JV (confirmed to be the same GTN entity already covered under EdgeConneX,
+  not new); CtrlS Datacenters (no confirmed Indonesia presence, Southeast Asia expansion
+  talk names Malaysia/Thailand/Vietnam/Bangladesh, not Indonesia); Universitas Diponegoro/
+  Airlangga fresh AI-HPC-center check (nothing beyond a research paper, no facility);
+  "Pusat Data Jateng" provincial government DC (real but generic, 2023-launched, no AI or
+  cooling-specific signal, correctly not added).
+- **Net for the day: 3 new prospects.csv rows, 6 new contact_form_queue.csv rows, 0
+  needs_manual_verification.csv additions.** The government-agency angle is now closed out;
+  the productive new angle (pulling operator names from a syndicated market-research
+  company-list rather than searching operator-by-operator) surfaced 6 genuinely new,
+  real, verifiable companies in one pass after 12 days of the obvious/major operators being
+  exhausted — **worth repeating specifically**: re-run the same technique against other
+  market-research press releases (Arizton/Mordor Intelligence/GlobeNewswire Indonesia DC
+  reports tend to list 15-30+ named operators each) as a company-discovery shortcut, since
+  it out-performed today's government-agency angle by a wide margin.
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
