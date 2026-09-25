@@ -1203,3 +1203,118 @@ queue-only instead — see below).
   a per-institution deep dive), and the SingHealth main-group corporate
   communications contact (only the Community Hospitals subset converted a
   usable-looking but ultimately not-used address).
+
+**Day 13 (2026-09-25, closing out Day 12's specific untried list + broad
+new-angle sweep, since 0 SG rows were unsent going into today): 6 new
+prospects.csv rows, 10 new contact_form_queue.csv rows, 0
+needs_manual_verification.csv additions.** WebFetch confirmed fully
+egress-blocked at the start (direct test against www.jtc.gov.sg,
+EGRESS_BLOCKED) — ran entirely on WebSearch, with a mandatory second
+independently-worded query before accepting any specific email claim, per
+the fallback protocol. Every new domain independently spot-checked via
+`python3 socket.gethostbyname` before adding (all 10 resolved), in
+addition to the tool's own automatic DNS gate.
+- **SingHealth's own supercomputer (CHROMA, at SGH Campus, distinct from
+  NUHS's already-covered Prescience) had never been checked as its own
+  signal** — found it via a targeted search, added **Audrey Lau, Group
+  Chief Communications Officer, audrey.lau.l.p@singhealth.com.sg**
+  (corroborated via sgdi.gov.sg — the same official government-directory
+  channel that converted Jacqueline Poh/JTC on Day 8 — across two
+  independently-worded queries). Weakest tier (comms), flagged as such.
+  Also queued (contact form) for the dual channel.
+- **Closed out Day 12's specific Republic Polytechnic retry**: Vimala
+  Christie's named email still didn't reconvert, but found and
+  cross-checked **help-OCC@rp.edu.sg** (RP's own Office of Corporate
+  Communications address, confirmed twice via rp.edu.sg and sgdi.gov.sg) —
+  upgraded RP from queue-only to a real prospects.csv row using the
+  existing AITC (AI Technology Centre) signal already on file. Generic
+  tier.
+- **New academic/health angle continued from Day 12**: found **NUS
+  Medicine's Biological Data Center prototype** (NUS Medicine + DayOne +
+  Cortical Labs, live since July 2026 — a 20-unit CL1 rack of 16 million
+  living human neurons requiring precise thermal/life-support
+  environmental control, a genuinely novel cooling-relevant signal). No
+  domain-matched named or generic email found beyond DayOne's own
+  already-covered address, so queued contact-form-only
+  (medicine.nus.edu.sg/contact-us/).
+- **REIT-entity angle, new this session**: added **Digital Core REIT**
+  (Mabel Tan, Director Capital Markets & IR, IR@digitalcorereit.com — its
+  own investor-relations page — real Aug 2026 maiden Singapore entry via a
+  stake in Digital Loyang 2) and **Keppel DC REIT** (Renee Goh, Senior
+  Manager IR & Sustainability, renee.goh@keppel.com, found on
+  keppeldcreit.com's own IR-contact page — same corporate family/domain as
+  the existing Keppel Data Centres row but a separate SGX-listed entity
+  with its own IR channel and its own Keppel DC Singapore 9 mid-2026
+  construction-start signal, same pattern already established for
+  Mapletree Investments/CapitaLand Ascendas REIT). Both IR tier, flagged
+  as weak.
+- **New company (not a REIT/academic angle): SuperX AI Technology
+  Limited** — Nasdaq-listed AI-infrastructure company that launched an AI
+  Innovation Centre with ST Telemedia GDC at STT Singapore 5 (Tai Seng) in
+  April 2026, giving direct access to NVIDIA Blackwell GPUs (192GB HBM3e).
+  ir@superx.sg confirmed twice via investors.superx.sg (own site). IR
+  tier.
+- **New company: Certis Group** — media@certisgroup.com confirmed twice
+  via certisgroup.com's own "Connect with Us" page. Real signal: an 800
+  sqm Centre for Applied Intelligence with dedicated ML/DL hardware, built
+  with ASUS as a dedicated data center powering Certis's AI security/FM
+  operations (Smart Command Operations Centre). Weakest tier (media
+  inbox).
+- **3 more queue-only additions, all real but no domain-matched contact
+  found**: **OVHcloud Singapore** (launched its second Singapore DC, SGP2,
+  billed as its most sustainable APAC facility), **Oracle Cloud
+  Infrastructure Singapore** (opened a second Oracle Cloud Region in
+  Singapore for AI/cloud demand — distinct from the already-queued Oracle
+  Indonesia row), **A*STAR Institute of Advanced Intelligence and
+  Computing (IAIC)** (new institute formed 1 July 2026 merging I2R+IHPC,
+  consolidating AI/HPC/GPU/FPGA/quantum compute — no media contact
+  surfaced despite a dedicated search).
+- **Checked and rejected/deprioritized this pass, all real companies/signals,
+  evidence didn't clear the bar or turned out to be a duplicate/talent-office
+  pattern already established as out of scope**: Nanyang Polytechnic (AI
+  Nexus Lab is AWS-based SME consulting, not a GPU facility), Ngee Ann
+  Polytechnic (no dedicated GPU/DGX facility found despite a real Gen-AI
+  push), Temasek Polytechnic (AI Application Centre/gen-AI design lab —
+  showcase-level, not clearly a dense compute facility), Nscale (its
+  Singapore GPU cluster runs on Singtel/Nxera capacity, not its own
+  facility — same pattern as Vultr, also checked and rejected for the same
+  reason), Goodman Group (regional office only, actual DC assets are Japan/
+  Hong Kong), Firmus Technologies (no distinct Singapore facility found,
+  separate from its already-covered Batam, Indonesia site), Infineon
+  Singapore and STMicroelectronics Singapore (real AI-driven capex/research
+  labs, but the disclosed capacity investment is Dresden/Crolles, not
+  Singapore, and ST-NUS HELIX is a research collaboration, not a dense
+  compute facility), Seagate Singapore and Western Digital Singapore (AI
+  manufacturing signal is stale/generic or the current 2025/2026 expansion
+  is Malaysia/Thailand, not Singapore), DBS Bank (reconfirms Day 12: no
+  owned-facility signal, only internal ML/analytics), Razer Singapore (AI
+  Center of Excellence reads as a talent/R&D office, same pattern as
+  already-rejected Databricks/Anthropic Singapore offices), SCALE@NTU
+  (Singtel-affiliated academic AI lab, no dedicated GPU-facility signal
+  beyond generic teaching clusters, no contact email surfaced), Cyber
+  Security Agency of Singapore (no physical high-density facility signal),
+  Punggol Digital District (district-level smart-infrastructure story, not
+  a single company's cooling need). DC-CFA2's winner list re-checked
+  explicitly for a 5th/6th name beyond the already-known four (Digital
+  Realty, Equinix, Keppel, STT GDC) — confirmed still just four winners
+  from 20+ proposals, no new company there.
+- **Net for the day: 6 new prospects.csv rows (SingHealth/Audrey Lau,
+  Republic Polytechnic upgrade, Digital Core REIT/Mabel Tan, Keppel DC
+  REIT/Renee Goh, SuperX AI/IR, Certis Group/media), 10 new
+  contact_form_queue.csv rows (SingHealth, Digital Core REIT, Keppel DC
+  REIT, SuperX AI, Certis Group, OVHcloud Singapore, Oracle Cloud
+  Infrastructure Singapore, NUS Medicine biological data center, A*STAR
+  IAIC — 6 as dual-channel backups for the prospects.csv companies plus 4
+  queue-only), 0 needs_manual_verification.csv additions.** This is a
+  genuinely thinner day than Days 7 or 12 despite ~35 queries across a
+  wide set of fresh angles (polytechnics, REITs, cloud providers,
+  semiconductor fabs, storage/manufacturing, statutory boards, a talent-
+  office sweep) — confirms the pool is now heavily mined at this evidence
+  bar. **Worth trying next**: NUS Medicine/Cortical Labs team's own named
+  researcher (the press coverage names Cortical Labs/DayOne executives but
+  this pass didn't chase individual names, only the institutional
+  contact), a dedicated per-institution deep dive on NP/SP/Temasek
+  Polytechnics' specific AI-lab pages (only broad searches were run today,
+  same gap flagged Day 12), and A*STAR IAIC's leadership (a merger this
+  recent likely has a named Executive Director not yet surfaced by a
+  broad search) once WebFetch is restored.
