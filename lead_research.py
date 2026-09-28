@@ -31,6 +31,36 @@ from lead_discovery import CC_SEPARATOR, domain_resolves, normalize_email, valid
 
 log = logging.getLogger(__name__)
 
+# Phrases that mark a researcher's own audit-trail narration about the CRM
+# (e.g. "already cited as this company's technology-need signal") rather than
+# a fact about the prospect. Found leaking into `technology_need` four times
+# across real batches (Sentinel QA, 2026-09-28) because researchers sometimes
+# annotate their own reasoning inline instead of stopping at the fact. Cut
+# `technology_need` at the first such marker so it never reaches Source (and,
+# downstream, a sent email) even if a researcher forgets to self-edit.
+_AUDIT_NARRATION_MARKERS = (
+    "already cited as",
+    "already on file",
+    "already used",
+    "already covered",
+    "a real, named lead",
+    "a genuinely on-point",
+    "a named, domain-match",
+    "technology-need signal",
+    "technology need signal",
+)
+
+
+def _strip_audit_narration(text: str) -> str:
+    lowered = text.lower()
+    cut = len(text)
+    for marker in _AUDIT_NARRATION_MARKERS:
+        idx = lowered.find(marker)
+        if idx != -1:
+            cut = min(cut, idx)
+    return text[:cut].rstrip(" -–—(")
+
+
 PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Website", "WhatsApp", "Phone", "Source", "Lawful Basis", "Country"]
 QUEUE_STATUSES = {"pending", "filled_pending_review", "submitted", "blocked", "failed"}
 
@@ -130,7 +160,7 @@ def append_web_researched_prospect(
     email = normalize_email(prospect.get("email"))
     company = (prospect.get("company") or "").strip()
     source = (prospect.get("source") or "").strip()
-    technology_need = (prospect.get("technology_need") or "").strip()
+    technology_need = _strip_audit_narration((prospect.get("technology_need") or "").strip())
     cc_candidates = prospect.get("cc_emails") or []
     website = (prospect.get("website") or "").strip()
     whatsapp = (prospect.get("whatsapp") or "").strip()
@@ -233,7 +263,7 @@ def queue_contact_form_lead(
         "Contact Form URL": contact_form_url,
         "Status": "pending",
         "Notes": "",
-        "Technology Need Signal": (prospect.get("technology_need") or "").strip()[:900],
+        "Technology Need Signal": _strip_audit_narration((prospect.get("technology_need") or "").strip())[:900],
         "Source": source[:900],
         "Date Found": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }

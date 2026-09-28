@@ -43,6 +43,24 @@ def test_append_web_researched_prospect_writes_row(tmp_path):
     assert rows[0]["Lawful Basis"]
 
 
+def test_append_web_researched_prospect_strips_audit_narration(tmp_path):
+    csv_path = tmp_path / "prospects.csv"
+    annotated = dict(
+        GOOD_PROSPECT,
+        technology_need=(
+            "Announced 40MW liquid-cooled AI training cluster build "
+            "(same center already cited as the technology-need signal for the existing row)"
+        ),
+    )
+    assert append_web_researched_prospect(annotated, prospects_csv=csv_path) is True
+
+    with csv_path.open() as handle:
+        rows = list(csv.DictReader(handle))
+    assert "40MW" in rows[0]["Source"]
+    assert "already cited" not in rows[0]["Source"]
+    assert "technology-need signal" not in rows[0]["Source"]
+
+
 def test_append_web_researched_prospect_rejects_invalid_email(tmp_path):
     csv_path = tmp_path / "prospects.csv"
     bad = dict(GOOD_PROSPECT, email="not-an-email")
