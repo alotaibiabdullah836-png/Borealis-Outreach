@@ -571,6 +571,121 @@ adding, in addition to the tool's own automatic gate.
   reports tend to list 15-30+ named operators each) as a company-discovery shortcut, since
   it out-performed today's government-agency angle by a wide margin.
 
+**Day 14 (2026-09-28, market-report-follow-up + BUMN/state-enterprise sweep + fresh-news pass):
+thin yield, 1 new prospects.csv row, 1 new contact_form_queue.csv row (same company, dual
+channel), 2 needs_manual_verification.csv additions.** WebFetch re-confirmed egress-blocked
+at the start (tested against dci-indonesia.com/about-us/ and globenewswire.com, both
+EGRESS_BLOCKED) — ran entirely on WebSearch, with a mandatory second independently-worded
+query before accepting any specific email claim, per the fallback protocol. The one new
+domain (inti.co.id) was independently spot-checked for DNS resolution via `python3
+socket.gethostbyname` before adding, in addition to the tool's own automatic gate.
+- **Repeated Day 13's productive "pull operators from a market-research report" angle
+  against several other reports** (Mordor Intelligence's Indonesia DC/networking/power/
+  server/processor/construction "companies" pages, Arizton's 90-existing/40-upcoming
+  portfolio "36 operators" list, ResearchAndMarkets/GlobeNewswire's 87-existing/30-upcoming
+  2026 portfolio release, Baxtel's "153 data centers / 51 providers" count, Blackridge
+  Research's "Top 5 Upcoming" and "Ongoing Projects" pages) — this was **far less productive
+  than Day 13**: nearly every named operator across all of these (DCI, BDx, Telkom/
+  NeutraDC, PDG, NTT DATA, MettaDC, Digital Edge/Indonet, Digital Realty Bersama, ST
+  Telemedia GDC, Biznet, DTP, Elitery, IndoKeppel, Moratelindo/NDC, NEX, Datacomm,
+  EdgeConneX/GTN, SpaceDC, Equinix, Google, Bitera, K2 Strategic, Pure Data Centres, IDC
+  Indonesia) was already in prospects.csv/contact_form_queue.csv from Day 13 or earlier.
+  One name looked new (**AtriaDC**, an Arizton/Baxtel-listed operator with its own
+  atriadatacenter.com domain, backed by Saratoga Investama, ex-SpaceDC West Jakarta asset)
+  but a dedicated ownership-history check found it is the same underlying entity as the
+  already-covered **Bersama Digital Data Centres / Digital Realty Bersama** row (AtriaDC →
+  BDDC → Digital Realty Bersama JV, confirmed via idnfinancials.com and mingtiandi.com) —
+  correctly NOT added as a duplicate. Another (**Cyber Data Center International**,
+  Mampang Prapatan, Jakarta) is a small legacy 2MW Tier III facility from 1995/2012 with no
+  AI/density/cooling signal — checked and deliberately excluded, same pattern as the
+  previously-rejected Golden Fast Network/NexByte.
+- **One genuinely new, real, verified company found and converted**: **PT INTI (Persero)**
+  — PT Industri Telekomunikasi Indonesia, a state-owned telecom-equipment manufacturer in
+  Bandung, is developing an AI GPU-based Data Center on its own 8-hectare HQ site (3,888 sqm
+  operational facility), per a May 2024 MoU with PT Jagat Bali Lestari, confirmed on the
+  company's own site (inti.co.id/?p=13158) and corroborated independently
+  (i-portal.inti.co.id/post/4379/bandung-punya-ai-data-center). info@inti.co.id is
+  domain-matched and published on the company's own Contact Us page
+  (inti.co.id/?page_id=1250), corroborated by two independently-worded queries; no named
+  individual's personal email was found (President Director Dr. Edi Witjara and Director of
+  Operations Ahmad Taufik were named but no personal email surfaced), so this landed as a
+  generic-inbox row. Added to both prospects.csv and contact_form_queue.csv (dual channel).
+  This came from a BUMN/state-enterprise angle (PT INTI, PT Len Industri checked) that
+  hadn't been specifically tried before — **PT Len Industri (Bandung defense electronics)
+  checked and found no AI/data-center signal, correctly not added.**
+- **Two items routed to needs_manual_verification.csv rather than treated as normal
+  prospects**:
+  - **DTC Netconnect (PT Adhitya Mandiri Pratama)** — found via a Surabaya-hosting search,
+    but on inspection this is a **vendor conflict**: DTC Netconnect manufactures/sells its
+    own "DTC Smart Series" cooling products, explicitly including a Liquid Cooling System
+    and Modular Smart Containment, and is expanding this line via an ASRock Rack
+    partnership — same excluded category as ST Engineering/Airbitat and Johnson Controls.
+  - **Data Center First Pte Ltd** (Gaw Capital / Wong Ka Vin JV, the real 30MW Nongsa One
+    campus in Batam, distinct from the already-covered Golden Digital Gateway JV) — real
+    2021-2023 buildout signal, but sgpbusiness.com's ACRA-sourced company record shows the
+    entity as "Dissolved - Members Voluntary Winding Up." The datacenterfirst.com site and
+    Nongsa One facility page still resolve/appear live in search snippets, so this may be a
+    corporate restructuring rather than a facility closure, but no 2025/2026 news confirming
+    current operations was found and WebFetch is blocked this session so the live site
+    couldn't be directly checked either way. Flagged for manual verification before any
+    outreach rather than guessed either direction.
+- **BUMN/state-enterprise angle, otherwise checked and empty**: PLN (Persero) itself — real
+  and extensively covered in "supporting the DC boom via grid capacity" press (159 DC
+  customers, 2,038 MVA connected), but this is PLN as *power supplier to* DC operators, not
+  PLN needing its own cooling — correctly not added, consistent with the already-queue-only
+  PLN Icon Plus row being the closer fit. Payment-switching BUMN/quasi-BUMN cluster (Jalin
+  Pembayaran Nusantara, Artajasa, Rintis Sejahtera) — AI-adoption/partnership PR only, no
+  facility-level signal, consistent with the established fintech pattern already excluded
+  repeatedly in this log.
+- **Other sweeps, all empty or already-covered**: DOOH/PT Era Media Sejahtera Tbk (IDX-listed
+  outdoor-advertising company publicly "assessing"/"studying" a pivot into data centers,
+  citing large market-wide investment figures rather than its own committed project or
+  site — judged too vague/speculative to qualify, unlike the SM+ or NexAI/MGLV
+  conglomerate-pivot rows that had a specific facility; PT Jakarta Infrastruktur Propertindo,
+  a DOOH-adjacent billboard/tower company listing "data center" as a solution category with
+  no specifics, same judgment); Medco Power (5% minority investor in the already-covered
+  NeutraDC Nxera Batam JV — too small/indirect a stake, doesn't need its own cooling); PT
+  EZSVS Technology Indonesia (a Chinese-owned IDC O&M/system-integration *service provider*,
+  i.e. a vendor/contractor to other operators, not itself a facility-owner buyer — not
+  logged as a vendor-conflict since it doesn't sell cooling hardware specifically, just not a
+  qualifying prospect type); insurance-sector AI adoption (Allianz Indonesia, Astra Life —
+  AI-in-claims-processing PR only, no facility signal, closing out the "worth a real pass"
+  item from Day 7 Singapore's insurance angle applied here too); industrial-estate DC-tenant
+  angle (Jababeka/KIJA, Puradelta/DMAS, SSIA, BEST — landlords benefiting from DC tenant
+  demand, not facility operators themselves, same judgment as the already-covered Intiland/
+  DC Land row which qualified only because it directly brands and operates its own DC, not
+  just leases land); Lippo Group/First Media/GTN (re-confirmed same already-covered
+  EdgeConneX/GTN entity); Rebana Metropolitan/Subang, KEK Industropolis Batang (Rp82T) —
+  both resolve to already-covered Zankore; "Raksasa Data Center Cina" Rp88T Batam Nongsa
+  investment — resolves to the already-queued PT Equator Gate System Batam/RangeIDC row;
+  BRIN's new ASEAN-Korea HPC supercomputer (Cibinong, launched June 2026, TOP500-ranked,
+  4.28 petaflops peak) — a real, distinct, newer facility from the already-covered BRIN
+  Mahameru HPC, but same parent institution (BRIN/brin.go.id) so not treated as a separate
+  company; a fresh-news sweep for the last 24-48h (Sept 26-28) turned up nothing not already
+  attributable to already-covered companies (BDx CGK4/Jatiluhur follow-on coverage, PLN
+  grid-support statements, Bahlil's investor-pitch remarks at Electricity Connect 2026);
+  university sweep (Universitas Hasanuddin, Universitas Syiah Kuala) — both have only
+  generic administrative "pusat data" units, no AI/HPC center found; job-board sweep
+  (Jobstreet/Indeed/Glassdoor "data center facilities/mechanical engineer" listings) —
+  surfaced no new hiring-manager names and only one new employer name (EZSVS, checked and
+  excluded above) beyond companies already on file.
+- **Net for the day: 1 new prospects.csv row, 1 new contact_form_queue.csv row (same
+  company), 2 needs_manual_verification.csv additions.** This is the thinnest day since Day
+  8/12 and does NOT confirm Day 13's "market-report angle is highly productive" conclusion
+  generalizes well — it was productive specifically for the *first* new report checked
+  (Arizton's colocation portfolio, Day 13) but re-running the same technique against five
+  more reports on Day 14 returned almost entirely overlapping operator lists, suggesting the
+  Indonesia data-center-operator universe covered by these syndicated reports is now
+  genuinely close to fully mined. The **BUMN/state-enterprise angle (PT INTI today) is
+  worth a further look** — only PT INTI and PT Len Industri were checked; other BUMN
+  manufacturing/industrial entities (e.g. PT Dirgantara Indonesia, PT Pindad, PT Barata
+  Indonesia, PT Krakatau Steel's IT arm) remain untried for a similar "state enterprise
+  building its own AI/GPU facility" signal. The **deep regional Bahasa trade press angle
+  remains only lightly touched** (a few Kompas.id/Investor Daily/Bisnis.com queries run
+  today, still nothing new) and could use a dedicated pass with different regional-outlet
+  names specifically (Solopos, Radar [regional Jawa Pos network], Tribun regional editions)
+  rather than the national outlets repeatedly checked so far.
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
@@ -1318,3 +1433,152 @@ addition to the tool's own automatic DNS gate.
   same gap flagged Day 12), and A*STAR IAIC's leadership (a merger this
   recent likely has a named Executive Director not yet surfaced by a
   broad search) once WebFetch is restored.
+
+  **(Post-Day-13 audit note, 2026-09-28): the Keppel DC REIT/Renee Goh row
+  above was subsequently pulled from prospects.csv and moved to
+  needs_manual_verification.csv** — renee.goh@keppel.com was sourced from
+  keppeldcreit.com but the email domain (keppel.com) doesn't match the
+  verified source domain, the exact domain-match failure this log has
+  flagged repeatedly for other companies (Telkomsel, Kredivo, OCBC NISP,
+  Applied Materials). Lesson for future batches: a REIT-manager or
+  subsidiary using its parent corporation's email domain is a plausible
+  explanation but is not itself confirmation — hold it to the same
+  domain-match bar as everything else rather than assuming the corporate
+  relationship excuses the mismatch.
+
+**Day 14 (2026-09-28, market-report/company-list angle + fresh-news sweep +
+"named lead of an already-covered facility" upgrade angle): thin but honest
+yield, 4 new prospects.csv rows (all named-contact upgrades of companies
+already queue-only), 0 new contact_form_queue.csv rows (all 4 companies were
+already queued from prior days), 0 needs_manual_verification.csv additions.**
+WebFetch confirmed fully egress-blocked at the very start (direct test
+against www.jtc.gov.sg, EGRESS_BLOCKED) — ran entirely on WebSearch, with a
+mandatory second independently-worded query before accepting any specific
+email claim, per the fallback protocol. All 4 new domains independently
+spot-checked via `python3 socket.gethostbyname` before adding (all
+resolved), in addition to the tool's own automatic DNS gate.
+- **Market-report company-list angle (the Day 13 Indonesia technique,
+  explicitly tried here per today's task brief)**: pulled named-operator
+  lists from Mordor Intelligence's and Arizton's Singapore data-center
+  "key players" pages and a Blackridge Research "top upcoming DCs" post.
+  Every operator named (Cyxtera/Evoque/Centersquare, PhoenixNAP, Rackspace,
+  CapitaLand Data Centre/CLDC, Racks Central Singapore RC1, plus the usual
+  major names) was checked. **None converted**: CapitaLand Data Centre's
+  38A Kim Chuan Road facility is real and AI-ready but uses the same
+  capitaland.com domain/contact already on file under CapitaLand Ascendas
+  REIT, so treated as the same company rather than a duplicate row; Racks
+  Central's Singapore RC1 (Tai Seng) is real but the only contact
+  (sales@rackscentral.com) is the identical address already used for the
+  existing Racks Central row filed under Indonesia (Batam) — sending the
+  same address twice under two country rows would just double-email the
+  same inbox, so not duplicated; Cyxtera/Evoque/Centersquare Singapore
+  (SIN1 Tai Seng, SIN2 Jurong East) is real but ownership is confusingly
+  split across Digital Realty/Brookfield-Centersquare in current listings
+  and no AI/cooling-specific signal was found for either facility (the
+  search explicitly returned "no specific information about AI cooling,
+  high-density deployments" for these two) — didn't clear the evidence
+  bar. PhoenixNAP and Rackspace showed no confirmed owned physical
+  Singapore facility (likely partner/reseller capacity only). This
+  confirms the market-report angle is a much better *discovery* tool when
+  a country's pool is still fresh (as it was for Indonesia on Day 13) than
+  when it's this heavily pre-mined (13 prior Singapore batches) — most
+  names it surfaces are already on file.
+- **Fresh-news sweep (last 24-72h + general September 2026 sweep)**:
+  Singapore's new liquid-cooling standard (SS 726:2026, IMDA/EnterpriseSG),
+  the $4.56B DC construction market report, Data Centre World Asia 2026
+  (29-30 Sept, Marina Bay Sands — spot-checked for a 2026-specific speaker
+  list naming a facilities/engineering person; none surfaced, only 2025's
+  list and generic "215 speakers" figures), NVIDIA's first Singapore
+  research hub (announced at ATxSummit, embodied-AI/research lab — talent
+  office, no physical DC/cooling signal, same excluded pattern as
+  OpenAI/Anthropic/Databricks Singapore offices), and EDB's "AI centres and
+  labs" roundup (Manulith, Bain, Revolut, Razer, KPMG, Robin AI — all
+  software/consulting AI CoEs, not physical compute facilities) were all
+  checked and correctly excluded. Bitdeer AI's Singapore claim was
+  specifically re-investigated (its own bitdeer.ai/aidc page markets a
+  "Southeast Asia AI Data Center including Singapore and Malaysia") but
+  every disclosed-capacity press release (A101/A102/A202) is exclusively
+  about the Johor, Malaysia campus — reconfirms Day 8's "HQ-here-facility-
+  elsewhere" exclusion rather than overturning it.
+- **Productive angle: searching for the named director/lead of a facility
+  ALREADY cited as an existing queue-only company's technology-need signal**
+  (distinct from the broad "senior-executive-upgrade" angle tried
+  extensively on Days 7-8, which targeted CEOs/MDs found via press
+  coverage) — this specifically targeted the technical/academic lead
+  actually quoted or named in connection with the facility itself, and
+  converted 4 of roughly 9 attempts:
+  - **Prof Rickie Patani** (Director, Neurobiology Programme, NUS Life
+    Sciences Institute) — rickie.patani@nus.edu.sg, found on his own NUS
+    LSI faculty page, corroborated twice; supervises the neuron cultures in
+    NUS Medicine's Biological Data Centre prototype (already queue-only).
+  - **Daniel Zhengkui Wang** (Director, SIT x NVIDIA AI Centre/SNAIC) —
+    zhengkui.wang@singaporetech.edu.sg, found on SIT's own faculty
+    directory page, corroborated twice; heads the exact NVIDIA DGX H200
+    facility already cited as SIT's technology-need signal (upgrades SIT
+    from its existing generic media@ row).
+  - **A/Prof Ngiam Kee Yuan** (Group CTO & Head, AI Office, NUHS) —
+    kee_yuan_ngiam@nuhs.edu.sg, corroborated twice via his own NUHS
+    discovery-profile page and the sgdi.gov.sg AI Office directory listing;
+    leads the Prescience supercomputer initiative already cited as NUHS's
+    signal (upgrades NUHS from its existing generic nuhs_media@ row).
+  - **Marie Vaillaud** (Communications and PR Manager, OVHcloud) —
+    media@ovhcloud.com, a long-standing, literal, consistently-repeated
+    press-release boilerplate contact confirmed via corporate.ovhcloud.com
+    across multiple releases — weakest tier (global comms inbox, not
+    Singapore-specific or facilities-focused), but real and domain-matched;
+    upgrades OVHcloud Singapore (SGP2 launch) from queue-only.
+  - **Not converted despite a real named person**: Dr Su Yi (A*STAR IAIC
+    Executive Director) — the exact "suyi@a-star.edu.sg" string that Day
+    11 already rejected as a RocketReach/ZoomInfo pattern-guess resurfaced
+    again today via a differently-worded query; treated as the same
+    unconfirmed pattern rather than newly corroborated, and deliberately
+    NOT used despite appearing twice this session — flagging explicitly
+    since it would be easy to mistake surface-level "two-query consistency"
+    for real corroboration here when it's actually the same recurring
+    guess. Also not converted: Thorsten Ziegler/Chi Yee Ling (EdgeConneX
+    Singapore engineering/site-development leads, genuinely on-point and
+    quoted specifically on cooling in the STDCT 2.0 announcement — only
+    masked ZoomInfo/RocketReach addresses found for either); Kenny Sng
+    (SuperX AI CTO, no email found at all); Kelvin Fong (EdgeConneX APAC
+    MD, only a stale 2021 masked/personal-gmail candidate, correctly
+    rejected); Jonathan Göke (A*STAR GIS) and Vimala Christie (Republic
+    Polytechnic) re-tried once more per their standing retry flags, still
+    unconverted, no new corroboration found.
+- **Other angles checked and closed out as empty this pass**: IMDA
+  DC-CFA3 (doesn't exist yet — DC-CFA2, Dec 2025-March 2026, remains the
+  latest round, still just 4 awardees); Sea Group/Shopee's "quietly
+  building its own data centers" story re-checked for a third time (still
+  no disclosed location/timeline as of July 2026, still correctly
+  unconverted); crypto/blockchain Singapore infrastructure (exchanges use
+  third-party/partner hosting, no owned-facility signal); NTU academic
+  angle beyond HPCC/STDCT (N-CRiPT doesn't appear to exist as a distinct
+  centre; Digital Trust Centre is an AI-safety research-funding body, not a
+  physical GPU facility); Nanyang/Singapore/Temasek Polytechnics' AI labs
+  specifically re-checked per Day 13's flagged gap (NYP's AI Nexus Lab runs
+  on AWS cloud not on-prem GPU, SP's initiatives are cloud-partnership
+  based, Temasek Poly's FutureX/AI Application Centre is showcase-level —
+  none has a dedicated physical GPU facility, so this specific gap is now
+  genuinely closed rather than just untried); SGInnovate, Digital
+  Infrastructure Bill public consultation (regulatory, no company names
+  disclosed), Mastercard/Standard Chartered/DSO National
+  Laboratories/SUTD DManD (all checked fresh, none has an owned dense-
+  compute facility signal beyond shared NSCC access); Woodlands
+  Health/Alexandra Hospital (both under NHG/NUHS umbrellas already
+  covered, no separate facility). The "five Singapore firms = 98% of SEA
+  DC funding" Tracxn figure was checked for a possible new name — all five
+  (DayOne, PDG, STT GDC, Nxera, Digital Edge) are already on file.
+- **Net for the day: 4 new prospects.csv rows, 0 new
+  contact_form_queue.csv rows (all 4 companies already queued from Days
+  12-13), 0 needs_manual_verification.csv additions.** All 4 are named,
+  domain-matched, cross-checked upgrades of already-queue-only companies
+  rather than brand-new companies — consistent with 13 prior days having
+  already surfaced essentially every real, current, well-documented
+  Singapore AI/DC facility at this evidence bar. **Worth trying next**: the
+  same "named lead of an already-cited facility" angle specifically for
+  Certis Centre for Applied Intelligence (no named director found today,
+  worth a dedicated retry), A*STAR IAIC's actual Deputy Director Strategy
+  (a real open job posting implies a named incumbent may not exist yet —
+  worth checking again once the role is filled), and Data Centre World
+  Asia 2026's actual speaker list once it's published closer to the
+  29-30 Sept event date (today's searches only found the 2025 list and a
+  vague "215 speakers" figure, not 2026 names).
