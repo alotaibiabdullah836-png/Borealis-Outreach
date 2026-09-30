@@ -1582,3 +1582,158 @@ resolved), in addition to the tool's own automatic DNS gate.
   Asia 2026's actual speaker list once it's published closer to the
   29-30 Sept event date (today's searches only found the 2025 list and a
   vague "215 speakers" figure, not 2026 names).
+
+**Day 16 (2026-09-30, Day 15 skipped — head-start Apollo.io org-list check +
+fresh-angle sweep incl. Tech Week Singapore/DCWA 2026, which ran 29-30 Sept):
+4 new prospects.csv rows, 4 new contact_form_queue.csv rows, 0
+needs_manual_verification.csv additions.** WebFetch re-confirmed fully
+egress-blocked at the start (direct test against www.zeusdatacenters.com,
+EGRESS_BLOCKED) — ran entirely on WebSearch, with a mandatory second
+independently-worded query before accepting any specific email claim, per
+the fallback protocol. New domains independently spot-checked via `python3
+socket.gethostbyname` before adding (epsilontel.com, zeusdatacenters.com,
+a-star.edu.sg, nea.gov.sg all resolved; weather.gov.sg itself does not
+resolve at the apex, only subdomains like ccrs.weather.gov.sg — noted for
+future reference, didn't block anything since the email domain used was
+nea.gov.sg, which does resolve).
+- **Head-start list (6 Apollo.io org-lookup names) checked one by one**:
+  **Epsilon Telecommunications, a KT company** converted to prospects.csv
+  (info@epsilontel.com, domain-matched — real owned/operated 12,900 sqft,
+  500-rack IDC at New Tech Park, Singapore, integrating AI services for
+  parent KT). **SC Zeus Data Centers** queue-only (zeusdatacenters.com/contact
+  — real, strong signal: Singapore-HQ'd SC Capital Partners platform
+  building liquid-cooling-ready AI data centers across APAC, COO AC Lee is
+  a former Chayora technical director; CEO Joe Gooi and COO AC Lee both
+  found and real, but only ZoomInfo-masked emails surfaced for either).
+  **TERA Data Centers** NOT added — Singapore-HQ'd but its only disclosed
+  physical buildouts are Bekasi, Indonesia (Tera DC CGK01) and a fresh
+  RM1.01B Negeri Sembilan, Malaysia land deal — the same "HQ-here-facility-
+  elsewhere" exclusion already established (Bitdeer/GLP/STACK/Zerra DC/BW
+  Digital); flagging Tera DC CGK01 as a candidate for a future *Indonesia*
+  batch since it doesn't appear to be in that country's files either as far
+  as this session checked. **Lightstorm** NOT added — a subsea-cable/network-
+  fabric company (I-2SEA India-Southeast Asia cable, integrating its SmartNet
+  AI Fabric), no physical Singapore facility or cooling-need signal of its
+  own, only a masked/guessed `first.last@lightstorm.net` pattern surfaced
+  anyway. **Cloud4C Services** NOT added — global HQ is Singapore but no
+  confirmed owned physical Singapore DC/GPU facility found (managed GPU
+  cloud reseller model, part of CtrlS Datacenters Ltd, which Day 13
+  Indonesia already found has no confirmed Singapore presence either).
+  **Cloudologic** NOT added — a cloud consulting/managed-services firm, no
+  data center of its own.
+- **New companies/upgrades found via fresh-angle sweep (a wide set of ~25
+  queries: sovereign-AI/national-supercomputer, government-agency-with-own-
+  HPC, academic angles beyond NUS/NTU/SIT/NUHS already covered, property-
+  developer DC-pivot, maritime/aviation-authority, insurance re-check,
+  IMDA Pilot-DC-CFA and DC-CFA2 winner-list re-checks, Tech Week
+  Singapore/Data Centre World Asia 2026 speaker list since the event ran
+  today/yesterday)**:
+  - **Amazon Web Services (AWS) Singapore** — amazon-pr@amazon.com added to
+    prospects.csv (aws-pr@amazon.com, the address already on file for AWS
+    Indonesia, could not be reused — the tool dedupes on email globally, not
+    per-country — so the second real, independently-corroborated Amazon
+    press address was used instead, both consistently listed together on
+    press.aboutamazon.com/sg/contact-us). Real signal: AWS's S$12B
+    additional Singapore investment (to S$23B by 2028, the largest
+    committed DC investment in Singapore's history) plus Dr Saji PK,
+    Director of Infrastructure Operations APMEA, based in Singapore heading
+    2,000+ staff, speaking on APAC DC development at Tech Week Singapore
+    2026 (found via today's DCWA/Tech Week speaker-list search — his own
+    email only surfaced as a ZoomInfo-masked `s***@amazon.com`, not used).
+    Contact-form queue add deduped harmlessly (same aws.amazon.com/contact-us/
+    URL already queued under AWS Indonesia).
+  - **A*STAR Institute of Advanced Intelligence and Computing (IAIC)**
+    upgraded from queue-only to a named prospects.csv row: **Dr Su Yi,
+    Executive Director** — suyi@a-star.edu.sg. This exact address was
+    rejected twice before (Day 11, Day 14) as a RocketReach/ZoomInfo
+    pattern-guess with no real corroboration. This time the source was
+    different and stronger: sgdi.gov.sg (Singapore's official government
+    staff directory, the same channel that converted Jacqueline Poh/JTC on
+    Day 8) independently returned the identical address **plus the same
+    phone extension (64191557)** across two differently-worded queries —
+    literal government-directory corroboration, not a scraper-pattern
+    completion, so treated as newly confirmed rather than the same rejected
+    claim recurring. Flagging this reasoning explicitly since it's a
+    reversal of a prior day's rejection on the same string.
+  - **Centre for Climate Research Singapore (CCRS) / Meteorological Service
+    Singapore** — new company, added to both files.
+    NEA_CCRS_Engage@nea.gov.sg, found repeated consistently across CCRS's
+    own site (ccrs.weather.gov.sg/contact-us and throughout its careers/
+    people pages) across two independently-worded queries. Domain note:
+    the email domain (nea.gov.sg) differs from the source site domain
+    (weather.gov.sg), which normally would fail this campaign's domain-
+    match rule (per the Keppel DC REIT lesson) — but CCRS is literally a
+    directorate of NEA (National Environment Agency), not an arm's-length
+    subsidiary/REIT-manager relationship, and the address appears directly
+    and repeatedly on CCRS's own pages rather than a third party's, so
+    treated as same-entity rather than a mismatch. Real signal: CCRS runs
+    its own on-site HPC cluster (Utama, an HPE Cray EX system, 98 nodes;
+    plus the newer SINGV system) for operational weather forecasting/climate
+    research, part of Singapore's broader national supercomputing
+    investment; Director is Prof Dale Barker (no personal email found).
+  - **AI Singapore (AISG)** — queue-only (aisingapore.org/home/contact-us/).
+    Real signal: AISG runs its own on-premise GPU/FPGA cluster (32 NVIDIA
+    V100s, 6 FPGAs) and has publicly described difficulty securing
+    guaranteed, energy-efficient large-scale GPU capacity for LLM training
+    given Singapore's climate, leading to a capacity partnership with
+    Firmus — a genuinely on-point cooling-adjacent quote. No single
+    specific email could be confirmed with confidence (a WebSearch summary
+    offered three inconsistent-looking candidates in one pass — the
+    garbled "the-epoch@aisingapore.org," plus "chandra@" and "atoh@" for
+    different named enquiry types — none literal/consistent enough to
+    trust), so routed contact-form-only rather than risk a wrong address.
+- **Checked and rejected, no qualifying signal found**: Singapore-MIT
+  Alliance for Research and Technology (SMART, no HPC facility disclosed);
+  ASPIRE 2B/NSCC fresh-news re-check (already fully covered, June 2026
+  launch, 1,500 NVIDIA H200 GPUs — a fresh detail on an existing company,
+  not new); A*STAR Centre for Frontier AI Research/CFAR (research-focus
+  centre, no dedicated physical GPU cluster disclosed, likely draws on
+  already-covered IHPC/IAIC resources); Civil Aviation Authority of
+  Singapore and Land Transport Authority (AI/ML software use, no compute-
+  facility signal); Ant International Singapore (HQ here, but its AI/R&D
+  buildout is a Kuala Lumpur Digital Business Centre — HQ-here-facility-
+  elsewhere, same exclusion pattern); Grab (still a talent/AI-CoE story,
+  re-confirmed no physical facility even checking GrabX 2026 news);
+  Digital Realty's fresh S$7B Singapore announcement (Innovation Lab at
+  Loyang, Global Command Center — same already-covered company, fresh
+  detail not new entity); "Singapore Deepens AI Ecosystem with Global
+  Collaborators" press release's named companies (Certis already covered;
+  DHL/Slamtec/Unitree/QuikBot/FieldAI/Thoughtworks are robotics/software
+  partners with no physical DC/cooling signal); City Developments Ltd and
+  UOL Group (no data-center pivot found, unlike Indonesia's Intiland/DC
+  Land precedent); Maritime and Port Authority of Singapore (AI
+  applications run on a modest Nutanix HCI cluster — software-level story,
+  no density/cooling signal); Singapore's National AI Strategy 2.0's S$740M
+  compute allocation (a funding programme, traces back to
+  already-covered IMDA/A*STAR/NSCC, not a distinct operator); IMDA's
+  original 2023 Pilot DC-CFA 80MW award list (AirTrunk-ByteDance
+  consortium, Equinix, GDS, Microsoft — all four already on file, same
+  outcome as the already-fully-covered DC-CFA2 list); insurance sector
+  re-re-checked once more, still nothing (now checked 4+ times across the
+  campaign, should be treated as fully exhausted going forward, not just
+  "worth a real pass"); Colt Data Centre Services Singapore (no named
+  contact found, stays queue-only per the Day 7 coltgroup.com.sg brand-
+  confusion flag); AirTrunk's Laura Coad, Chief Data Centre Officer (a
+  genuinely Tier-1 title covering Singapore among her regional remit,
+  found via a fresh search — but only a ZoomInfo-masked email surfaced,
+  not converted; worth flagging as a good retry name whenever WebFetch is
+  restored, alongside the Day 7-8 senior-executive list).
+- **Net for the day: 4 new prospects.csv rows (Epsilon Telecommunications,
+  AWS Singapore, Dr Su Yi/A*STAR IAIC, CCRS/MSS), 4 new
+  contact_form_queue.csv rows (Epsilon dual-channel, SC Zeus, CCRS
+  dual-channel, AI Singapore), 0 needs_manual_verification.csv
+  additions.** Roughly 20 distinct companies/candidates were evaluated
+  (6 from the head-start list, ~14 more from the fresh-angle sweep) with
+  a majority rejected for lack of a real physical-facility/cooling signal
+  or lack of a confirmable contact — a healthy, honest ratio consistent
+  with 15 prior days having already mined most of the obvious names.
+  **Worth trying next**: Laura Coad/AirTrunk and Dr Saji PK/AWS both stand
+  as real, well-titled, unconverted senior-facilities names for a future
+  WebFetch-restored pass; Tera DC CGK01 (Bekasi, Indonesia) is worth
+  checking against Indonesia's files; the sgdi.gov.sg government-directory
+  channel (which converted Su Yi/IAIC today and Jacqueline Poh/JTC on Day
+  8) still hasn't been systematically run against every remaining
+  statutory-board CEO/director on file with only a masked email (Goh Wei
+  Boon/GovTech, Wong Wai Meng/Keppel are the two known unresolved split-
+  result cases) — a dedicated sgdi.gov.sg-only retry pass on that specific
+  list could be worth a session.
