@@ -61,6 +61,28 @@ def test_append_web_researched_prospect_strips_audit_narration(tmp_path):
     assert "technology-need signal" not in rows[0]["Source"]
 
 
+def test_append_web_researched_prospect_strips_mid_string_narration(tmp_path):
+    """A real fact AFTER the narration clause (joined by its own em-dash)
+    must survive -- this is the case a plain prefix-cut missed on 2026-09-30
+    (Dr Su Yi/A*STAR IAIC row): narration in the middle, a real fact after."""
+    csv_path = tmp_path / "prospects.csv"
+    annotated = dict(
+        GOOD_PROSPECT,
+        technology_need=(
+            "Official listing naming the contact with this email, corroborated across "
+            "two independently-worded queries citing the same phone extension "
+            "— Company formed a new 40MW AI cluster this year"
+        ),
+    )
+    assert append_web_researched_prospect(annotated, prospects_csv=csv_path) is True
+
+    with csv_path.open() as handle:
+        rows = list(csv.DictReader(handle))
+    assert "40MW AI cluster" in rows[0]["Source"]
+    assert "corroborated across" not in rows[0]["Source"]
+    assert "independently-worded" not in rows[0]["Source"]
+
+
 def test_append_web_researched_prospect_rejects_invalid_email(tmp_path):
     csv_path = tmp_path / "prospects.csv"
     bad = dict(GOOD_PROSPECT, email="not-an-email")

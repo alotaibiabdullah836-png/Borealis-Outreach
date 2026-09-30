@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import csv
 import logging
+import re
 from pathlib import Path
 from typing import Dict, Sequence
 
@@ -31,13 +32,19 @@ from lead_discovery import CC_SEPARATOR, domain_resolves, normalize_email, valid
 
 log = logging.getLogger(__name__)
 
-# Phrases that mark a researcher's own audit-trail narration about the CRM
-# (e.g. "already cited as this company's technology-need signal") rather than
-# a fact about the prospect. Found leaking into `technology_need` four times
-# across real batches (Sentinel QA, 2026-09-28) because researchers sometimes
-# annotate their own reasoning inline instead of stopping at the fact. Cut
-# `technology_need` at the first such marker so it never reaches Source (and,
-# downstream, a sent email) even if a researcher forgets to self-edit.
+# Phrases that mark a researcher's own audit-trail/verification-methodology
+# narration (e.g. "already cited as this company's technology-need signal",
+# "corroborated across two independently-worded queries") rather than a fact
+# about the prospect. Found leaking into `technology_need` five times across
+# real batches (Sentinel QA 2026-09-28; a sixth caught by a sending agent
+# 2026-09-30 with a *new* phrasing not in the original marker list, proving
+# a simple "cut at the first marker" approach is too narrow when narration
+# sits in the middle of a technology_need string with a real fact following
+# it - e.g. "SGDI listing ... corroborated across two independently-worded
+# queries ... -- A*STAR formed IAIC on 1 July 2026 by merging...", where the
+# real fact after the marker must survive). Split on em-dash-style
+# separators, drop only the segment(s) containing a marker, and rejoin what's
+# left, so narration is removed without losing an adjacent real fact.
 _AUDIT_NARRATION_MARKERS = (
     "already cited as",
     "already on file",
@@ -48,17 +55,33 @@ _AUDIT_NARRATION_MARKERS = (
     "a named, domain-match",
     "technology-need signal",
     "technology need signal",
+    "corroborated across",
+    "independently-worded quer",
+    "cross-checked via a second",
+    "per the fallback protocol",
+    "per this session's",
 )
 
 
 def _strip_audit_narration(text: str) -> str:
-    lowered = text.lower()
-    cut = len(text)
-    for marker in _AUDIT_NARRATION_MARKERS:
-        idx = lowered.find(marker)
-        if idx != -1:
-            cut = min(cut, idx)
-    return text[:cut].rstrip(" -–—(")
+    # Pass 1: drop a parenthetical remark if its own content is narration
+    # (e.g. "(same center already cited as the technology-need signal for
+    # the existing row)") -- done before the em-dash split below, since a
+    # narration-only string with no em-dash would otherwise have nothing
+    # left to split on and the whole fact would be lost with it.
+    def _is_narration_paren(match: "re.Match[str]") -> str:
+        inner = match.group(0).lower()
+        return "" if any(marker in inner for marker in _AUDIT_NARRATION_MARKERS) else match.group(0)
+
+    text = re.sub(r"\([^()]*\)", _is_narration_paren, text)
+
+    # Pass 2: split on em-dash-style separators and drop only the segment(s)
+    # that still contain narration, so a real fact on the other side of the
+    # dash from the narration survives (real abbreviation parentheticals
+    # like "(I2R)" are untouched since they don't match any marker above).
+    segments = re.split(r"\s+[-–—]{1,2}\s+", text)
+    kept = [seg for seg in segments if not any(marker in seg.lower() for marker in _AUDIT_NARRATION_MARKERS)]
+    return " — ".join(seg.strip() for seg in kept if seg.strip())
 
 
 PROSPECT_FIELDS = ["Name", "Title", "Company", "Email", "CC Emails", "Website", "WhatsApp", "Phone", "Source", "Lawful Basis", "Country"]
