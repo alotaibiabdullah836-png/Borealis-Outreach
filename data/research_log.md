@@ -686,6 +686,145 @@ socket.gethostbyname` before adding, in addition to the tool's own automatic gat
   names specifically (Solopos, Radar [regional Jawa Pos network], Tribun regional editions)
   rather than the national outlets repeatedly checked so far.
 
+**Day 16 (2026-09-30, Day 15 skipped — no research ran that day, picking up numbering here;
+Apollo.io head-start list + queue-only "official verified contact" upgrade pass): 10 new
+prospects.csv rows, 0 new contact_form_queue.csv rows (all 10 already had a queue row from a
+prior batch), 0 needs_manual_verification.csv additions.** WebFetch confirmed egress-blocked
+at the start (tested against www.vdc.id, EGRESS_BLOCKED) — ran entirely on WebSearch, with a
+mandatory second independently-worded query before accepting any specific email claim, per
+the fallback protocol. All 10 new domains independently spot-checked for DNS resolution via
+`python3 socket.gethostbyname` before adding, in addition to the tool's own automatic gate.
+- **Apollo.io head-start list checked first, as instructed — 0 of 8 qualified.** VDCI
+  (vdc.id), SCBD Data Center (scbd-dc.id), Compnet (compnet.co.id), PT. Mastersystem Infotama,
+  PT. Intikom Berlian Mustika, PT Berca Hardayaperkasa, PT Sisindokom Lintasbuana all turned
+  out to be either generic colocation with no AI/GPU-specific signal found (VDCI, SCBD DC) or
+  IT systems integrators/resellers/distributors that *sell* AI/data-center/cooling solutions
+  to other companies rather than operating their own high-density facility (Compnet,
+  Mastersystem, Intikom, Berca, Sisindokom — same vendor/integrator pattern as the
+  already-excluded DTC Netconnect, just without a direct cooling-product conflict). PT. Data
+  Center Integrasi (ptdci.co.id) is a DC design/consulting/audit-certification firm (confirmed
+  genuinely distinct from the already-covered "DCI Indonesia" per the task's instruction to
+  check carefully) but is itself a service provider to other operators, not a buyer — also
+  excluded. **This head-start list is now closed out at the current evidence bar.**
+- **Real find while chasing Intikom's "GPU cloud" job posting**: an AI-summarized WebSearch
+  result initially misattributed a "large-scale GPU cloud, GB200 NVL72, liquid-cooling CDU"
+  hiring campaign to Intikom; closer checking (freehire.me listings) showed the actual
+  employer is **Lintasarta**, not Intikom. Lintasarta was already contact_form_queue.csv-only
+  (domain-mismatch note from 2026-09-06: support@lintasarta.co.id vs. the lintasarta.net site
+  the GPU Merdeka claim was verified on). Today's search found lintasarta.net's own
+  contact-us page itself publishes support@lintasarta.co.id/info@lintasarta.co.id — i.e. the
+  .net site's own first-party content names the .co.id address as its official channel, which
+  resolves the earlier domain-mismatch concern rather than repeating it (independently
+  corroborated twice, and `socket.gethostbyname` confirms both domains resolve to the same
+  IP). **Upgraded to prospects.csv** with a much stronger technology-need signal than the
+  existing GPU Merdeka note: multiple live freehire.me job postings (L1/L2/L3 Data Center
+  Engineer, Cloud & Data Center Engineer GPU/OpenStack) for a large-scale GPU cloud built on
+  rack-scale NVIDIA GB200 NVL72 with explicit liquid-cooling CDU/secondary-loop
+  operate-and-monitor responsibilities — a real, current, specific hiring signal, not a guess.
+  Also captured a real explicitly-labeled WhatsApp number and phone from the same contact
+  page.
+- **The most productive angle today turned out to be a systematic "second query, official
+  verified account" pass through already-queued companies whose prior batches had found a
+  real technology-need signal but no confirmable email** (distinct from the university/.ac.id
+  upgrade angle used on Days 9-11, and distinct from the largely-unproductive
+  LinkedIn/ZoomInfo-masked-address angle of Days 7/9/10). Several Indonesian consumer-facing
+  companies and government agencies publish their official contact email directly in their
+  own verified social-media replies (X/Twitter with a blue-check/"terverifikasi" account) even
+  when their website's contact page is hard to fully index via WebSearch snippets — this
+  produced 8 more clean upgrades, each independently corroborated twice:
+  - **Bank Syariah Indonesia (BSI)** — contactus@bankbsi.co.id (named I Wayan Pulantara, AI
+    Strategy & Innovation Department Head, as Title/Name since he's the quoted source for the
+    AI Gateway signal, though the email itself is the bank's general verified contact, not his
+    personal one) — upgrades the existing "AI Gateway" infrastructure signal.
+  - **Allo Bank Indonesia** — allocare@allobank.com, upgrading the existing TIA Rated-3 data
+    center signal.
+  - **Matrix NAP Info (PT NAP Info Lintas Nusa)** — noc@napinfo.co.id, upgrading the existing
+    Digital Realty Bersama interconnection-partnership signal.
+  - **Nongsa Digital Park (Citramas Group)** — marketing@nongsadigital.com, upgrading the
+    existing NDP1 120MW high-density signal (the SEZ park operator itself, distinct from the
+    individual operators — BW Digital, DayOne, Golden Digital Gateway, Racks Central — already
+    on file who lease space there).
+  - **Ditjen Dukcapil, Kemendagri (Data Center Ampera)** — callcenter@dukcapil.kemendagri.go.id
+    plus an explicitly-labeled WhatsApp number, upgrading the existing Tier 3 Data Center
+    Ampera signal.
+  - **PLN Icon Plus (PT Indonesia Comnets Plus)** — marketingicp@iconpln.co.id (confirmed
+    iconpln.co.id and plniconplus.co.id, the website already on file, are the same company
+    under its ICON+ → PLN Icon Plus rebrand), upgrading the existing green-data-center-support
+    signal.
+  - **Astragraphia Information Technology (AGIT)** — marketing@ag-it.com, upgrading the
+    existing HPE/Equinix AI-private-cloud data-center-business-expansion signal (a system
+    integrator, but one whose own queue entry already treats it as operating/expanding a data
+    center business, not purely reselling — followed the precedent already set for this row
+    rather than re-litigating the fit call).
+  - **NTT Indonesia (NTT Global Data Centers)** — ap.ask@global.ntt (NTT's Asia Pacific
+    regional data-centers inquiry address, Singapore-based but domain-matched to
+    services.global.ntt where the Jakarta 2 Annex signal was sourced), upgrading the existing
+    JKT2A 12MW/40kW-rack signal.
+  - **IDC Indonesia (PT Internetindo Data Centra Indonesia)** — info@idc.co.id, now confirmed
+    as a real published address on the company's own idc.co.id homepage (not the
+    RocketReach/SignalHire pattern-guess like "first@idc.co.id" that Day 13 correctly
+    rejected) — upgrading the existing 6-facility carrier-neutral signal.
+- **Checked and NOT converted this pass** (real signal, real named person in some cases, but
+  no domain-matched email found even with the second-query method): DAMAC Digital/EDGNEX
+  (info@damacdigital.com surfaced once but a second independently-worded query could not
+  re-confirm the literal address on the site, only a "request a call back" form — stayed
+  queue-only rather than risk an unconfirmed claim), Golden Digital Gateway, STT GDC Indonesia
+  (named Country Head Hendrikus Hendra Gozali, no email), RangeIDC/PT Equator Gate System
+  Batam, Digital Hyperspace Indonesia (only a domain-mismatched dhs-dc.com address found, site
+  is dh-indonesia.com), SISI/PT Sinergi Informatika Semen Indonesia (only a
+  domain-mismatched sisi.sig.id HR address found, site is sisi.id), Telkomsigma (format
+  pattern only, not a published address), DSSA (Corporate Secretary page exists, no email),
+  LG Sinar Mas (still no general/press email, same conclusion as Day 12), K2 Strategic and
+  Pure Data Centres (both still show the same wrong-domain email found and correctly rejected
+  in Day 13, no new domain-matched address surfaced), Oracle Indonesia (now has a
+  domain-matched salesinquiry_id@oracle.com, but left alone deliberately — Day 12 already
+  found Oracle's Indonesia "AI center" claim traces to leased capacity at DayOne's Batam
+  campus, not an Oracle-owned facility, so the underlying fit is weak regardless of the email
+  question). Already-fully-covered and re-confirmed as such, no action needed: Racks Central,
+  Zettagrid Indonesia, Omni Data Center Indonesia, Wowrack Indonesia, Indonet (=Digital Edge,
+  per a fresh explicit confirmation today), Raia Grid/PT Infra Fiber Teknologi/Arsari Group,
+  Megaspeed (checked and deliberately excluded — real Indonesia/Batam GPU tenant presence but
+  under active US federal investigation for alleged Nvidia GPU smuggling to China and recently
+  terminated as a tenant at its Malaysia site by Bain Capital's Bridge Data Centers; a clear
+  reputational-risk exclusion, not a fit question).
+- **Other angles tried, all empty**: fresh-news sweep for the Sept 28-30 gap left by the
+  skipped Day 15 (BDx CGK4 follow-on coverage, Gen AI Summit Indonesia Sept 29-30, nothing
+  attributable to a new company); MGLV's newly-detailed PT Nextier Aksara Center / PT Nextier
+  GenAi Center subsidiary acquisition (real, but both already folded into the existing MGLV
+  queue-only row, not separate); Citramas (Nongsa Digital Park's landowner/developer, folded
+  into the Nongsa Digital Park row added today rather than treated as separate); BUMN defense
+  manufacturers PT Dirgantara Indonesia and PT Pindad (the two Day-14-flagged untried names —
+  no AI/data-center signal for either, PT Barata Indonesia had no search presence at all);
+  regional Bahasa trade press by name (Tribun, Radar/Jawa Pos network, Solopos) — all three
+  now genuinely tried with specific queries, all resolved to already-covered companies (DCI
+  Surabaya E2, BDx CGK4, Zankore/Batang) — this closes out the "deep regional Bahasa press"
+  item carried over from Day 14; crypto/Bitcoin mining farms (a genuinely new angle) — found
+  only generic guides and aggregator listicles, no single named Indonesian operator with a
+  real facility; render farms (RenderLoka) — a real Indonesia GPU rendering service but a
+  peer-to-peer distributed marketplace of individual PCs, not a facility operator, wrong fit
+  type; IDPro (Indonesia Data Center Provider Organization) member directory — confirmed to
+  have grown to 23 members but the full list couldn't be extracted via WebSearch snippets
+  alone (needs WebFetch); seismic-processing/oil-and-gas HPC (Eni-SKK Migas) — the actual HPC
+  supercomputers are in Italy, not Indonesia, wrong scope.
+- **Net for the day: 10 new prospects.csv rows, 0 new contact_form_queue.csv rows (all 10
+  already queued from prior batches — this was purely an upgrade pass), 0
+  needs_manual_verification.csv additions.** This is the best single-day *prospects.csv*
+  yield of the campaign so far, and importantly a different mechanism than any prior
+  productive day: not a new-company-discovery sweep (the pool for that remains close to fully
+  mined, consistent with Days 8/12/14) but a systematic revisit of the **large stock of
+  already-queued companies with a real signal and only a missing/unconfirmed email** — this
+  campaign has accumulated ~190 contact_form_queue.csv rows over 16 days, most never
+  specifically re-attempted for an email once WebFetch went dark, and today shows that a
+  second, differently-worded search pass (especially checking official verified
+  social-media-account replies, which WebSearch surfaces well but a single query often
+  doesn't) can still convert a meaningful fraction of them. **Worth repeating as a dedicated
+  angle**: systematically working back through contact_form_queue.csv's ~180 remaining
+  Indonesia rows for the same "official verified account / own-site-first-party-content"
+  email check, rather than only fresh-news or market-report company-discovery sweeps, which
+  are now consistently the lower-yield angle by comparison (0 genuinely new companies found
+  today despite trying fresh-news, BUMN, regional-press, crypto-mining, and render-farm
+  angles).
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
