@@ -183,6 +183,29 @@ does a different way each time (by outcome, by who it works with, by what
 problem it solves) rather than by restating the same two-verb job
 description with the nouns swapped.
 
+## Closers need shape variety too, not just wording variety
+
+Added 2026-09-30 after a Sentinel audit found 3 of 12 sends in one batch
+using the identical binary-choice CTA shape — "Is [X] already [state], or
+still [alternate state]?" — e.g. "Is JKT2A's cooling approach already
+locked, or still open?" vs. "Is the cooling side of that buildout locked
+in, or still being figured out?" vs. "Is this already a live conversation
+on your side, or still early?". The wording was genuinely different each
+time (this wasn't a verbatim repeat, and it passed a pairwise
+shared-3+-word-clause check), but the underlying question shape was the
+same: state a binary (locked-in vs. still open) and ask which one applies.
+This is the exact same "same skeleton, different words" failure already
+documented above for openers and the middle sentence — it applies to
+closers too, and a pairwise verbatim-clause check alone won't catch it,
+since the repeated element is the grammatical shape, not any specific
+words. Vary the CTA's form across a batch the same way you vary the
+opener's: a binary-choice question is one legitimate shape among several
+(a direct yes/no ask, a request to compare notes, an offer framed as a
+question, a statement-plus-question, a single open question with no
+built-in alternative) — don't let it become the default just because it
+reads naturally. If you've written more than 2-3 closers in a row that
+all follow "is X already Y, or still Z," that's the tell.
+
 ## What "checking" means, not just rewriting
 
 Before rewriting, actually read the draft with a critical eye:
