@@ -825,6 +825,153 @@ the fallback protocol. All 10 new domains independently spot-checked for DNS res
   today despite trying fresh-news, BUMN, regional-press, crypto-mining, and render-farm
   angles).
 
+**Day 17 (2026-10-01, continuing Day 16's "queue-only company, re-check for a domain-matched
+email" angle against the rest of contact_form_queue.csv's ~190 Indonesia rows, plus a fresh-news
+and new-conglomerate sweep): 8 new prospects.csv rows, 0 new contact_form_queue.csv rows, 0
+needs_manual_verification.csv additions.** WebFetch re-confirmed fully egress-blocked at the
+start (tested against www.dci-indonesia.com/about-us/, EGRESS_BLOCKED) — ran entirely on
+WebSearch, with a mandatory second independently-worded query before accepting any specific
+email claim, per the fallback protocol. All new domains independently spot-checked for DNS
+resolution via `python3 socket.gethostbyname` before adding, in addition to the tool's own
+automatic gate.
+- **Built a precise company-level diff of contact_form_queue.csv against prospects.csv first**
+  (matching website domain against existing prospect email domains, since company names
+  between the two files are inconsistently spelled) rather than relying on memory — this
+  surfaced roughly 30 genuinely still-queue-only Indonesia companies to work through, after
+  filtering out Singapore rows and rows that only *looked* uncovered due to a naming/subdomain
+  mismatch (e.g. "NTT Indonesia" and "SM+" both already had real prospects.csv rows under
+  slightly different website subdomains than the queue entry — confirmed by direct grep before
+  re-researching them, avoiding wasted duplicate work).
+- **8 real conversions, all upgrades of already-queued companies to a verified, domain-matched
+  email** (no genuinely new company found today — consistent with the pool being heavily mined
+  after 16 prior days):
+  - **IndoData Data Center (Salim Group, formerly IndoKeppel Data Centres)** —
+    inquiry@indokeppeldc.com, domain-matched to indokeppeldc.com, corroborated twice. Real
+    technology signal: N+1 water-cooled chillers, dual water supply, 7-hectare Bogor campus
+    planned for 50MW+, explicit AI/hyperscale focus, up to 500MW secured under contract with
+    PLN since Salim's Dec-2025 buyout of Keppel's stake.
+  - **Digital Hyperspace Indonesia (DHI)** — sales@dhs-dc.com. The company's own
+    dh-indonesia.com/contact/ page itself publishes this address on a different-looking domain
+    (same pattern as the already-accepted Lintasarta .net/.co.id precedent) — corroborated
+    twice, both citing dh-indonesia.com/contact/ as the source. Named contact: Operations
+    Manager Stanley Go (ASHRAE BCxP-certified), Tier III 20MW facility in Cikarang.
+  - **LG Sinar Mas Technology Solutions (LG CNS / SM+ JV)** — inquiry@lgsinarmas.com,
+    domain-matched, corroborated twice. Resolves a gap flagged unconverted since Day 12 ("no
+    email found"). US$300M AI data center, Menteng Atas/Setiabudi Jakarta, H2 2026 target.
+  - **DAMAC Digital (EDGNEX Cikarang AI Campus)** — info@edgnex.com, domain-matched to
+    edgnex.com itself (not the info@damacdigital.com alias that Day 16 correctly declined to
+    use for lack of a second confirming query) — a second query this time surfaced the
+    edgnex.com-domain version directly on the same /contact/ page, resolving the prior gap.
+    144MW+ high-density AI campus, Bekasi.
+  - **Princeton Digital Group (PDG) Indonesia** — selena.sheikh@princetondg.com, domain-matched,
+    corroborated twice (Corporate Communications Associate Director, consistently the named
+    press contact across PDG's own newsroom). Weakest-tier (PR) contact, flagged as such. Real
+    signal: JC1 (6MW) + JC2 (22MW hyperscale) Cibitung facilities, plus the pre-existing XL
+    Axiata 70%-stake-acquisition context already on file under the XL Axiata row.
+  - **PT NexAI Digital Infrastruktur Tbk (MGLV, formerly PT Panca Anugrah Wisesa Tbk)** —
+    corsec@pancaanugrahwisesa.com, domain-matched, corroborated twice. IR/corp-comm tier. Real
+    signal: IDX-listed company's shareholders formally approved (RUPSLB, July 2026) a pivot
+    from furniture/household goods to AI data center infrastructure as its core business.
+  - **BINUS University AI R&D Center (AIRDC)** — ai.center@binus.edu. BINUS's own airdc page
+    and binus.ac.id announcement both cite this binus.edu address as the center's own contact
+    (binus.edu is the university's own alternate domain, confirmed via binus.edu/contact-us
+    existing as BINUS's own page, not a third party) — corroborated twice. Named: Director
+    Prof. Bens Pardamean, resolving Day 12's "no confirmable center email" gap (his personal
+    email still wasn't found, but the center's own domain-matched inbox was).
+  - **Universitas Gunadarma — DGX Development Team upgrade** — infodgx@gunadarma.ac.id (same
+    domain already in use for the existing Rektor row, mediacenter@gunadarma.ac.id, but a
+    different, more targeted inbox), now with a real named head attached: Prof. Dr. Detty
+    Purnamasari, confirmed via Gunadarma's own praktikum-hpc.gunadarma.ac.id/kontak/
+    tim-pengembangan-dgx page, resolving the "real inbox, no named individual" gap flagged as
+    untried in Day 9's log.
+  - One near-duplicate correctly caught before being added: a WebSearch claim surfaced
+    **mitratel@mitratel.co.id** for Mitratel, but a direct grep of prospects.csv showed Mitratel
+    is already on file with investor.relations@mitratel.co.id (same domain, different inbox,
+    same company, same signal) — judged not a meaningful upgrade and not added as a separate
+    row.
+- **~27 other candidates checked and NOT converted this pass** (real companies, real signal in
+  several cases, but no usable domain-matched email found even with the second-query method, or
+  found to already be covered, or found not to qualify at all):
+  - **Domain-mismatch rejections** (same near-miss pattern repeatedly flagged in this log —
+    correctly declined rather than used): K2 Strategic Indonesia (info@k2strategic.org vs. site
+    k2strategic.co, same as Day 13), Pure Data Centres (puredc.global vs. site puredc.com, same
+    as Day 13), Dian Swastatika Sentosa/DSSA (corsec@dss.co.id vs. site dssa.co.id, same exact
+    near-miss as Days 12/16), PT iForte Solusi Infotek (contact@iForte.co.id vs. site iforte.id
+    — a new instance of the same .co.id-vs-.id pattern), PT Sinergi Informatika Semen
+    Indonesia/SISI (ptsisi@sisi.sig.id vs. site sisi.id, plus no AI/data-center signal at all
+    found for this SAP/IT-integrator subsidiary — doubly not qualifying), PT Infokom Elektrindo
+    (sales.infokom@mncgroup.com vs. site infokom.id).
+  - **No domain-matched email found at all, despite a real signal**: BW Digital (only a
+    bw-group.com parent-company media contact found, nothing on bw-digital.com itself), RangeIDC
+    / PT Equator Gate System Batam (no email surfaced via any query), Aslan Energy Capital (only
+    JIEP's own contact found, nothing for Aslan itself), Sentral Data Nusantara (genuinely
+    strong "high-density AI data center, advanced cooling, multi-GPU clusters" signal on its own
+    sdn-dc.com site, but every specific email found was a masked ZoomInfo/RocketReach address —
+    stays queue-only, flagged as a strong retry candidate if WebFetch is ever restored),
+    Telkomsigma (sigma.co.id addresses found but not clearly telkomsigma.co.id), Bakrie &
+    Brothers (a real "BNBR exploring data center via PT Multi Kontrol Nusantara, Kalideres land
+    purchase" signal, but every query that should have surfaced the literal address returned a
+    redacted/truncated placeholder rather than real text — treated as not found rather than
+    guessed at).
+  - **Checked and found to be the same company/facility already on file, not separately
+    addable**: Nusantara Data Center (NDC) is PT Mora Telematika Indonesia's facility — same
+    company as the already-covered Moratelindo row; PT Astra International / Astra Digital's
+    only data-center tie is its 25% stake in the already-covered Equinix JK1 JV (same facility,
+    same judgment call as the already-excluded Medco Power/NeutraDC minority-stake pattern);
+    Universitas Indonesia's newly-reported "global-scale AI Centre, modular data center" project
+    is a real, distinct, newer initiative from the already-covered Tokopedia-UI AI Center, but
+    no named individual or dedicated email surfaced for it specifically, and UI is already
+    well-represented in prospects.csv — not added as a separate row; "RI Siap Fasilitasi
+    Investasi Data Center AI Pertama di Asia Senilai Rp6T" (BKPM press coverage) confirmed to be
+    the same Worldvuer iByond investment already added Day 11, not a new company.
+  - **Checked and found not to qualify at all**: SEAX Global (real Batam Tier III colo, real
+    domain-matched enquiry@seax.net email and an explicitly-labeled WhatsApp number found, but
+    no AI/high-density/liquid-cooling signal anywhere for its facility specifically — same
+    "generic colo, no density signal" exclusion pattern as the already-rejected Golden Fast
+    Network/NexByte/Cyber Data Center International; stays queue-only as-is, not upgraded),
+    AIDataCenter.id (a site-selection/investment-facilitation intermediary connecting investors
+    with DC opportunities, not itself an operator with its own facility — same "service
+    provider, not a buyer" exclusion as EZSVS/PT Data Center Integrasi), Polibeli Group Ltd (a
+    B2B wholesale e-commerce platform with no data-center or AI-infrastructure signal of any
+    kind — unclear why this was in the queue at all, left alone rather than second-guessing a
+    prior batch's judgment), Krakatau Information Technology (Krakatau Steel's IT subsidiary has
+    operated a data center since 2016 but no AI-specific signal found), Emtek/Elang Mahkota
+    Teknologi (a Google Cloud generative-AI content-production partnership — a cloud-customer
+    signal, not a facility-owner signal, consistent with the established pattern), Djarum
+    Group/PT Remala Abadi (DATA) (resolves to the same Protelindo/TOWR/iForte group infrastructure
+    already covered, not a separate facility).
+  - **Fresh-news/new-angle sweeps, all empty or already-covered**: Indonesia DC news for the
+    Sept 30-Oct 1 window (nothing beyond BDx CGK4 follow-on coverage and the Oct 15 Asia AI
+    Infrastructure Indonesia Summit announcement, neither a new company); Bahasa fresh-news pass
+    (same BDx CGK4 coverage); mining/energy sector for an own-AI-cluster signal (Adaro, Vale,
+    Antam — none found, consistent with Day 14's conclusion that this sector shows no
+    facility-owner signal); Lazada/Shopee for an own-facility signal (confirmed cloud-customer
+    pattern only, no dedicated facility, consistent with the long-established e-commerce
+    exclusion); BRI re-check surfaced ir@bri.co.id as a plausible new find, but a dedup check
+    (required by `append_web_researched_prospect`, and independently confirmed by grep before
+    attempting) showed this exact address is already on file under the existing "Bank Rakyat
+    Indonesia" row (ir@bri.co.id, added in an earlier batch) — correctly rejected as a duplicate,
+    not a new row, worth noting since the company name in contact_form_queue.csv ("Bank Rakyat
+    Indonesia (BRI) - IT Center Ragunan") differs enough from the prospects.csv company name
+    ("Bank Rakyat Indonesia") that a naive name-match would have missed this and wasted the
+    attempt — grep/dedup-by-email remains the reliable check, not company-name matching.
+- **Net assessment**: the "re-check already-queued companies for a domain-matched email" angle
+  (first identified as productive on Day 16) remains the best-yielding angle in the campaign's
+  current state — 8 of 8 new rows today came from it, 0 from new-company discovery, consistent
+  with Day 16's 10-for-10 and confirming the Indonesia company-discovery pool is genuinely
+  close to fully mined while the queue-only re-check pool still has real remaining value.
+  **Explicitly still untried/worth a future pass**: roughly 15-20 Indonesia contact_form_queue.csv
+  rows were not reached this pass given time — BRI IT Center Ragunan itself (distinct from the
+  already-covered Bank Rakyat Indonesia row — worth a dedicated check of whether the Ragunan
+  Cloud IT Center project has its own separate named contact beyond the IR address), Huawei
+  Cloud Indonesia, Tencent Cloud Indonesia, ByteDance Indonesia, Google Cloud Indonesia, Oracle
+  Indonesia (all global cloud players with no Indonesia-specific domain-matched contact found
+  in a quick check, worth a deeper pass), TrendAI/Trend Micro, PT Infra Fiber Teknologi (RAIA
+  Grid). The near-miss .co.id-vs-.id / .org-vs-.co domain-mismatch pattern keeps recurring
+  (iForte, DSSA, K2 Strategic, Pure Data Centres, SISI, PT Infokom Elektrindo all hit it again
+  this pass) and is clearly not a one-off — worth naming explicitly as its own standing check
+  for whoever runs future batches, not just something to notice case-by-case.
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
@@ -1876,3 +2023,147 @@ nea.gov.sg, which does resolve).
   Boon/GovTech, Wong Wai Meng/Keppel are the two known unresolved split-
   result cases) — a dedicated sgdi.gov.sg-only retry pass on that specific
   list could be worth a session.
+
+**Day 17 (2026-10-01, "bank-owned physical DC" new angle + boilerplate-press-contact
+retry pass on already-queued companies): best yield since Day 13 — 9 new prospects.csv
+rows, 1 new contact_form_queue.csv row (Mapletree Industrial Trust; all other new rows'
+companies were already queued from prior days), 0 needs_manual_verification.csv
+additions.** WebFetch re-confirmed fully egress-blocked at the start (direct test against
+www.jtc.gov.sg, EGRESS_BLOCKED) — ran entirely on WebSearch, with a mandatory second
+independently-worded query before accepting any specific email claim, per the fallback
+protocol. All new domains independently spot-checked via `python3 socket.gethostbyname`
+before adding (ocbc.com, smc.co, mapletree.com.sg, gf.com, keppeldcreit.com, oracle.com,
+synapxe.sg, colt.net, sttelemediagdc.com all resolved), in addition to the tool's own
+automatic DNS gate. Confirmed 0 SG rows were unsent going into today (all prior rows
+already sent or held/flagged by the outreach agent).
+- **Re-checked the two rows the sending agent held back on Day 16** (AWS Singapore,
+  CCRS — both moved to needs_manual_verification.csv for channel-fit, not fabrication,
+  per the 2026-09-30 email-outreach-agent commit) for context only; did not touch them
+  further today since that's an outreach-agent/channel-fit call, not a research-evidence
+  one.
+- **New angle, genuinely untried before today: "Singapore bank with its own physical,
+  owned data center" (distinct from the already-exhausted "bank AI/software adoption"
+  angle)**. Re-checked DBS, UOB and Citi specifically for an *owned* facility (not just
+  AI software or leased office/innovation space) first — DBS has shrunk/cloud-migrated
+  its DC via Equinix, UOB's Punggol Tower 80 is office/innovation space not a DC, Citi
+  leases its DC from CapitaLand — all three correctly stay excluded, confirming this
+  isn't a blanket "banks qualify" angle. **OCBC is the exception and converts cleanly**:
+  OCBC's own S$240M purpose-built Singapore data center (the first bank-owned
+  purpose-built DC in Singapore) is actively being retrofitted with rack-based cooling
+  to cut emissions (DCD: "Singapore's OCBC Bank to introduce rack-based data center
+  cooling"), and OCBC is concurrently hiring both a "Data Centre Facilities Engineer"
+  and a "Lead, Data Centre Facilities Management (AVP/VP)" for the Loyang facility — a
+  real, current, on-point cooling-retrofit signal plus an active facilities-hiring
+  signal, about as strong a fit as this campaign sees. OCBC was already queue-only since
+  2026-09-13 (a weaker on-premise-GPU signal); today's find is a materially stronger
+  signal and a real upgrade to prospects.csv via corpcomms@ocbc.com (Group Brand and
+  Communications, confirmed on ocbc.com's own careers/newsroom pages, weakest/corp-comms
+  tier, flagged as such).
+- **Second productive angle: a systematic "press-release boilerplate media contact"
+  retry pass against already-queued Singapore companies that previously had no
+  domain-matched email found** (distinct from Day 8's senior-executive-upgrade angle,
+  which targeted CEOs/MDs specifically — this targeted whoever a company's own
+  newsroom/press team lists as its standing media contact, a channel that converted
+  cleanly for Empyrion/Bridge/NTT/OVHcloud in earlier days and was worth running again
+  against the rest of the queue-only list). Checked roughly 15 queue-only companies,
+  converted 7:
+  - **Sustainable Metal Cloud (SMC)** — lauren.crystal@smc.co (Head of Communications,
+    smc.co's own site), upgrading the existing Tim Rosenfield queue-only row (no email
+    had been found for him). Real signal: SIN01/SIN02 immersion-cooled NVIDIA GPU
+    availability zones at STT GDC, PUE of 1.03.
+  - **GlobalFoundries Singapore** — luana.low@gf.com (Deputy Director, Corporate
+    Communications), resolving the prior "email text obscured" note from the original
+    queue entry; domain-matched to gf.com.
+  - **Keppel DC REIT** — investor.relations@keppeldcreit.com, the REIT's own generic IR
+    inbox published directly on keppeldcreit.com/investor-relations/ir-contact/. This
+    specifically repairs the Day 13 domain-mismatch rejection (renee.goh@keppel.com used
+    the parent corporation's domain, not keppeldcreit.com, and was correctly pulled to
+    needs_manual_verification.csv) — same underlying company/signal, but this time the
+    email itself is on the REIT's own domain with no cross-domain judgment call needed.
+  - **Oracle Cloud Infrastructure Singapore** — tanya.netto@oracle.com (Communications &
+    PR Lead, ASEAN), found via a Singapore-specific Oracle press release, domain-matched
+    to oracle.com.
+  - **Synapxe** — contactus@synapxe.sg, Singapore's national HealthTech agency; real
+    signal already in the original queue entry (H-Cloud consolidating public hospital
+    data centres into one national private cloud) is strong and current, only the
+    contact itself was the gap — now closed with a domain-matched generic inbox.
+  - **Colt Data Centre Services Singapore** — nola.pocock@colt.net (VP, Global
+    Communications, Colt Group), resolving the Day 7 flag about coltgroup.com.sg/
+    coltinfo.sg being a *wrong, unrelated* ventilation company — colt.net itself (as
+    opposed to coltgroup.com.sg) was explicitly named by Day 7 as an acceptable domain
+    once found, and this is Colt Group's own global comms lead who is the standing press
+    contact across Colt's data-centre-related announcements, not the ventilation company.
+    Flagged as same-corporate-family cross-domain (Colt Technology Services sister entity
+    to Colt Data Centre Services, not an arm's-length third party), consistent with the
+    CCRS precedent rather than the rejected Keppel DC REIT pattern.
+  - **ST Telemedia Global Data Centres — second named contact**: Christina Koh, Head,
+    Group Marketing and Communications, christina.koh@sttelemediagdc.com, found
+    consistently alongside the already-on-file Chow Yi across STT GDC's own newsroom
+    boilerplate — added as a separate row per this campaign's "multiple real named
+    people, separate rows" guidance rather than a CC.
+  - **EdgeConneX Singapore — found but NOT added**: press@edgeconnex.com is EdgeConneX's
+    one global media inbox, already used for the existing US-row (Don MacNeil/EdgeConneX)
+    in prospects.csv; `append_web_researched_prospect` correctly rejected the duplicate
+    (tool dedupes on email globally, not per-country, same constraint noted for AWS on
+    Day 16). No second, Singapore-specific EdgeConneX email was found despite a dedicated
+    search, so this stays queue-only (already queued and blocked on egress from Day 12) —
+    not a loss, just confirms no new channel exists for this one.
+  - **Checked but not converted**: Huawei Cloud Singapore (only corporate.comms@huawei.com
+    found, parent-company domain huawei.com vs. the verified source huaweicloud.com with
+    no on-page confirmation tying the two — same domain-mismatch risk already flagged for
+    Alibaba, correctly not used); Alibaba Cloud Singapore (luica@alibaba-inc.com /
+    crystal.liu@alibaba-inc.com resurfaced again, still the wrong domain vs. the verified
+    alibabacloud.com source, same Day 11 rejection reconfirmed); 1-Net Singapore and China
+    Mobile International (both already have their existing generic prospects.csv contact;
+    no upgrade found); Certis Group's Centre for Applied Intelligence (no named director
+    ever surfaced for the centre specifically, closing out the Day 14 retry flag as
+    genuinely empty, not just untried); GDS International and Digital Realty (both
+    re-confirmed their existing on-file contacts, Laura Chen and Joyce Ng, are still the
+    only real ones — no second channel found); Nxera/Singtel (press-release pages
+    confirmed to exist but snippet search couldn't surface the actual named contact
+    inside them — genuinely blocked on WebFetch, not on evidence).
+- **Third angle: fresh-news sweep for new entrants (last 24-72h + general Sept 2026)**.
+  DC-CFA2's four winners, Jurong Island park, SS 726:2026 liquid-cooling standard, Keppel
+  SGP9/floating DC, STT GDC's 6 Singapore sites — all already-covered companies with
+  fresh project detail, not new entrants (consistent with Days 8/11/13's repeated
+  finding). Checked and correctly rejected: **Aolani** (Singapore-founded/HQ'd NVIDIA
+  Cloud Partner neocloud, announced 22,000-GPU 2027 buildout 2026-09-21 — but the
+  disclosed physical AI factories are explicitly Malaysia and the Philippines, not
+  Singapore; no existing Singapore facility confirmed despite a dedicated search, same
+  "HQ-here-facility-elsewhere" exclusion already applied to Bitdeer/GLP/STACK/Zerra
+  DC/BW Digital/TERA); **Groq** (45,000 Singapore developers cited in coverage, but its
+  actual first APAC data center is confirmed as Sydney, Australia, not Singapore);
+  **Vantage Data Centers** (APAC HQ in Singapore but its disclosed physical buildout
+  remains JHB1 in Johor, Malaysia — reconfirms the existing exclusion). Also checked and
+  correctly rejected (no distinct physical facility beyond already-covered entities):
+  NUS's "Hopper" supercomputer (TOP500-ranked, but housed in the same NUS-NSCC i4.0 Data
+  Centre/NUS IT infrastructure already represented by the existing NUS IT row, not a
+  separate company); DSO National Laboratories (confirmed it uses NSCC, not its own
+  supercomputer); Centre for Quantum Technologies/National Quantum Computing Hub (draws
+  on already-covered NSCC/A*STAR IAIC compute, not a separate physical facility); KK
+  Women's and Children's Hospital and Sengkang General Hospital (both tie back to the
+  already-covered SingHealth Alice@SGH supercomputer initiative, not separate facilities).
+- **Net for the day: 9 new prospects.csv rows (OCBC Bank, Sustainable Metal Cloud,
+  Mapletree Industrial Trust, GlobalFoundries Singapore, Keppel DC REIT, Oracle Cloud
+  Infrastructure Singapore, Synapxe, Colt Data Centre Services Singapore, ST Telemedia
+  GDC/Christina Koh), 1 new contact_form_queue.csv row (Mapletree Industrial Trust — all
+  other 8 companies were already queued from prior days, confirmed via grep before
+  adding), 0 needs_manual_verification.csv additions.** By contact tier: 0 rows landed
+  in the best-fit facilities/infrastructure-decision-maker tier today (none found despite
+  trying); all 9 are either weak-tier generic/comms/IR inboxes (OCBC, SMC, GlobalFoundries,
+  Keppel DC REIT, Oracle, Synapxe, Colt, STT GDC) — flagged honestly as the weaker end of
+  "named contact," same as most of this campaign's recent Singapore yield, since named
+  facilities/ops people continue to be findable but their personal emails are not,
+  exactly the standing WebFetch-blocked gap documented since Day 7. Roughly 20 distinct
+  companies/candidates were evaluated this session with about half converting — a
+  genuinely good hit rate for Day 17 of a 16-times-mined pool, driven mainly by two
+  angles that hadn't been run in exactly this form before (owned-physical-bank-DC, and a
+  second full pass of the boilerplate-press-contact technique against the specific
+  queue-only backlog). **Worth trying next**: the bank angle could extend to other
+  countries' major banks with owned (not leased/cloud) data centers; the
+  boilerplate-press-contact retry technique still has untried targets in GovTech
+  (Goh Wei Boon's email remains split goh_wei_boon@ vs. weiboongoh@tech.gov.sg,
+  unresolved again this session) and AirTrunk (Laura Coad, Chief Data Centre Officer,
+  still only ZoomInfo-masked); Nxera/Singtel's actual press-release pages (confirmed to
+  exist, content not surfaceable via WebSearch snippets) remain the single best
+  WebFetch-restoration target flagged across the last several Singapore batches.
