@@ -206,6 +206,24 @@ built-in alternative) — don't let it become the default just because it
 reads naturally. If you've written more than 2-3 closers in a row that
 all follow "is X already Y, or still Z," that's the tell.
 
+**Update, 2026-10-01**: the next batch "fixed" this by dropping the exact
+"or still Z" half, and a Sentinel audit caught that the underlying groove
+didn't actually go away — it just mutated. 4 of 17 closers still asked a
+yes/no "is [cooling thing] already [settled/decided/on your radar]?"
+question with no second half, and a separate 6 of 17 opened with "worth
+a/is this worth [a conversation/a look/flagging]?" Neither cluster reused
+the earlier flagged phrase, so a check for that literal phrase passed
+while the actual repetition kept happening. **The lesson: when a specific
+phrase gets flagged, the thing to fix is the underlying question structure
+it was an example of, not that one wording.** "Is [topic] already [state]?"
+and "worth a [noun]?" are two more instances of the same binary-status-check
+and low-effort-ask shapes already named above — don't write a closer by
+filling in one of these templates with different nouns. If you're not sure
+whether a new closer is actually different in *kind* from recent ones (not
+just different in wording), ask: could this exact sentence structure, with
+the company name blanked out, have been the previous email's closer too?
+If yes, it's the same shape again.
+
 ## What "checking" means, not just rewriting
 
 Before rewriting, actually read the draft with a critical eye:
