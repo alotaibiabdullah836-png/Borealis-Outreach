@@ -972,6 +972,169 @@ automatic gate.
   this pass) and is clearly not a one-off — worth naming explicitly as its own standing check
   for whoever runs future batches, not just something to notice case-by-case.
 
+**Day 18 (2026-10-02, closing out Day 17's flagged untried queue-only list — global cloud
+players, TrendAI, PT Infra Fiber Teknologi — plus a fresh-news/BUMN/renewable-energy/IDPRO-
+member-list sweep): 8 new prospects.csv rows, 0 new contact_form_queue.csv rows (all 8 already
+had a queue row from a prior batch), 0 needs_manual_verification.csv additions.** WebFetch
+re-confirmed fully egress-blocked at the start (tested against www.dci-indonesia.com/about-us/,
+EGRESS_BLOCKED) — ran entirely on WebSearch, with a mandatory second independently-worded query
+before accepting any specific email claim, per the fallback protocol. All new domains
+independently spot-checked for DNS resolution via `python3 socket.gethostbyname` before adding;
+one (bakrie.co.id) failed the plain A-record check but was confirmed to have a real MX record
+(`bakrie-co-id.mail.protection.outlook.com`) via `dns.resolver`, consistent with the tool's own
+documented MX-first/A-fallback gate, and was added on that basis.
+- **8 real conversions, all upgrades of already-queued companies to a verified, domain-matched
+  (or on-page-published-variant-domain) email** (no genuinely new company converted today,
+  consistent with the pool being heavily mined after 17 prior days):
+  - **Microsoft Indonesia** — simran.sethi@microsoft.com (Simran Singh Sethi, Head of
+    Communications for Southeast Asia/HK/Taiwan, named and corroborated twice via
+    news.microsoft.com/apac/pr-contacts and a marketech-apac.com appointment article). Real
+    signal: Indonesia Central, Microsoft's first Azure region in Indonesia, US$1.7B planned
+    investment, three AZs each with separate power/cooling/networking. Comms/PR tier, named
+    person.
+  - **Huawei Cloud Indonesia** — sales@huaweicloud.com, found and corroborated twice on
+    huaweicloud.com's own "Contact Sales"/"Ask Us" pages (the same domain hosting the technology
+    signal). Real signal: Jakarta region's existing 3-AZ footprint at 90.99% utilization, 4th AZ
+    planned for 2026. Sales-fallback tier.
+  - **Tencent Cloud Indonesia** — intlcloudsupport@tencent.com, published directly on
+    tencentcloud.com's own Contact Us page (tencentcloud.com/document/product/607/49702) despite
+    the tencent.com domain differing from the tencentcloud.com site — treated as the same
+    on-page-published-variant-domain pattern already accepted for Lintasarta/NTT/BINUS, not a
+    guess. Real signal: US$500M investment by 2030, multiple Jakarta DCs, new GPU Cloud region.
+    Generic support-inbox tier.
+  - **EdgeConneX Indonesia** — info@edgeconnex.com, domain-matched directly to edgeconnex.com
+    (both the Jakarta location page and a PDF data sheet), corroborated twice. Real signal:
+    Jakarta hyperscale campus tripled to 200MW+ specifically to host multi-tenant GPU clusters.
+    Generic-inbox tier.
+  - **Pertamina Geothermal Energy (PGEO)** — commpge@pertamina.com, published on PGEO's own
+    pge.pertamina.com/en/contact page (pertamina.com is the parent domain but the address is
+    confirmed first-party on PGE's own official contact page, not inferred), corroborated twice.
+    Real, distinct signal (this is PGEO *building its own* facility, not just supplying power to
+    someone else's, the distinction that has repeatedly excluded PLN/PLN-adjacent rows in this
+    log): a pilot green data center in Kamojang, West Java, paired with a dedicated 5MW
+    geothermal plant built specifically to power it, part of PGEO's "Beyond Electricity"
+    strategy with IDPRO and Universitas Indonesia. Corp-comms tier.
+  - **Sinergi Inti Andalan Prima (INET) / PT Sinergi Inti Data Indonesia (SIDI)** —
+    info@sinergynetworks.co.id, published on the company's own siapnetworks.co.id/contact/ page
+    despite the domain variant (same accepted pattern as above), plus an explicitly-labeled
+    WhatsApp hotline (+62 812-4000-7427), corroborated twice. Real signal: SIDI's live Data
+    Center JKT01 at Cyber Building 1, Jakarta, plus a larger Purwakarta expansion in preparation,
+    driven by cloud/AI workload demand. Generic-inbox tier.
+  - **Trend Micro Indonesia (TrendAI)** — sales.id@trendmicro.com, domain-matched to
+    trendmicro.com (the same site hosting the TrendAI data-center-capability signal page),
+    corroborated twice. Real signal: TrendAI expanded its own data center capabilities with new
+    local Indonesia infrastructure for in-country AI-security data residency. Sales tier.
+  - **Bakrie & Brothers (BNBR)** — bnbr.corcomm@bakrie.co.id (Christofer Alexander Uktolseja,
+    Corporate Secretary), corroborated twice as BNBR's own corporate-communications address
+    (used across multiple press mentions of BNBR's own announcements), despite the mail domain
+    (bakrie.co.id) differing from the corporate site (bakrie-brothers.com) — accepted on the same
+    on-page-published-variant-domain basis, with the DNS exception noted above. Real signal:
+    subsidiary PT Multi Kontrol Nusantara bought 1.67 hectares in Kalideres, West Jakarta (Rp500B)
+    to build an inner-city data center. Corp-comms tier.
+  - **Google Cloud Indonesia checked and correctly NOT added**: press@google.com is real,
+    domain-matched, and corroborated twice (Google Cloud's own press corner), with a strong
+    signal (Jakarta region AI-ready capacity expansion) — but the exact same address is already
+    on file for the existing **Google Cloud Singapore** row, so `append_web_researched_prospect`
+    correctly rejected it as a duplicate email rather than creating a second row for the same
+    inbox. Stays queue-only (already queued from a prior batch), same precedent as the
+    already-established CoreWeave Indonesia/press@coreweave.com situation.
+- **~20 other candidates checked and NOT converted this pass**:
+  - **BRI IT Center Ragunan** — real, well-documented, near-complete (98.92%) Techno+Cloud
+    Building project, but it's the same bank (Bank Rakyat Indonesia) already on file with
+    ir@bri.co.id — correctly judged a duplicate company, not a separately addable row, per the
+    precedent set explicitly on Day 17.
+  - **ByteDance (TikTok/Tokopedia/Lemon8/CapCut Indonesia infrastructure)** — checked
+    specifically for an Indonesia-level facility signal; ByteDance's major 2026 SEA data-center
+    investment is concentrated in Thailand ($8.8B) and Malaysia ($2.13-2.4B), with no Indonesia-
+    specific data-center announcement found — correctly left unconverted, stays queue-only.
+  - **Oracle Indonesia** — re-confirmed Day 12's finding still holds: Oracle's Indonesia
+    presence leases DayOne's Batam campus rather than operating its own facility, so even though
+    a domain-matched salesinquiry_id@oracle.com address exists, the underlying fit remains weak
+    and this was deliberately not converted, consistent with the prior judgment call.
+  - **PT Infra Fiber Teknologi (RAIA Grid, Indosat-Arsari Group JV)** — re-confirmed real but
+    still the same borderline fit flagged repeatedly before: a fiber/subsea-cable network plus a
+    domestic GPU *assembly* line (manufacturing, not a compute facility), not itself a
+    high-density compute buyer — stays excluded on the same basis as prior batches.
+  - **Domain-mismatch rejections, all re-confirmed as the same recurring near-miss pattern**
+    (correctly declined rather than used): Telkomsigma (Marketing@sigma.co.id /
+    Corp.com@sigma.co.id vs. site telkomsigma.co.id, even re-checked directly on
+    telkomsigma.co.id/contact-us-2/ itself still surfacing only the sigma.co.id addresses — unlike
+    the Tencent/INET/Bakrie cases above, there was no first-party page stating the sigma.co.id
+    address *as* telkomsigma.co.id's own, so this one stays a rejection, not an acceptance,
+    despite superficially resembling the accepted pattern); Dian Swastatika Sentosa/DSSA
+    (corsec@dss.co.id / corcom@dss.co.id vs. site dssa.co.id, re-checked via a dedicated IDX/
+    corporate-secretary-page query, same mismatch every time with no on-page equivalence
+    statement — stays rejected).
+  - **No qualifying technology-need signal found despite a real, documented company**: Elitery
+    (info@elitery.com is real and domain-matched, but no AI/high-density/cooling-specific signal
+    beyond generic Tier III colocation certification — same "generic colo" exclusion as
+    Golden Fast Network/NexByte/SEAX/Cyber Data Center International); Bank Neo Commerce and
+    Bank BJB (both checked fresh for 2026 news, only generic AI-adoption/IT-capex PR, no
+    facility-level signal); Pupuk Kaltim (no AI/data-center project found, distinct from the
+    already-covered parent Pupuk Indonesia); Barito Renewables/Star Energy Geothermal
+    (Prajogo Pangestu group — real geothermal/M&A activity but no AI-data-center-powering signal
+    found, unlike PGEO's directly-analogous and successfully-converted case above); Kayan Hydro
+    Energy (9GW hydro + green industrial estate in North Kalimantan, tenants are EV/aluminum
+    supply-chain companies, no data-center signal); Telkomsat (its AI/infra news traces to the
+    parent Telkom Group's already-covered NeutraDC entity, not a separate Telkomsat facility);
+    BULOG (no data-center/AI signal of any kind found); Danantara (sovereign wealth fund is an
+    *investor* in the data-center boom, not an operator with its own cooling need, consistent
+    with the established investor-vs-operator exclusion already applied to PLN/Temasek
+    elsewhere in this log).
+  - **DataGarda** (newly-surfaced IDPRO member, checked fresh) — real Jakarta company with an
+    "AI-powered data center energy/cooling optimization" pitch, but on inspection this is itself
+    a data-center construction/consulting/managed-services provider (its own "DCPC" division
+    builds *other* companies' facilities) — a vendor/service-provider to operators, not a buyer
+    with its own facility, same exclusion basis as PT Data Center Integrasi/EZSVS/AIDataCenter.id.
+  - **Graha Teknologi Nusantara (GTN)** — surfaced again via a fresh market-report query,
+    re-confirmed to be the same already-covered GTN/EdgeConneX entity (EdgeConneX acquired GTN),
+    not a separate company.
+  - **PT GDS IDC Service** (the Hong Kong-backed "world's largest data center," Rp4T, Nongsa) —
+    re-confirmed to be a GDS Holdings subsidiary/SPV, the same parent entity as the already-
+    covered GDS Indonesia row, not separately addable.
+  - **Altiva Identity Datacenter** (PT Altiva Identity Datacenter) — a genuinely new, real,
+    well-documented company found via a BP Batam market-report angle: ~11 hectares (expanding to
+    30+) in Nongsa, Batam, a 2x345 MVA PLN Batam power-purchase agreement signed 2026-07-28 for
+    up to 700MVA total, named Director Edi Haryanto. **Could not be added to either file** — no
+    company website, domain, or any contact channel of any kind was found despite several
+    differently-worded searches; flagging explicitly for a future pass (ideally once WebFetch is
+    restored, since a direct site may exist but not be well-indexed) rather than guessing a
+    domain or dropping the lead entirely.
+  - **Nugraha Priya Utama (Head, ITB AI Center)** — re-checked specifically for a personal email
+    upgrade; still only the already-on-file generic aicenter@itb.ac.id surfaces, no personal
+    address found — re-confirms Day 9's finding, not a new result.
+  - IDPRO's current member list was pulled directly this pass (23 members: founding members
+    Elitery, Universitas Indonesia, NTT Data, EdgeConneX, Lintasarta, XL Axiata, Indosat; newer
+    members NeutraDC, STTelemedia, BDx Indonesia, SM+, Biznet, Area 31, Princeton Digital Group,
+    DataGarda) — every member besides DataGarda (checked and excluded above) was already
+    represented in prospects.csv/contact_form_queue.csv, confirming this member-list angle is now
+    fully exhausted, not just under-tried.
+  - Fresh-news sweep (Sept 30-Oct 2 window): BDx's CGK4/Jatiluhur project was temporarily halted
+    by West Java's governor (missing AMDAL/PBG permits, water-usage concerns ~384 L/s) —
+    a real, notable fresh detail but on the same already-fully-covered BDx Indonesia company, not
+    a new one. Nvidia/Firmus's 1GW "AI Factory" expansion plan (Aug 2026) and the
+    Indosat-Ooredoo-Cisco-Nvidia sovereign AI center both re-confirmed to trace to
+    already-covered companies (Firmus, Indosat/IOH, UGM). Crypto/Bitcoin-mining-to-AI-pivot angle
+    re-checked (genuinely different framing from Day 16's attempt) — still no single named
+    Indonesian operator surfaced, only generic industry-trend coverage; this angle can now be
+    considered thoroughly exhausted rather than just lightly tried.
+- **Net assessment**: the "re-check already-queued companies for a domain-matched (or
+  on-page-published-variant-domain) email" angle remains productive for a third consecutive day
+  (8-for-8 today, following 8-for-8 Day 17 and 10-for-10 Day 16), though the pool of easy
+  conversions is visibly thinning — today required explicitly working through Day 17's
+  specifically-flagged list (global clouds, TrendAI, RAIA Grid) rather than finding a fresh batch
+  of untried candidates, and roughly half of the ~20 rejections above were re-confirmations of
+  already-well-established dead ends (domain mismatches, investor-not-operator, vendor/service-
+  provider exclusions) rather than new information. **Explicitly still worth a future pass**:
+  Altiva Identity Datacenter (real company, zero findable contact channel — worth a dedicated
+  WebFetch-enabled site search once egress is restored); a handful of Indonesia
+  contact_form_queue.csv rows likely remain genuinely unattempted for the domain-matched-email
+  recheck beyond what Days 16-18 covered (K2 Strategic, Pure Data Centres, SISI, PT Infokom
+  Elektrindo, iForte, BW Digital, RangeIDC, Aslan Energy Capital, Sentral Data Nusantara all
+  remain *checked-and-rejected* rather than untried at this point, so a future pass should treat
+  these as closed unless a genuinely new source type becomes available, not re-run the same
+  WebSearch angle again).
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
