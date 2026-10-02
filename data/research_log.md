@@ -2167,3 +2167,132 @@ already sent or held/flagged by the outreach agent).
   still only ZoomInfo-masked); Nxera/Singtel's actual press-release pages (confirmed to
   exist, content not surfaceable via WebSearch snippets) remain the single best
   WebFetch-restoration target flagged across the last several Singapore batches.
+
+**Day 18 (2026-10-02, exhaustive fresh-discovery sweep + continued boilerplate-press-contact
+retry against the remaining queue-only backlog): thin but honest yield after very heavy
+search volume — 3 new prospects.csv rows (2 upgrades, 1 genuinely new company), 1 new
+contact_form_queue.csv row, 0 needs_manual_verification.csv additions.** WebFetch
+re-confirmed fully egress-blocked at the very start (direct test against www.jtc.gov.sg,
+EGRESS_BLOCKED) — ran entirely on WebSearch, with a mandatory second independently-worded
+query before accepting any specific email claim, per the fallback protocol. All new domains
+independently spot-checked via `python3 socket.gethostbyname` before adding
+(statschippac.com, ap.equinix.com, equinix.com, soitec.com all resolved), in addition to
+the tool's own automatic DNS gate. Confirmed 0 SG rows were unsent going into today (per
+task brief). Ran roughly 45 distinct WebSearch queries across new-company discovery and
+queue-only upgrade angles — a notably higher query count for a notably lower yield than
+Days 13/16/17, consistent with the pool being genuinely close to fully mined after 17 prior
+days rather than a search-effort shortfall.
+- **New-company discovery angles tried, almost all empty** (confirming rather than
+  contradicting prior days' conclusions): fresh-news sweep for Oct 1-2 2026 and general
+  "this week" Singapore DC news (every real item — Singtel/Nxera's 58MW Tuas opening, the
+  Jurong Island 700MW park, DC-CFA2's four winners, SS 726:2026 liquid-cooling standard,
+  Microsoft's $5.5B SG investment — traced to already-covered companies with a fresh
+  project detail, same pattern as Days 8/11/13/17); Data Centre World Asia 2026
+  exhibitor/speaker list (surfaced only cooling/power *vendors* — Mitsubishi Heavy
+  Industries, Delta Electronics, MiTAC, LG CNS, Nidec, Midea — correctly excluded as
+  vendor-conflicts, not buyers); Telstra Singapore and Tata Communications Singapore (both
+  sold their Singapore DC estates to BDx/STT GDC respectively years ago, already-covered
+  acquirers, not separate companies); Digital Edge Singapore (HQ'd in Singapore but no
+  disclosed Singapore facility — Japan/Korea/Indonesia/Philippines/India only — same
+  HQ-here-facility-elsewhere exclusion as Bitdeer/GLP/STACK/TERA); Hyundai Motor Group
+  Innovation Center Singapore (manufacturing/digital-twin R&D, not a dense-compute
+  facility); PSA Tuas Port digital twin/command centre (software/SDDC-level story via
+  Dell/VMware, same judgment as the original PSA exclusion); Jurong Island 700MW park's
+  actual tenants (still unannounced — land only set aside Oct 2025, no operator named yet);
+  Dyson, Marvell, Lam Research, Boustead Projects Singapore (R&D/vendor/construction-
+  contractor profiles, no owned dense-compute facility of their own); Zenlayer Singapore
+  (edge/bare-metal colo for gaming/trading/streaming, no AI/density-specific signal found);
+  Firmus's small Singapore "AI Cloud" HyperCube-rack operation (real but explicitly
+  secondary to the main Batam, Indonesia 170,000-GPU buildout — too thin a standalone
+  Singapore signal to add, same HQ-here-facility-elsewhere pattern); Singtel's
+  RE:AI/Mistral AI sovereign-cloud partnership (confirmed its GPUs are housed in the
+  already-covered Nxera data centers, not a separate facility); National Healthcare Group
+  (NHG, one of Singapore's three healthcare clusters not yet checked) — no own
+  supercomputer/GPU signal found, unlike already-covered NUHS/SingHealth; Enterprise
+  Compute Initiative/DISG (a government cloud-credits programme routed through
+  AWS/Google/Microsoft/Oracle, all already covered — not itself an operator); GLS
+  land-tender and EDB-approved-investment searches for a new DC operator (nothing beyond
+  the already-known DC-CFA2 four); Singapore AI-infra startup funding sweep (Nava — still
+  unresolved domain ambiguity, no genuinely new angle found so correctly not re-attempted
+  per the task brief's "only worth one more attempt with a new angle" instruction; EPG — a
+  modular-data-center *manufacturer/vendor*, not a buyer, correctly excluded; KoolLogix — a
+  data-centre thermal-management vendor, correctly excluded as a vendor-conflict, same
+  category as ST Engineering/Airbitat).
+- **Semiconductor OSAT angle extended to a genuinely untried name: JCET Group's STATS
+  ChipPAC Singapore (Yishun campus) — converted.** JCET's own Singapore packaging blueprint
+  (DigiTimes, Oct 2025) plus its 2026 capacity-expansion coverage describe rising AI/5G/HPC
+  chip demand driving JCET's XDFOI 2.5D/3D heterogeneous-integration packaging platform,
+  which the company's own material explicitly ties to high-density interconnect and
+  thermal management for AI accelerators — a real, on-point signal in the same
+  "semiconductor fabs/OSAT" category already established for Micron/Silicon
+  Box/VSMC/UTAC/ASE/GlobalFoundries/SSMC/Soitec, but for a company genuinely not yet in
+  either file. contact@statschippac.com confirmed via two independently-worded queries,
+  domain-matched to statschippac.com's own Contact Us page (which also surfaced
+  communications@statschippac.com as a PR-specific alternative, not used in favor of the
+  slightly more general address). Added to both prospects.csv and contact_form_queue.csv
+  (dual channel). Weakest tier (generic company inbox, no named person surfaced).
+- **Continued the Day 17 boilerplate-press-contact retry against the remaining queue-only
+  backlog without a prospects.csv email, converting 2 more**:
+  - **Equinix Singapore** — Annie Ho, Asia-Pacific Media Contact, annho@ap.equinix.com,
+    found consistently across multiple Equinix Asia-Pacific press releases and corroborated
+    by two independently-worded queries; domain (ap.equinix.com, a real-resolving subdomain
+    of equinix.com) is distinct from the already-used press@equinix.com (Equinix Indonesia)
+    and news@ap.equinix.com (a plausible but less specifically-attributed alternative, not
+    used). Upgrades the existing Yee May Leong queue-only row using its already-established
+    SG6 (US$260M+ sixth Singapore IBX, AI-capacity-focused) signal. A Singapore-specific
+    PR-agency address (equinixSG@teamlewis.com) also surfaced but was correctly not used —
+    teamlewis.com is a third-party PR agency domain, not Equinix's own, same category of
+    rejection already established in this log for agency/third-party domains.
+  - **Soitec Singapore** — media@soitec.com, corroborated twice via soitec.com's own
+    Contact/Newsroom pages, domain-matched to the Website already on file for the existing
+    queue-only row. Upgrades that row using its already-established EUR400M Pasir Ris
+    photonics-SOI wafer-fab-expansion signal (substrates for AI-focused data centers).
+  - **Checked and NOT converted this pass** (real companies, no usable channel found):
+    SSMC (only recruitment@ssmc.com domain-matched — a recruitment-specific inbox, judged
+    too weak/wrong-purpose a channel for a vendor pitch and deliberately not used; stays
+    queue-only); Alibaba Cloud Singapore (luica@alibaba-inc.com / crystal.liu@alibaba-inc.com
+    resurfaced yet again — still the wrong domain vs. the verified alibabacloud.com source,
+    now confirmed rejected on at least three separate days); Huawei Cloud Singapore
+    (angus.cheng@huawei.com and corporate.comms@huawei.com both surfaced, but huawei.com is
+    the parent domain, not the verified huaweicloud.com source, same unresolved mismatch as
+    Day 17); EdgeConneX Singapore (no second channel beyond the already-used-elsewhere
+    press@edgeconnex.com); AI Singapore (the-epoch@aisingapore.org / chandra@aisingapore.org
+    resurfaced, same inconsistent/wrong-purpose results as Day 16, still not used); SC Zeus
+    Data Centers (CEO Joe Gooi and COO AC Lee named again, still no email beyond a bare
+    phone number); A*STAR GIS (Winnie Lim's limcp2@gis.a-star.edu.sg still sits on the
+    non-resolving gis.a-star.edu.sg subdomain per the Day 12/16 DNS-gate finding; the only
+    address on the resolving a-star.edu.sg apex domain is GIS_DPO@a-star.edu.sg, a Data
+    Protection Officer inbox judged the wrong channel for a vendor pitch, so left
+    queue-only); A*STAR IHPC/A*CRC (not retried as a separate entity — per Day 13's note,
+    IHPC was merged into the already-converted A*STAR IAIC on 1 July 2026, so this
+    queue-only row is now the same underlying entity as Dr Su Yi's row, not a separate
+    upgrade target).
+  - **STMicroelectronics Singapore (Ang Mo Kio fab) — checked, deliberately NOT added.**
+    Found a real, specific, on-point-sounding signal (a $370M/20-year district-cooling
+    service agreement with SP Group for the Ang Mo Kio fab), but judged too weak a fit to
+    add: (1) it's an *existing, already-contracted* cooling arrangement rather than an
+    unmet need, and (2) SP Group is the counterparty providing that cooling service, and
+    this campaign already excludes SP Group itself as "a cooling provider not a buyer" —
+    flagging the distinction for a future pass rather than treating this as a clean win.
+- **Net for the day: 3 new prospects.csv rows (Equinix Singapore/Annie Ho, Soitec Singapore,
+  STATS ChipPAC/JCET Group Singapore), 1 new contact_form_queue.csv row (STATS ChipPAC —
+  Equinix and Soitec were already queued from prior days), 0 needs_manual_verification.csv
+  additions.** By contact tier: all 3 are weak-tier generic/comms inboxes (no
+  facilities/ops decision-maker converted today despite trying DayOne, Keppel, and Digital
+  Realty named-facilities-lead searches, all of which came back with no new names beyond
+  what's already on file in those companies' existing rows). This is the thinnest
+  single-day yield since Day 8/12 despite the highest query volume of any day in this log
+  (~45 distinct queries) — an honest signal that the Singapore pool is now very close to
+  fully mined at the current evidence bar after 17 prior days, not a search-effort
+  shortfall. **Worth trying next**: the standing WebFetch-restoration retry list is now
+  quite long (Bruno Lopez/STT GDC, Wong Wai Meng/Keppel, Serene Nah/Digital Realty, Goh Wei
+  Boon/GovTech, Rangu Salgame/PDG, Laura Coad/AirTrunk, Dr Saji PK/AWS, Nxera/Singtel's own
+  press pages) and is now the single highest-value lever for this country if WebFetch ever
+  becomes available — a working WebFetch session should prioritize this list over another
+  WebSearch-only discovery sweep. Absent that, the only genuinely untried thread flagged
+  today is a deeper per-institution dive on Singapore's remaining semiconductor
+  OSAT/substrate names (Amkor, JCET's other Singapore units, and any BESI/hybrid-bonding-
+  adjacent supplier that turns out to be a buyer rather than a vendor) — today's single
+  JCET/STATS ChipPAC conversion suggests this specific sub-angle (distinct from the general
+  fabs/OSAT sweep closed out in Batches 1-5) may have a little more room, though Amkor's
+  search today surfaced no Singapore-specific detail at all.
