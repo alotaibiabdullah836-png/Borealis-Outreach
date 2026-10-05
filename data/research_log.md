@@ -1135,6 +1135,77 @@ documented MX-first/A-fallback gate, and was added on that basis.
   these as closed unless a genuinely new source type becomes available, not re-run the same
   WebSearch angle again).
 
+**Day 19 (2026-10-05, daily-cycle batch covering both countries — fresh-news sweep, BUMN/
+state-enterprise follow-up, and a "distinct local-entity-with-own-domain" angle borrowed from
+today's Singapore work): 3 new prospects.csv rows, 0 new contact_form_queue.csv rows, 0
+needs_manual_verification.csv additions.** WebFetch confirmed fully egress-blocked at the
+start (direct test against www.jtc.gov.sg, EGRESS_BLOCKED) — ran entirely on WebSearch, with a
+mandatory second independently-worded query before accepting any specific email claim, per the
+fallback protocol. All new domains independently spot-checked via `python3 socket.gethostbyname`
+before adding (dayonedc.com, rangeidc.com, sttelemediagdc.co.id all resolved).
+- **Closed out two names explicitly flagged "checked-and-rejected, not untried" by Day 18's
+  log** — both converted this time via a channel not tried before (DayOne's own non-media/
+  non-marketing general inbox; RangeIDC's own Chinese-parent-company contact page, searched
+  directly in Chinese for a second corroborating query):
+  - **DayOne Data Centers (Indonesia — Batam/Kabil)** — info@dayonedc.com, distinct from the
+    media@dayonedc.com already used for the existing Singapore row (DayOne's first Singapore
+    data centre); corroborated twice. Real signal: DayOne's 450MW PPA with PLN Batam (Indonesia's
+    largest single-facility utility deal) for a hyperscale campus at Kabil Industrial Tech Park.
+  - **RangeIDC / PT Equator Gate System Batam** — info@rangeidc.com, found directly on the
+    Langfang, China parent company's own contact page (rangeidc.com/contact.html), corroborated
+    via a second, Chinese-language query. Real signal: the US$5B AI data center project at
+    Teluk Mata Ikan, Nongsa, Batam, overseen by BP Batam.
+- **New productive angle: searching for a company's own country-specific subsidiary contact on
+  a local-ccTLD/sub-brand domain, distinct from an already-used global/regional email** (this
+  angle, developed for Singapore today — see below — paid off for Indonesia too):
+  - **ST Telemedia Global Data Centres (Indonesia)** — Vitri Sarasvitha, Sr. Marketing &
+    Communications Manager, vitri.sarasvitha@sttelemediagdc.co.id (the .co.id variant,
+    genuinely distinct from yi.chow@sttelemediagdc.com and christina.koh@sttelemediagdc.com
+    already used for the existing Singapore row), corroborated twice. This converts the
+    "STT GDC Indonesia" queue-only row (Hendrikus Hendra Gozali, Country Head, no email found in
+    three prior attempts) using the existing STT Jakarta 1/2/5/6 360MW+ campus signal.
+- **Extensive new-company discovery sweep for Indonesia, almost entirely empty** (confirming
+  rather than contradicting Days 8/12/14/17/18's repeated conclusion that the pool is close to
+  fully mined): fresh-news sweep (Oct 2026, English + Bahasa) surfaced nothing beyond
+  already-covered companies (BDx's Jatiluhur project — now identified by its specific local PT
+  entity, **PT Starone Mitra Telekomunikasi** — temporarily halted by the West Java governor for
+  missing AMDAL/PBG permits, still the same BDx Indonesia company, not separate); Danantara/INA
+  investor-angle statements (investor not operator, consistent exclusion); BUMN
+  construction-company data-center-pivot check (PT Wijaya Karya/WIKA, Adhi Karya, PT PP,
+  Hutama Karya — all absorbed in a 2026 BUMN-Karya merger/restructuring story, no AI/data-center
+  signal for any of them); BUMN manufacturing follow-up (PT PAL Indonesia — real internal AI/IoT
+  "IM4" platform and an internal Data Center Engineer role, but no dedicated facility/cooling
+  signal, same judgment as PT Len Industri/Dirgantara/Pindad; Krakatau Information Technology —
+  re-confirmed SAP/IT-integrator profile, no AI signal); InJourney Airports (merged Angkasa Pura
+  I/II) — digital transformation/AI-adoption PR only, no facility signal, supersedes the
+  dead-domain Angkasa Pura Sarana Digital row without providing a replacement signal; healthcare/
+  genomics angle (Prodia/Brawijaya Genomic Centre — real genomic-testing centre, but no
+  HPC/infrastructure specifics found; Prodia/Eka Hospital — no joint AI data center found);
+  Pertamina Hulu Energi/Rokan seismic-AI angle (real AI/ML study with UGM, but vague "building
+  data center infrastructure" language, same too-speculative judgment as PT Era Media
+  Sejahtera); Bank Indonesia's planned AI payment data center (explicitly "within the next five
+  years" — too forward-looking/speculative to count as a current need, correctly not added,
+  though BI does have a real existing Data Center 1 facility worth a future look if a more
+  current signal surfaces); Bank Mandiri (chatbot/big-data PR only, no dedicated facility);
+  nickel/EV-battery sector AI angle (genuinely new sector checked, no named company/facility);
+  tower-company pivot follow-up (Protelindo/PT Sarana Menara Nusantara and Solusi Tunas Pratama
+  — no signal beyond the already-covered iForte subsidiary); job-board sweep for Jakarta/Batam
+  data-center-engineer postings (confirmed DayOne, SM+, Amazon Data Services Indonesia, CBRE
+  [staffing vendor] all already covered/excluded, no new employer surfaced); Jupiter Cyber Data
+  Center (Jakarta, Cyber Building) — real, long-established colocation provider, but generic
+  (no AI/density signal), same exclusion as Golden Fast Network/SEAX/Cyber Data Center
+  International.
+- **Net for the day (Indonesia): 3 new prospects.csv rows, 0 new contact_form_queue.csv rows (all
+  3 companies already queued or already had a contact channel), 0 needs_manual_verification.csv
+  additions.** Confirms the pool is genuinely close to fully mined for new-company discovery;
+  today's real yield came entirely from retrying specific already-flagged queue-only companies
+  with a channel not tried before, not from finding new companies. **Worth trying next**: Bank
+  Indonesia's existing Data Center 1 facility if a more current (non-5-year-forward) AI/cooling
+  signal ever surfaces; Sentral Data Nusantara, K2 Strategic, Pure Data Centres, SISI, PT Infokom
+  Elektrindo, BW Digital, Aslan Energy Capital remain genuinely checked-and-rejected (re-checked
+  again today for BW Digital/Aslan specifically, still no usable email) — do not re-run the same
+  WebSearch angle on these without a new channel.
+
 ## Singapore
 
 **Status as of 2026-09-21: pool essentially exhausted for the obvious
@@ -2459,3 +2530,111 @@ days rather than a search-effort shortfall.
   JCET/STATS ChipPAC conversion suggests this specific sub-angle (distinct from the general
   fabs/OSAT sweep closed out in Batches 1-5) may have a little more room, though Amkor's
   search today surfaced no Singapore-specific detail at all.
+
+**Day 19 (2026-10-05, daily-cycle batch — semiconductor-substrate/fab discovery sweep,
+"distinct local-entity-with-own-domain" angle, and a boilerplate-contact retry against the
+specific unconverted-name list carried over from Day 18): best new-company yield since Day 12
+— 5 new prospects.csv rows, 2 new contact_form_queue.csv rows, 0 needs_manual_verification.csv
+additions.** WebFetch confirmed fully egress-blocked at the start (direct test against
+www.jtc.gov.sg, EGRESS_BLOCKED) — ran entirely on WebSearch, with a mandatory second
+independently-worded query before accepting any specific email claim, per the fallback
+protocol. All new domains independently spot-checked via `python3 socket.gethostbyname` before
+adding (bdxworld.com, umc.com, ast-sg.com, aisingapore.org, sg.neutradc.com all resolved).
+- **Genuinely new-company discovery, via a semiconductor-substrate/fab angle extended beyond
+  what Days 1-18 had tried** (UMC and Advanced Substrate Technologies had not been checked
+  before at all; the general "semiconductor fabs/OSAT" category was marked exhausted after
+  Batches 1-5 and Day 18's JCET/STATS ChipPAC find, but specifically naming UMC/VIS-NXP/
+  Broadcom-Toppan by name rather than re-running a generic sweep surfaced two real, current,
+  well-documented companies):
+  - **UMC (United Microelectronics Corporation) Singapore** — Michelle Yun, Corporate
+    Communications, michelle_yun@umc.com, domain-matched to umc.com (the same site hosting the
+    source press release), corroborated twice. Real signal: UMC's Board approved a phased
+    Singapore Phase 4 fab cleanroom expansion (up to US$5B) for silicon-photonics and AI/
+    edge-computing applications, raising total Singapore capacity past 1 million wafers/month.
+    Also queued (contact_form_queue.csv, umc.com/en/Html/contact_ir) as the dual-channel backup.
+  - **Advanced Substrate Technologies (AST) — Broadcom/Toppan joint venture** —
+    Connect@ast-sg.com, domain-matched to the company's own ast-sg.com site, corroborated twice.
+    Real signal: AST completed Singapore's first high-end FC-BGA AI-chip substrate facility
+    (95,000 sqm, Jurong Lake District, opened 2026-09-29) to meet surging AI-chip demand — a
+    genuinely new company (opened days before this batch) not found by any prior day's sweep.
+    Also queued as the dual-channel backup.
+- **New angle, developed specifically today: a global/regional operator's own country-specific
+  subsidiary contact on a distinct local-ccTLD/sub-brand domain, separate from an email already
+  used elsewhere in the campaign** (the tool dedupes on exact email, not domain, so a second
+  real address for the same corporate family at a different entity is a legitimate separate row,
+  not a duplicate) — this converted two companies that earlier sessions had either not tried or
+  had abandoned after finding only a reused/shared address:
+  - **BDx Data Centers (Singapore)** — marketing@bdxworld.com, distinct from support@bdxworld.com
+    already used for the existing BDx Indonesia row; corroborated twice (one query surfaced it as
+    the press/media contact, the other as the general-inquiry address, both on bdxworld.com's own
+    contact pages). Real, Singapore-specific signal, not a repeat of the Indonesia row's
+    Jatiluhur story: BDx's SIN1 Paya Lebar facility (9.6MW, recently acquired freehold via a
+    $155M DBS/OCBC loan) became the first live multi-tenant facility to deploy Singapore's new
+    SS 697:2023 Tropical Data Centre Standard, supporting up to 1.5kW/sqm and direct-to-chip
+    liquid cooling for GB200-class GPUs.
+  - **NeutraDC Singapore** — sales@sg.neutradc.com, found on NeutraDC Singapore Pte Ltd's own
+    distinct subdomain (sg.neutradc.com, a Singapore-incorporated entity since Dec 2023, formerly
+    Telin Singapore's Telin-1/2/3 facilities), corroborated twice; genuinely distinct from
+    sales.admin@neutradc.com already used for the Indonesia row. Real signal: the SNG-2/SNG-3
+    facilities' own site describes high-density AI/ML/big-data-workload support with advanced
+    cooling. This resolves a thread first noticed and abandoned early in today's session (Telin
+    Singapore's facilities, now rebranded under NeutraDC, had no separately findable contact at
+    first pass) via a second, more targeted search specifically for the Singapore subsidiary's
+    own domain.
+  - Checked for the same pattern and found NOT to yield a new row (same corporate family, no
+    genuinely separate local contact found): Princeton Digital Group Singapore (still only
+    Xiaoyan Wu/Y.H.R. named with no confirmable email, Indonesia's selena.sheikh@princetondg.com
+    can't be reused), DCI Indonesia (confirmed no Singapore-based facility or entity exists, only
+    a Bintan/Riau Islands campus positioned to serve Singapore-spillover demand), SpaceDC
+    (confirmed Singapore-HQ'd but zero disclosed Singapore-based facility, same exclusion as
+    Bitdeer/GLP/STACK/TERA/BW Digital), Indosat Singapore Pte Ltd (ISPL colocates at Equinix
+    Singapore, doesn't operate its own facility there).
+- **Boilerplate-contact retry against Day 16's specific unconverted AI Singapore gap,
+  converted this time**: **AI Singapore (AISG)** — Abigail Toh, Head of Marketing
+  Communications, atoh@aisingapore.org. The exact address had surfaced inconsistently across
+  Days 16 and 18 (alongside "the-epoch@" and "chandra@" candidates) and was deliberately left
+  unused both times; today's query specifically named her as the recurring contact across
+  multiple of AISG's own press releases (the Firmus Technologies partnership, the IBM/Sony MOUs),
+  giving the literal multi-source consistency the earlier attempts lacked. Real signal (unchanged
+  from Day 16): AISG's own 32-V100/6-FPGA GPU cluster and its publicly stated difficulty securing
+  guaranteed, energy-efficient GPU capacity given Singapore's climate, which led to its Firmus
+  Technologies capacity partnership.
+- **Extensive new-company and bank-angle discovery sweep, almost entirely empty** (confirming
+  rather than contradicting Days 8/12/13/16/17/18's repeated "pool is close to fully mined"
+  finding): fresh-news sweep (Oct 2-5 2026) surfaced nothing beyond already-covered companies and
+  industry events (Tech Week Singapore/DCWA 2026 wrap-up coverage, the Jurong Island 700MW park,
+  SS 726:2026); extending Day 17's "bank with an owned physical DC" angle to banks not yet
+  individually checked (HSBC, Maybank, JPMorgan, Deutsche Bank, Citibank, Bank of China/ICBC
+  Singapore) — all confirmed to lease (Citibank explicitly leases from CapitaLand) or have no
+  facility signal at all, reconfirming OCBC remains the sole exception rather than the start of a
+  broader pattern; Mastercard's planned Singapore "AI Centre of Excellence" and Visa's existing
+  (but stale, 2017/2018-vintage) Singapore transaction-processing DC — both checked and correctly
+  excluded (talent/innovation-hub pattern for Mastercard; no current 2026-specific upgrade signal
+  for Visa, reconfirming Day 11's finding); OneAsia Network/1Asia Communication Singapore (real
+  AI-ready-data-center branding at the parent-network level, but the Singapore facility itself
+  reads as a legacy 2005-era telecom colocation site with no Singapore-specific AI/GPU signal
+  found, despite a dedicated search — not added, consistent with the generic-colo exclusion
+  pattern); further semiconductor/substrate names checked and found empty (Samsung, TSMC proper,
+  Hana Micron, Nepes, SJ Semiconductor, Marvell's Singapore design centre/regional HQ — office/
+  design building, no dense-compute facility; Infineon's AI-driven fab expansion is Dresden,
+  Germany, not Singapore); Duke-NUS Medical School and National Healthcare Group (both re-checked
+  specifically for an owned physical AI/HPC facility, neither has one distinct from the
+  already-covered NUHS/SingHealth rows); CSIT (Ministry of Defence AI/cyber agency, ties to
+  Google Distributed Cloud Hosted but no disclosed physical GPU facility of its own); PUB
+  (National Water Agency AI contracts are software/predictive-maintenance level, no compute
+  facility); GMI Cloud (Singapore GPU access runs on Singtel/Nxera capacity, same
+  not-its-own-facility exclusion as Nscale/Vultr); Keppel Data Centres/STT GDC/Digital Realty/
+  GovTech/AirTrunk named-senior-contact retry (Wong Wai Meng, Bruno Lopez, Serene Nah, Goh Wei
+  Boon, Laura Coad) — all re-confirmed still blocked on a confirmable email, no change from prior
+  days, genuinely a WebFetch-restoration item not a this-session gap.
+- **Net for the day (Singapore): 5 new prospects.csv rows, 2 new contact_form_queue.csv rows, 0
+  needs_manual_verification.csv additions.** By contact tier: all 5 are generic company
+  inboxes or named comms/marketing contacts (UMC's Michelle Yun, AISG's Abigail Toh) — weakest
+  tier, flagged as such; none reached a facilities/infrastructure-decision-maker this session,
+  consistent with the standing WebFetch-blocked gap. **Worth trying next**: the same
+  "country-specific subsidiary on a distinct local domain" angle applied today to BDx and
+  NeutraDC could plausibly be re-run for a few other Indonesia-and-Singapore-dual-presence
+  companies not yet checked this specific way (Telin/NeutraDC's other regional entities, Digital
+  Edge's various country sites); the long-standing WebFetch-restoration retry list (Section
+  above, Days 7-18) remains the single highest-value lever for converting the many already-named
+  senior people at major operators who still lack a confirmable email.
